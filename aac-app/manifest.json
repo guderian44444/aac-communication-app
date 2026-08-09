@@ -1,0 +1,26 @@
+{
+  "name": "阿霖的溝通板",
+  "short_name": "溝通板",
+  "description": "為阿霖設計的圖形化增強替代溝通(AAC)軟體",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FFF8F0",
+  "theme_color": "#FF8A65",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "utilities"],
+  "lang": "zh-Hant-TW"
+}

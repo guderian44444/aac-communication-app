@@ -370,3 +370,16 @@ function setupEventListeners() {
 function saveSettings() {
   localStorage.setItem('aac_settings', JSON.stringify(settings));
 }
+
+// ===== PWA: 註冊 Service Worker =====
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then((reg) => {
+        console.log('✅ PWA Service Worker 已註冊', reg.scope);
+      })
+      .catch((err) => {
+        console.log('⚠️ PWA 註冊失敗:', err);
+      });
+  });
+}
