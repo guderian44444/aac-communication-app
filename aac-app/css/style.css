@@ -692,7 +692,6 @@ body {
 @media (max-width: 767px) {
   :root {
     --font-size-base: 16px;
-    --font-size-sm: 13px;
     --font-size-lg: 17px;
     --font-size-emoji: 32px;
     --min-touch: 64px;
