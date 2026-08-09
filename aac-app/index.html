@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#FF8A65">
+  <title>阿霖的溝通板</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 標題列 -->
+  <header class="app-header">
+    <div class="app-title">
+      <span class="logo">💬</span>
+      <span>阿霖的溝通板</span>
+    </div>
+    <div class="header-actions">
+      <button class="header-btn" id="favToggleBtn" title="我的收藏">⭐</button>
+      <button class="header-btn" id="settingsBtn" title="設定">⚙️</button>
+    </div>
+  </header>
+
+  <!-- 句子顯示區 -->
+  <div class="sentence-bar" id="sentenceBar">
+    <!-- Chips are dynamically inserted -->
+    <div class="sentence-actions">
+      <button class="speak-btn" id="speakBtn" title="讀出句子">🔊 說出來</button>
+      <button class="clear-btn" id="clearBtn" title="清除句子">🗑️ 清除</button>
+    </div>
+  </div>
+
+  <!-- 收藏列 -->
+  <div class="favorites-bar" id="favoritesBar">
+    <!-- Favorites are dynamically inserted -->
+  </div>
+
+  <!-- 分類導航 -->
+  <nav class="category-nav" id="categoryNav">
+    <!-- Category buttons are dynamically inserted -->
+  </nav>
+
+  <!-- 子分類導航 -->
+  <nav class="subcategory-nav" id="subcategoryNav" style="display:none;">
+    <!-- Subcategory buttons are dynamically inserted -->
+  </nav>
+
+  <!-- 主內容區 -->
+  <main class="main-content">
+    <button class="back-btn" id="backBtn" onclick="goBack()">⬅️ 返回</button>
+    <div class="icon-grid" id="iconGrid">
+      <!-- Icon cards are dynamically inserted -->
+    </div>
+  </main>
+
+  <!-- 底部快速詞列 -->
+  <div class="quick-bar" id="quickBar">
+    <!-- Quick buttons are dynamically inserted -->
+  </div>
+
+  <!-- 設定面板 -->
+  <div class="overlay" id="overlay" onclick="toggleSettings()"></div>
+  <aside class="settings-panel" id="settingsPanel">
+    <div class="settings-header">
+      <h2>⚙️ 設定</h2>
+      <button class="settings-close" onclick="toggleSettings()">✕</button>
+    </div>
+    <div class="settings-body">
+      <div class="setting-group">
+        <h3>🔊 語音</h3>
+        <div class="setting-row">
+          <label>語速</label>
+          <input type="range" id="speechRate" min="0.5" max="2" step="0.1" value="0.9">
+          <span id="speechRateVal">0.9</span>
+        </div>
+        <div class="setting-row">
+          <label>語調</label>
+          <input type="range" id="speechPitch" min="0.5" max="2" step="0.1" value="1">
+          <span id="speechPitchVal">1.0</span>
+        </div>
+      </div>
+      <div class="setting-group">
+        <h3>🔤 字體</h3>
+        <div class="setting-row">
+          <label>字體大小</label>
+          <input type="range" id="fontSize" min="12" max="24" step="1" value="14">
+          <span id="fontSizeVal">14px</span>
+        </div>
+      </div>
+      <div class="setting-group">
+        <h3>🎨 主題</h3>
+        <div class="setting-row">
+          <label>配色</label>
+          <select id="themeSelect">
+            <option value="warm">溫暖橘色</option>
+            <option value="blue">清新藍色</option>
+            <option value="green">自然綠色</option>
+            <option value="purple">夢幻紫色</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Toast 通知 -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

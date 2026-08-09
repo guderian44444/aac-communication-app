@@ -1,0 +1,597 @@
+{
+  "categories": [
+    {
+      "id": "food",
+      "name": "食物",
+      "icon": "🍽️",
+      "color": "#FF8A65",
+      "bgColor": "#FFF8F0",
+      "subcategories": [
+        {
+          "id": "rice",
+          "name": "飯類",
+          "icon": "🍚",
+          "items": [
+            { "id": "rice", "text": "白飯", "emoji": "🍚" },
+            { "id": "friedrice", "text": "炒飯", "emoji": "🍚" },
+            { "id": "congrice", "text": "糙米飯", "emoji": "🍚" },
+            { "id": "meatrice", "text": "滷肉飯", "emoji": "🍚" },
+            { "id": "eggfriedrice", "text": "蛋炒飯", "emoji": "🍚" },
+            { "id": "chickenrice", "text": "雞腿飯", "emoji": "🍚" },
+            { "id": "onionbeefrice", "text": "洋蔥牛丼飯", "emoji": "🍚" },
+            { "id": "porridge", "text": "稀飯", "emoji": "🍚" },
+            { "id": "riceball", "text": "飯糰", "emoji": "🍙" },
+            { "id": "stickyrice", "text": "糯米飯", "emoji": "🍚" }
+          ]
+        },
+        {
+          "id": "noodle",
+          "name": "麵類",
+          "icon": "🍜",
+          "items": [
+            { "id": "noodle", "text": "麵", "emoji": "🍜" },
+            { "id": "udon", "text": "烏龍麵", "emoji": "🍜" },
+            { "id": "somen", "text": "素麵", "emoji": "🍜" },
+            { "id": "ramen", "text": "拉麵", "emoji": "🍜" },
+            { "id": "beefnoodle", "text": "牛肉麵", "emoji": "🍜" },
+            { "id": "dandan", "text": "擔擔麵", "emoji": "🍜" },
+            { "id": "lomein", "text": "滷肉麵", "emoji": "🍜" },
+            { "id": "drynoodle", "text": "乾麵", "emoji": "🍜" },
+            { "id": "spicynoodle", "text": "麻辣麵", "emoji": "🍜" },
+            { "id": "egg_noodle", "text": "蛋麵", "emoji": "🍜" },
+            { "id": "instantnoodle", "text": "泡麵", "emoji": "🍜" },
+            { "id": "wontonnoodle", "text": "餛飩麵", "emoji": "🍜" },
+            { "id": "somen_cold", "text": "冷素麵", "emoji": "🍜" },
+            { "id": "chicken_noodle", "text": "雞絲麵", "emoji": "🍜" }
+          ]
+        },
+        {
+          "id": "meat",
+          "name": "肉類",
+          "icon": "🥩",
+          "items": [
+            { "id": "pork", "text": "豬肉", "emoji": "🥩" },
+            { "id": "chicken", "text": "雞肉", "emoji": "🍗" },
+            { "id": "beef", "text": "牛肉", "emoji": "🥩" },
+            { "id": "porkknuckle", "text": "豬腳", "emoji": "🍖" },
+            { "id": "chickenwing", "text": "雞翅", "emoji": "🍗" },
+            { "id": "porkchop", "text": "豬排", "emoji": "🥩" },
+            { "id": "sausage", "text": "香腸", "emoji": "🌭" },
+            { "id": "ham", "text": "火腿", "emoji": "🥓" },
+            { "id": "bacon", "text": "培根", "emoji": "🥓" },
+            { "id": "meatball", "text": "肉丸", "emoji": "🥩" },
+            { "id": "friedchicken", "text": "炸雞", "emoji": "🍗" },
+            { "id": "roastpork", "text": "烤肉", "emoji": "🍖" },
+            { "id": "porkrib", "text": "排骨", "emoji": "🍖" },
+            { "id": "lamb", "text": "羊肉", "emoji": "🥩" },
+            { "id": "duck", "text": "鴨肉", "emoji": "🦆" },
+            { "id": "hotpot", "text": "火鍋", "emoji": "🍲" }
+          ]
+        },
+        {
+          "id": "seafood",
+          "name": "海鮮",
+          "icon": "🐟",
+          "items": [
+            { "id": "fish", "text": "魚", "emoji": "🐟" },
+            { "id": "shrimp", "text": "蝦", "emoji": "🦐" },
+            { "id": "squid", "text": "魷魚", "emoji": "🦑" },
+            { "id": "crab", "text": "螃蟹", "emoji": "🦀" },
+            { "id": "lobster", "text": "龍蝦", "emoji": "🦞" },
+            { "id": "clam", "text": "蛤蠣", "emoji": "🐚" },
+            { "id": "oyster", "text": "牡蠣", "emoji": "🦪" },
+            { "id": "salmon", "text": "鮭魚", "emoji": "🐟" },
+            { "id": "tuna", "text": "鮪魚", "emoji": "🐟" },
+            { "id": "sashimi", "text": "生魚片", "emoji": "🍣" },
+            { "id": "sushi", "text": "壽司", "emoji": "🍣" },
+            { "id": "tempura", "text": "天婦羅", "emoji": "🍤" },
+            { "id": "fishcake", "text": "魚丸", "emoji": "🐟" }
+          ]
+        },
+        {
+          "id": "vegetable",
+          "name": "蔬菜",
+          "icon": "🥬",
+          "items": [
+            { "id": "lettuce", "text": "生菜", "emoji": "🥬" },
+            { "id": "cabbage", "text": "高麗菜", "emoji": "🥬" },
+            { "id": "broccoli", "text": "青花菜", "emoji": "🥦" },
+            { "id": "carrot", "text": "紅蘿蔔", "emoji": "🥕" },
+            { "id": "tomato", "text": "番茄", "emoji": "🍅" },
+            { "id": "cucumber", "text": "黃瓜", "emoji": "🥒" },
+            { "id": "eggplant", "text": "茄子", "emoji": "🍆" },
+            { "id": "corn", "text": "玉米", "emoji": "🌽" },
+            { "id": "potato", "text": "馬鈴薯", "emoji": "🥔" },
+            { "id": "sweetpotato", "text": "地瓜", "emoji": "🍠" },
+            { "id": "mushroom", "text": "香菇", "emoji": "🍄" },
+            { "id": "tofu", "text": "豆腐", "emoji": "🧈" },
+            { "id": "onion", "text": "洋蔥", "emoji": "🧅" },
+            { "id": "ginger", "text": "薑", "emoji": "🫚" },
+            { "id": "garlic", "text": "大蒜", "emoji": "🧄" },
+            { "id": "spinach", "text": "菠菜", "emoji": "🥬" },
+            { "id": "bokchoy", "text": "小白菜", "emoji": "🥬" },
+            { "id": "bean", "text": "豆乾", "emoji": "🧈" },
+            { "id": "seaweed", "text": "海帶", "emoji": "🌿" }
+          ]
+        },
+        {
+          "id": "dish",
+          "name": "料理",
+          "icon": "🍲",
+          "items": [
+            { "id": "stirfry", "text": "炒青菜", "emoji": "🥬" },
+            { "id": "eggdrop", "text": "番茄炒蛋", "emoji": "🍳" },
+            { "id": "braisedpork", "text": "滷肉", "emoji": "🥘" },
+            { "id": "sweetandsour", "text": "糖醋排骨", "emoji": "🍖" },
+            { "id": "mapotofu", "text": "麻婆豆腐", "emoji": "🥘" },
+            { "id": "kungpaochicken", "text": "宮保雞丁", "emoji": "🍗" },
+            { "id": "eggdrop_soup", "text": "蛋花湯", "emoji": "🥣" },
+            { "id": "miso_soup", "text": "味噌湯", "emoji": "🥣" },
+            { "id": "hotpot_soup", "text": "火鍋湯", "emoji": "🍲" },
+            { "id": "congee", "text": "粥", "emoji": "🥣" },
+            { "id": "soup", "text": "湯", "emoji": "🍲" },
+            { "id": "curry", "text": "咖哩", "emoji": "🍛" },
+            { "id": "pizza", "text": "披薩", "emoji": "🍕" },
+            { "id": "burger", "text": "漢堡", "emoji": "🍔" },
+            { "id": "fries", "text": "薯條", "emoji": "🍟" },
+            { "id": "hotdog", "text": "熱狗", "emoji": "🌭" },
+            { "id": "sandwich", "text": "三明治", "emoji": "🥪" },
+            { "id": "salad", "text": "沙拉", "emoji": "🥗" },
+            { "id": "dumpling", "text": "水餃", "emoji": "🥟" },
+            { "id": "wonton", "text": "餛飩", "emoji": "🥟" },
+            { "id": "springroll", "text": "春捲", "emoji": "🥠" },
+            { "id": "pancake", "text": "煎餅", "emoji": "🥞" }
+          ]
+        },
+        {
+          "id": "snack",
+          "name": "點心",
+          "icon": "🍘",
+          "items": [
+            { "id": "cookie", "text": "餅乾", "emoji": "🍪" },
+            { "id": "cracker", "text": "洋芋片", "emoji": "🥨" },
+            { "id": "popcorn", "text": "爆米花", "emoji": "🍿" },
+            { "id": "candy", "text": "糖果", "emoji": "🍬" },
+            { "id": "chocolate", "text": "巧克力", "emoji": "🍫" },
+            { "id": "icecream", "text": "冰淇淋", "emoji": "🍦" },
+            { "id": "cake", "text": "蛋糕", "emoji": "🍰" },
+            { "id": "pie", "text": "派", "emoji": "🥧" },
+            { "id": "donut", "text": "甜甜圈", "emoji": "🍩" },
+            { "id": "bread", "text": "麵包", "emoji": "🍞" },
+            { "id": "croissant", "text": "可頌", "emoji": "🥐" },
+            { "id": "muffin", "text": "瑪芬", "emoji": "🧁" },
+            { "id": "waffle", "text": "鬆餅", "emoji": "🧇" },
+            { "id": "pancake2", "text": "銅鑼燒", "emoji": "🥞" },
+            { "id": "nougat", "text": "牛軋糖", "emoji": "🍬" },
+            { "id": "jelly", "text": "果凍", "emoji": "🍮" },
+            { "id": "pudding", "text": "布丁", "emoji": "🍮" }
+          ]
+        },
+        {
+          "id": "fruit",
+          "name": "水果",
+          "icon": "🍎",
+          "items": [
+            { "id": "apple", "text": "蘋果", "emoji": "🍎" },
+            { "id": "banana", "text": "香蕉", "emoji": "🍌" },
+            { "id": "orange", "text": "柳丁", "emoji": "🍊" },
+            { "id": "grape", "text": "葡萄", "emoji": "🍇" },
+            { "id": "watermelon", "text": "西瓜", "emoji": "🍉" },
+            { "id": "strawberry", "text": "草莓", "emoji": "🍓" },
+            { "id": "mango", "text": "芒果", "emoji": "🥭" },
+            { "id": "peach", "text": "桃子", "emoji": "🍑" },
+            { "id": "pineapple", "text": "鳳梨", "emoji": "🍍" },
+            { "id": "lemon", "text": "檸檬", "emoji": "🍋" },
+            { "id": "cherry", "text": "櫻桃", "emoji": "🍒" },
+            { "id": "pear", "text": "梨", "emoji": "🍐" },
+            { "id": "kiwi", "text": "奇異果", "emoji": "🥝" },
+            { "id": "coconut", "text": "椰子", "emoji": "🥥" },
+            { "id": "blueberry", "text": "藍莓", "emoji": "🫐" },
+            { "id": "papaya", "text": "木瓜", "emoji": "🥭" },
+            { "id": "lychee", "text": "荔枝", "emoji": "🍒" },
+            { "id": "longan", "text": "龍眼", "emoji": "🍒" },
+            { "id": "dragonfruit", "text": "火龍果", "emoji": "🐉" },
+            { "id": "durian", "text": "榴槤", "emoji": "🍈" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "drink",
+      "name": "飲料",
+      "icon": "🥤",
+      "color": "#56B4FF",
+      "bgColor": "#F0F8FF",
+      "subcategories": [
+        {
+          "id": "basic_drink",
+          "name": "基本飲料",
+          "icon": "💧",
+          "items": [
+            { "id": "water", "text": "白開水", "emoji": "💧" },
+            { "id": "hotwater", "text": "熱水", "emoji": "☕" },
+            { "id": "coldwater", "text": "冰水", "emoji": "🧊" },
+            { "id": "milk", "text": "牛奶", "emoji": "🥛" },
+            { "id": "soymilk", "text": "豆漿", "emoji": "🥛" },
+            { "id": "juice", "text": "果汁", "emoji": "🧃" }
+          ]
+        },
+        {
+          "id": "tea",
+          "name": "茶類",
+          "icon": "🍵",
+          "items": [
+            { "id": "tea", "text": "茶", "emoji": "🍵" },
+            { "id": "greentea", "text": "綠茶", "emoji": "🍵" },
+            { "id": "blacktea", "text": "紅茶", "emoji": "🍵" },
+            { "id": "oolong", "text": "烏龍茶", "emoji": "🍵" },
+            { "id": "jasminetea", "text": "茉莉花茶", "emoji": "🍵" },
+            { "id": "minttea", "text": "薄荷茶", "emoji": "🍵" },
+            { "id": "lemonade", "text": "檸檬水", "emoji": "🍋" },
+            { "id": "bubblatea", "text": "珍珠奶茶", "emoji": "🧋" },
+            { "id": "coffeemilk", "text": "咖啡牛奶", "emoji": "☕" },
+            { "id": "chocolatemilk", "text": "巧克力牛奶", "emoji": "🥛" }
+          ]
+        },
+        {
+          "id": "other_drink",
+          "name": "其他飲料",
+          "icon": "🥤",
+          "items": [
+            { "id": "cola", "text": "可樂", "emoji": "🥤" },
+            { "id": "sprite", "text": "雪碧", "emoji": "🥤" },
+            { "id": "sports_drink", "text": "運動飲料", "emoji": "🥤" },
+            { "id": "energy_drink", "text": "能量飲料", "emoji": "🥤" },
+            { "id": "smoothie", "text": "冰沙", "emoji": "🥤" },
+            { "id": "yogurt_drink", "text": "優格飲料", "emoji": "🥛" },
+            { "id": "coconutwater", "text": "椰子水", "emoji": "🥥" },
+            { "id": "coffee", "text": "咖啡", "emoji": "☕" },
+            { "id": "hotchocolate", "text": "熱巧克力", "emoji": "☕" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "emotions",
+      "name": "情緒",
+      "icon": "😊",
+      "color": "#CE93D8",
+      "bgColor": "#F8F0FF",
+      "subcategories": [
+        {
+          "id": "positive",
+          "name": "正面情緒",
+          "icon": "😊",
+          "items": [
+            { "id": "happy", "text": "我很開心", "emoji": "😊" },
+            { "id": "excited", "text": "我很興奮", "emoji": "🤩" },
+            { "id": "proud", "text": "我很驕傲", "emoji": "😎" },
+            { "id": "grateful", "text": "我很感謝", "emoji": "🥰" },
+            { "id": "love", "text": "我愛你", "emoji": "❤️" },
+            { "id": "relaxed", "text": "我很放鬆", "emoji": "😌" },
+            { "id": "confident", "text": "我有信心", "emoji": "💪" },
+            { "id": "hopeful", "text": "我有希望", "emoji": "🌟" },
+            { "id": "peaceful", "text": "我很平靜", "emoji": "🧘" },
+            { "id": "surprised_happy", "text": "我很驚訝(開心)", "emoji": "😲" }
+          ]
+        },
+        {
+          "id": "negative",
+          "name": "負面情緒",
+          "icon": "😢",
+          "items": [
+            { "id": "sad", "text": "我很難過", "emoji": "😢" },
+            { "id": "angry", "text": "我很生氣", "emoji": "😠" },
+            { "id": "scared", "text": "我很害怕", "emoji": "😨" },
+            { "id": "worried", "text": "我很擔心", "emoji": "😟" },
+            { "id": "lonely", "text": "我很孤單", "emoji": "😔" },
+            { "id": "confused", "text": "我很困惑", "emoji": "😕" },
+            { "id": "frustrated", "text": "我很挫折", "emoji": "😤" },
+            { "id": "jealous", "text": "我很嫉妒", "emoji": "😒" },
+            { "id": "guilty", "text": "我很愧疚", "emoji": "😔" },
+            { "id": "anxious", "text": "我很焦慮", "emoji": "😰" },
+            { "id": "disappointed", "text": "我很失望", "emoji": "😞" },
+            { "id": "overwhelmed", "text": "我很壓力大", "emoji": "😫" }
+          ]
+        },
+        {
+          "id": "physical",
+          "name": "身體感覺",
+          "icon": "🤒",
+          "items": [
+            { "id": "tired", "text": "我很累", "emoji": "😫" },
+            { "id": "hungry", "text": "我很餓", "emoji": "🤤" },
+            { "id": "thirsty", "text": "我很渴", "emoji": "😮" },
+            { "id": "hot", "text": "我很熱", "emoji": "🥵" },
+            { "id": "cold", "text": "我很冷", "emoji": "🥶" },
+            { "id": "sick", "text": "我不舒服", "emoji": "😷" },
+            { "id": "headache", "text": "我頭痛", "emoji": "🤕" },
+            { "id": "stomachache", "text": "我肚子痛", "emoji": "🤢" },
+            { "id": "dizzy", "text": "我頭暈", "emoji": "😵" },
+            { "id": "nauseous", "text": "我想吐", "emoji": "🤮" },
+            { "id": "itchy", "text": "我很癢", "emoji": "🤚" },
+            { "id": "sore", "text": "我很痠痛", "emoji": "😣" },
+            { "id": "sleepy", "text": "我很困", "emoji": "😴" },
+            { "id": "energized", "text": "我有精神", "emoji": "⚡" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "people",
+      "name": "人物",
+      "icon": "👨‍👩‍👧",
+      "color": "#7BD856",
+      "bgColor": "#F0FFF0",
+      "subcategories": [
+        {
+          "id": "family",
+          "name": "家人",
+          "icon": "👨‍👩‍👧",
+          "items": [
+            { "id": "mom", "text": "媽媽", "emoji": "👩" },
+            { "id": "dad", "text": "爸爸", "emoji": "👨" },
+            { "id": "grandma", "text": "奶奶", "emoji": "👵" },
+            { "id": "grandpa", "text": "爺爺", "emoji": "👴" },
+            { "id": "grandma2", "text": "外婆", "emoji": "👵" },
+            { "id": "grandpa2", "text": "外公", "emoji": "👴" },
+            { "id": "sister", "text": "姐姐", "emoji": "👧" },
+            { "id": "brother", "text": "哥哥", "emoji": "👦" },
+            { "id": "me", "text": "我", "emoji": "🙋" },
+            { "id": "baby", "text": "寶寶", "emoji": "👶" },
+            { "id": "aunt", "text": "阿姨", "emoji": "👩" },
+            { "id": "uncle", "text": "叔叔", "emoji": "👨" }
+          ]
+        },
+        {
+          "id": "school",
+          "name": "學校",
+          "icon": "🏫",
+          "items": [
+            { "id": "teacher", "text": "老師", "emoji": "👩‍🏫" },
+            { "id": "friend", "text": "朋友", "emoji": "👫" },
+            { "id": "classmate", "text": "同學", "emoji": "👫" },
+            { "id": "principal", "text": "校長", "emoji": "👨‍💼" },
+            { "id": "counselor", "text": "輔導老師", "emoji": "👩‍💼" },
+            { "id": "monitor", "text": "班長", "emoji": "🙋" }
+          ]
+        },
+        {
+          "id": "helper",
+          "name": "幫助我的人",
+          "icon": "👨‍⚕️",
+          "items": [
+            { "id": "doctor", "text": "醫生", "emoji": "👨‍⚕️" },
+            { "id": "nurse", "text": "護理師", "emoji": "👩‍⚕️" },
+            { "id": "therapist", "text": "治療師", "emoji": "🧑‍⚕️" },
+            { "id": "pt_therapist", "text": "物理治療師", "emoji": "🏃" },
+            { "id": "st_therapist", "text": "語言治療師", "emoji": "🗣️" },
+            { "id": "ot_therapist", "text": "職能治療師", "emoji": "🎯" },
+            { "id": "aide", "text": "助理", "emoji": "🙋" },
+            { "id": "coach", "text": "教練", "emoji": "🏋️" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "places",
+      "name": "地點",
+      "icon": "📍",
+      "color": "#FF56B4",
+      "bgColor": "#FFF0F8",
+      "subcategories": [
+        {
+          "id": "home_places",
+          "name": "家裡",
+          "icon": "🏠",
+          "items": [
+            { "id": "home", "text": "回家", "emoji": "🏠" },
+            { "id": "bedroom", "text": "臥室", "emoji": "🛏️" },
+            { "id": "livingroom", "text": "客廳", "emoji": "🛋️" },
+            { "id": "kitchen", "text": "廚房", "emoji": "🍳" },
+            { "id": "bathroom", "text": "浴室", "emoji": "🛁" },
+            { "id": "toilet", "text": "廁所", "emoji": "🚽" },
+            { "id": "balcony", "text": "陽台", "emoji": "🌅" },
+            { "id": "study", "text": "書房", "emoji": "📚" },
+            { "id": "garage", "text": "車庫", "emoji": "🚗" }
+          ]
+        },
+        {
+          "id": "outdoor",
+          "name": "外面",
+          "icon": "🌳",
+          "items": [
+            { "id": "school", "text": "學校", "emoji": "🏫" },
+            { "id": "park", "text": "公園", "emoji": "🌳" },
+            { "id": "playground", "text": "遊樂場", "emoji": "🎠" },
+            { "id": "hospital", "text": "醫院", "emoji": "🏥" },
+            { "id": "store", "text": "商店", "emoji": "🏪" },
+            { "id": "supermarket", "text": "超市", "emoji": "🛒" },
+            { "id": "restaurant", "text": "餐廳", "emoji": "🍽️" },
+            { "id": "library", "text": "圖書館", "emoji": "📚" },
+            { "id": "church", "text": "教堂", "emoji": "⛪" },
+            { "id": "bakery", "text": "麵包店", "emoji": "🍞" },
+            { "id": "pharmacy", "text": "藥局", "emoji": "💊" },
+            { "id": "post_office", "text": "郵局", "emoji": "📮" },
+            { "id": "bank", "text": "銀行", "emoji": "🏦" },
+            { "id": "gym", "text": "健身房", "emoji": "🏋️" },
+            { "id": "pool", "text": "游泳池", "emoji": "🏊" },
+            { "id": "cinema", "text": "電影院", "emoji": "🎬" },
+            { "id": "museum", "text": "博物館", "emoji": "🏛️" },
+            { "id": "zoo", "text": "動物園", "emoji": "🦁" },
+            { "id": "beach", "text": "海灘", "emoji": "🏖️" },
+            { "id": "mountain", "text": "山", "emoji": "⛰️" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "actions",
+      "name": "動作",
+      "icon": "🏃",
+      "color": "#B456FF",
+      "bgColor": "#F5F0FF",
+      "subcategories": [
+        {
+          "id": "daily",
+          "name": "日常動作",
+          "icon": "🔄",
+          "items": [
+            { "id": "wash_hands", "text": "洗手", "emoji": "🧼" },
+            { "id": "brush_teeth", "text": "刷牙", "emoji": "🪥" },
+            { "id": "bathe", "text": "洗澡", "emoji": "🛁" },
+            { "id": "change_clothes", "text": "換衣服", "emoji": "👕" },
+            { "id": "sleep", "text": "睡覺", "emoji": "😴" },
+            { "id": "get_up", "text": "起床", "emoji": "⏰" },
+            { "id": "eat", "text": "吃飯", "emoji": "🍽️" },
+            { "id": "drink", "text": "喝水", "emoji": "💧" },
+            { "id": "toilet2", "text": "上廁所", "emoji": "🚽" },
+            { "id": "take_medicine", "text": "吃藥", "emoji": "💊" }
+          ]
+        },
+        {
+          "id": "play",
+          "name": "玩樂",
+          "icon": "🎮",
+          "items": [
+            { "id": "play_game", "text": "玩遊戲", "emoji": "🎮" },
+            { "id": "read_book", "text": "看書", "emoji": "📖" },
+            { "id": "watch_tv", "text": "看電視", "emoji": "📺" },
+            { "id": "watch_movie", "text": "看電影", "emoji": "🎬" },
+            { "id": "listen_music", "text": "聽音樂", "emoji": "🎵" },
+            { "id": "draw", "text": "畫畫", "emoji": "🎨" },
+            { "id": "sing", "text": "唱歌", "emoji": "🎤" },
+            { "id": "dance", "text": "跳舞", "emoji": "💃" },
+            { "id": "run", "text": "跑步", "emoji": "🏃" },
+            { "id": "swim", "text": "游泳", "emoji": "🏊" },
+            { "id": "bike", "text": "騎腳踏車", "emoji": "🚴" },
+            { "id": "ball", "text": "打球", "emoji": "⚽" },
+            { "id": "puzzle", "text": "拼圖", "emoji": "🧩" },
+            { "id": "lego", "text": "樂高", "emoji": "🧱" },
+            { "id": "tablet", "text": "玩平板", "emoji": "📱" },
+            { "id": "computer", "text": "玩電腦", "emoji": "💻" }
+          ]
+        },
+        {
+          "id": "communication",
+          "name": "溝通",
+          "icon": "💬",
+          "items": [
+            { "id": "yes", "text": "可以", "emoji": "✅" },
+            { "id": "no", "text": "不要", "emoji": "❌" },
+            { "id": "thank", "text": "謝謝", "emoji": "🙏" },
+            { "id": "sorry", "text": "對不起", "emoji": "😔" },
+            { "id": "wait", "text": "等一下", "emoji": "⏳" },
+            { "id": "help", "text": "幫我", "emoji": "🆘" },
+            { "id": "again", "text": "再來一次", "emoji": "🔄" },
+            { "id": "stop", "text": "不要了", "emoji": "🛑" },
+            { "id": "more", "text": "還要", "emoji": "➕" },
+            { "id": "enough", "text": "夠了", "emoji": "👌" },
+            { "id": "good", "text": "好", "emoji": "👍" },
+            { "id": "bad", "text": "不好", "emoji": "👎" },
+            { "id": "like", "text": "喜歡", "emoji": "❤️" },
+            { "id": "dislike", "text": "不喜歡", "emoji": "💔" },
+            { "id": "want", "text": "我要", "emoji": "🙋" },
+            { "id": "dont_want", "text": "我不要", "emoji": "🙅" },
+            { "id": "together", "text": "一起", "emoji": "🤝" },
+            { "id": "alone", "text": "一個人", "emoji": "🧍" }
+          ]
+        },
+        {
+          "id": "weather",
+          "name": "天氣",
+          "icon": "🌤️",
+          "items": [
+            { "id": "sunny", "text": "晴天", "emoji": "☀️" },
+            { "id": "cloudy", "text": "陰天", "emoji": "☁️" },
+            { "id": "rainy", "text": "下雨", "emoji": "🌧️" },
+            { "id": "windy", "text": "刮風", "emoji": "💨" },
+            { "id": "snowy", "text": "下雪", "emoji": "❄️" },
+            { "id": "thunder", "text": "打雷", "emoji": "⛈️" },
+            { "id": "hot_weather", "text": "很熱", "emoji": "🔥" },
+            { "id": "cold_weather", "text": "很冷", "emoji": "🧊" },
+            { "id": "rainbow", "text": "彩虹", "emoji": "🌈" },
+            { "id": "moon", "text": "月亮", "emoji": "🌙" },
+            { "id": "stars", "text": "星星", "emoji": "⭐" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clothes",
+      "name": "衣服",
+      "icon": "👕",
+      "color": "#FFB74D",
+      "bgColor": "#FFF8E1",
+      "subcategories": [
+        {
+          "id": "upper",
+          "name": "上衣",
+          "icon": "👕",
+          "items": [
+            { "id": "tshirt", "text": "T恤", "emoji": "👕" },
+            { "id": "longsleeve", "text": "長袖", "emoji": "👕" },
+            { "id": "hoodie", "text": "連帽外套", "emoji": "🧥" },
+            { "id": "jacket", "text": "外套", "emoji": "🧥" },
+            { "id": "sweater", "text": "毛衣", "emoji": "🧶" },
+            { "id": "uniform", "text": "制服", "emoji": "👔" },
+            { "id": "pajama_top", "text": "睡衣", "emoji": "👕" }
+          ]
+        },
+        {
+          "id": "lower",
+          "name": "褲子",
+          "icon": "👖",
+          "items": [
+            { "id": "pants", "text": "長褲", "emoji": "👖" },
+            { "id": "shorts", "text": "短褲", "emoji": "🩳" },
+            { "id": "jeans", "text": "牛仔褲", "emoji": "👖" },
+            { "id": "sweatpants", "text": "運動褲", "emoji": "👖" },
+            { "id": "skirt", "text": "裙子", "emoji": "👗" },
+            { "id": "pajama_bottom", "text": "睡褲", "emoji": "🩳" }
+          ]
+        },
+        {
+          "id": "shoes",
+          "name": "鞋子",
+          "icon": "👟",
+          "items": [
+            { "id": "sneakers", "text": "運動鞋", "emoji": "👟" },
+            { "id": "sandals", "text": "涼鞋", "emoji": "🩴" },
+            { "id": "boots", "text": "靴子", "emoji": "🥾" },
+            { "id": "slippers", "text": "拖鞋", "emoji": "🩴" },
+            { "id": "socks", "text": "襪子", "emoji": "🧦" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "time",
+      "name": "時間",
+      "icon": "⏰",
+      "color": "#81C784",
+      "bgColor": "#E8F5E9",
+      "subcategories": [
+        {
+          "id": "when",
+          "name": "什麼時候",
+          "icon": "🕐",
+          "items": [
+            { "id": "now", "text": "現在", "emoji": "⏰" },
+            { "id": "soon", "text": "等一下", "emoji": "⏳" },
+            { "id": "later", "text": "晚一點", "emoji": "🕐" },
+            { "id": "morning", "text": "早上", "emoji": "🌅" },
+            { "id": "noon", "text": "中午", "emoji": "☀️" },
+            { "id": "afternoon", "text": "下午", "emoji": "🌤️" },
+            { "id": "evening", "text": "晚上", "emoji": "🌙" },
+            { "id": "night", "text": "深夜", "emoji": "🌃" },
+            { "id": "today", "text": "今天", "emoji": "📅" },
+            { "id": "tomorrow", "text": "明天", "emoji": "📆" },
+            { "id": "yesterday", "text": "昨天", "emoji": "📆" },
+            { "id": "weekend", "text": "週末", "emoji": "🎉" }
+          ]
+        }
+      ]
+    }
+  ]
+}
