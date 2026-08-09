@@ -45,6 +45,7 @@ const quickWords = [
   { text: "不要", emoji: "❌", ja: "だめです", ko: "안돼" },
   { text: "謝謝", emoji: "🙏", ja: "ありがとう", ko: "감사합니다" },
   { text: "幫我", emoji: "🆘", ja: "助けて", ko: "도와줘" },
+  { text: "要", emoji: "🫡", ja: "欲しい", ko: "하고 싶어" },
   { text: "還要", emoji: "➕", ja: "もっと", ko: "더" },
   { text: "夠了", emoji: "👌", ja: "十分", ko: "됐어요" },
   { text: "好", emoji: "👍", ja: "いいね", ko: "좋아요" },
