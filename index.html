@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AAC 圖形溝通軟體 - 視覺原型</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: white;
+  }
+  h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+    text-align: center;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+  }
+  .subtitle {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-bottom: 48px;
+    text-align: center;
+    max-width: 500px;
+    line-height: 1.6;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1000px;
+    width: 100%;
+  }
+  .card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 32px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid rgba(255,255,255,0.2);
+    text-decoration: none;
+    color: white;
+    display: block;
+  }
+  .card:hover {
+    transform: translateY(-8px);
+    background: rgba(255,255,255,0.25);
+    border-color: rgba(255,255,255,0.5);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+  }
+  .card-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .card-desc {
+    font-size: 14px;
+    opacity: 0.85;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .card-tag {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    background: rgba(255,255,255,0.2);
+  }
+  .card:nth-child(1) .card-tag { background: rgba(255,183,77,0.4); }
+  .card:nth-child(2) .card-tag { background: rgba(0,180,216,0.4); }
+  .card:nth-child(3) .card-tag { background: rgba(255,138,101,0.4); }
+  footer {
+    margin-top: 48px;
+    font-size: 13px;
+    opacity: 0.6;
+  }
+  @media (max-width: 600px) {
+    h1 { font-size: 24px; }
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>🗣️ AAC 圖形溝通軟體</h1>
+<p class="subtitle">為自閉兒童設計的圖形化溝通工具 — 點擊圖示組句，TTS 語音輸出</p>
+
+<div class="cards">
+  <a class="card" href="001-calm-colorful/index.html">
+    <div class="card-icon">🎨</div>
+    <div class="card-title">柔和色彩版</div>
+    <div class="card-desc">溫暖粉彩配色，圓角卡片，低視覺壓力<br>適合 3-7 歲高敏感兒童</div>
+    <span class="card-tag">溫暖 · 柔和 · 安全</span>
+  </a>
+
+  <a class="card" href="002-structured-grid/index.html">
+    <div class="card-icon">📐</div>
+    <div class="card-title">結構網格版</div>
+    <div class="card-desc">深色主題，側邊欄分類，高對比邊框<br>適合偏好規律、光敏感者</div>
+    <span class="card-tag">清晰 · 結構 · 對比</span>
+  </a>
+
+  <a class="card" href="003-playful-story/index.html">
+    <div class="card-icon">🌈</div>
+    <div class="card-title">趣味故事版</div>
+    <div class="card-desc">天空雲朵背景，故事書設計，彩虹配色<br>適合需要動機激勵的兒童</div>
+    <span class="card-tag">童趣 · 遊戲 · 互動</span>
+  </a>
+</div>
+
+<footer>Git: github.com/guderian44444/aac-communication-app</footer>
+
+</body>
+</html>
