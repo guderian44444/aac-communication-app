@@ -252,47 +252,37 @@ function loadVoices() {
   const voiceSelect = document.getElementById('voiceSelect');
   if (!voiceSelect) return;
   
-  // 清空現有選項（保留第一個）
   voiceSelect.innerHTML = '<option value="">自動偵測</option>';
   
-  // 分組：男聲 / 女聲 / 其他
+  // Windows 內建語音性別映射
+  const voiceGender = {
+    'Hanhan': 'female', 'Yating': 'female', 'Zhiwei': 'male',
+    'Hsiao-Chen': 'female', 'Hsiao-Wen': 'female',
+    'Microsoft Xiaoxiao': 'female', 'Microsoft Yunxi': 'male',
+    'Microsoft Yunjian': 'male', 'Microsoft Yan': 'male'
+  };
+  
   const groups = { female: [], male: [], other: [] };
   availableVoices.forEach(voice => {
-    const name = voice.name.toLowerCase();
-    const isZh = voice.lang.startsWith('zh');
-    if (!isZh) return;
+    if (!voice.lang.startsWith('zh')) return;
     
-    if (name.includes('female') || name.includes('女') || name.includes('xiaoxiao') || name.includes('HuiMei') || name.includes('Tingting')) {
-      groups.female.push(voice);
-    } else if (name.includes('male') || name.includes('男') || name.includes('yunjian') || name.includes('Yunxi')) {
-      groups.male.push(voice);
-    } else {
-      groups.other.push(voice);
+    let gender = 'other';
+    for (const [name, g] of Object.entries(voiceGender)) {
+      if (voice.name.toLowerCase().includes(name.toLowerCase())) {
+        gender = g;
+        break;
+      }
     }
-  });
-  
-  // 加入女聲選項
-  groups.female.forEach(v => {
+    
+    const emoji = gender === 'female' ? '👩' : gender === 'male' ? '👨' : '🗣️';
     const opt = document.createElement('option');
-    opt.value = v.voiceURI;
-    opt.textContent = '👩 ' + v.name + ' (' + v.lang + ')';
+    opt.value = voice.voiceURI;
+    opt.textContent = `${emoji} ${voice.name} (${voice.lang})`;
     voiceSelect.appendChild(opt);
-  });
-  
-  // 加入男聲選項
-  groups.male.forEach(v => {
-    const opt = document.createElement('option');
-    opt.value = v.voiceURI;
-    opt.textContent = '👨 ' + v.name + ' (' + v.lang + ')';
-    voiceSelect.appendChild(opt);
-  });
-  
-  // 加入其他選項
-  groups.other.forEach(v => {
-    const opt = document.createElement('option');
-    opt.value = v.voiceURI;
-    opt.textContent = '🗣️ ' + v.name + ' (' + v.lang + ')';
-    voiceSelect.appendChild(opt);
+    
+    if (gender === 'female') groups.female.push(voice);
+    else if (gender === 'male') groups.male.push(voice);
+    else groups.other.push(voice);
   });
 }
 
