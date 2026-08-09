@@ -8,6 +8,10 @@ let sentenceItems = [];
 let favorites = JSON.parse(localStorage.getItem('aac_favorites') || '[]');
 let showFavorites = false;
 
+// ===== 擴充包 =====
+let extensionsData = null;
+let enabledExtensions = JSON.parse(localStorage.getItem('aac_extensions') || '[]');
+
 // ===== 設定 =====
 let settings = JSON.parse(localStorage.getItem('aac_settings') || '{}');
 const defaultSettings = {
@@ -104,6 +108,8 @@ async function loadVocabulary() {
   try {
     const resp = await fetch('data/vocabulary.json');
     vocabulary = await resp.json();
+    // 載入擴充包
+    await loadExtensions();
     renderCategories();
   } catch (e) {
     console.error('Failed to load vocabulary:', e);
@@ -111,11 +117,82 @@ async function loadVocabulary() {
   }
 }
 
+// ===== 載入擴充包 =====
+async function loadExtensions() {
+  try {
+    const resp = await fetch('data/extensions.json');
+    extensionsData = await resp.json();
+    renderExtensionList();
+  } catch (e) {
+    console.error('Failed to load extensions:', e);
+  }
+}
+
+// ===== 取得所有分類（基礎 + 擴充） =====
+function getAllCategories() {
+  if (!vocabulary) return [];
+  let cats = [...vocabulary.categories];
+  // 加入啟用的擴充包分類
+  if (extensionsData) {
+    extensionsData.extensions.forEach(ext => {
+      if (enabledExtensions.includes(ext.id)) {
+        cats.push(ext.category);
+      }
+    });
+  }
+  return cats;
+}
+
+// ===== 渲染擴充包列表 =====
+function renderExtensionList() {
+  const list = document.getElementById('extensionList');
+  if (!list || !extensionsData) return;
+  list.innerHTML = '';
+
+  extensionsData.extensions.forEach(ext => {
+    const item = document.createElement('label');
+    item.className = 'extension-item' + (enabledExtensions.includes(ext.id) ? ' active' : '');
+    item.innerHTML = `
+      <input type="checkbox" ${enabledExtensions.includes(ext.id) ? 'checked' : ''} data-ext="${ext.id}">
+      <span class="ext-icon">${ext.icon}</span>
+      <div class="ext-info">
+        <div class="ext-name">${ext.name}</div>
+        <div class="ext-desc">${ext.description}</div>
+      </div>
+    `;
+    const cb = item.querySelector('input');
+    cb.onchange = () => {
+      if (cb.checked) {
+        if (!enabledExtensions.includes(ext.id)) {
+          enabledExtensions.push(ext.id);
+        }
+      } else {
+        enabledExtensions = enabledExtensions.filter(id => id !== ext.id);
+        // 如果當前正在看這個擴充包分類，回到主畫面
+        if (currentCategory && currentCategory.id === ext.id) {
+          currentCategory = null;
+          currentSubcategory = null;
+          document.getElementById('backBtn').classList.remove('visible');
+          document.getElementById('subcategoryNav').style.display = 'none';
+          renderCategories();
+          document.getElementById('iconGrid').innerHTML = '';
+        }
+      }
+      localStorage.setItem('aac_extensions', JSON.stringify(enabledExtensions));
+      item.classList.toggle('active', cb.checked);
+      renderCategories();
+      showToast(cb.checked ? `✅ 已啟用: ${ext.name}` : `❌ 已關閉: ${ext.name}`);
+    };
+    list.appendChild(item);
+  });
+}
+
 // ===== 渲染分類導航 =====
 function renderCategories() {
   const nav = document.getElementById('categoryNav');
   nav.innerHTML = '';
-  vocabulary.categories.forEach((cat, i) => {
+  const allCats = getAllCategories();
+  allCats.forEach((cat, i) => {
     const btn = document.createElement('button');
     btn.className = 'cat-btn slide-in';
     btn.style.animationDelay = (i * 0.05) + 's';
@@ -134,8 +211,11 @@ function selectCategory(cat) {
   document.getElementById('favoritesBar').classList.remove('has-favorites');
 
   // Update active state
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.cat-btn[data-id="${cat.id}"]`).classList.add('active');
+  const allCats = getAllCategories();
+  allCats.forEach(c => {
+    const btn = document.querySelector(`.cat-btn[data-id="${c.id}"]`);
+    if (btn) btn.classList.toggle('active', c.id === cat.id);
+  });
 
   // Show subcategories
   renderSubcategories(cat);

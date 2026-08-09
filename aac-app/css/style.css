@@ -467,9 +467,70 @@ body {
 }
 
 .setting-group h3 {
-  font-size: var(--font-size-base);
-  margin-bottom: 10px;
+  margin: 0 0 12px 0;
+  font-size: 16px;
   color: var(--text);
+}
+
+.setting-hint {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+.extension-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.extension-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.extension-item:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.extension-item.active {
+  border-color: var(--accent);
+  background: var(--accent-light, rgba(255, 138, 101, 0.1));
+}
+
+.extension-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.extension-item .ext-icon {
+  font-size: 24px;
+}
+
+.extension-item .ext-info {
+  flex: 1;
+}
+
+.extension-item .ext-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.extension-item .ext-desc {
+  font-size: 11px;
+  color: var(--text-light);
 }
 
 .setting-row {

@@ -1,0 +1,478 @@
+{
+  "extensions": [
+    {
+      "id": "shopping",
+      "name": "買東西用語",
+      "icon": "🛒",
+      "description": "商店、市場購物相關用語",
+      "category": {
+        "id": "shopping",
+        "name": "買東西",
+        "icon": "🛒",
+        "color": "#FF8A65",
+        "bgColor": "#FFF8F0",
+        "subcategories": [
+          {
+            "id": "shopping_action",
+            "name": "購買動作",
+            "icon": "💰",
+            "items": [
+              {"id": "buy", "text": "我要買", "emoji": "🛒", "ja": "買います", "ko": "사겠습니다"},
+              {"id": "how_much", "text": "多少錢", "emoji": "💰", "ja": "いくら", "ko": "얼마예요"},
+              {"id": "too_expensive", "text": "太貴了", "emoji": "😰", "ja": "高い", "ko": "비싸요"},
+              {"id": "cheap", "text": "便宜", "emoji": "😊", "ja": "安い", "ko": "싸요"},
+              {"id": "discount", "text": "打折", "emoji": "🏷️", "ja": "割引", "ko": "할인"},
+              {"id": "change", "text": "找錢", "emoji": "💵", "ja": "お釣り", "ko": "거스름돈"},
+              {"id": "receipt", "text": "收據", "emoji": "🧾", "ja": "レシート", "ko": "영수증"},
+              {"id": "bag", "text": "袋子", "emoji": "🛍️", "ja": "袋", "ko": "봉투"},
+              {"id": "scan", "text": "掃碼", "emoji": "📱", "ja": "スキャン", "ko": "스캔"},
+              {"id": "pay", "text": "付款", "emoji": "💳", "ja": "支払い", "ko": "결제"},
+              {"id": "cash", "text": "現金", "emoji": "💵", "ja": "現金", "ko": "현금"},
+              {"id": "card", "text": "刷卡", "emoji": "💳", "ja": "カード", "ko": "카드"},
+              {"id": "linepay", "text": "行動支付", "emoji": "📲", "ja": "スマホ決済", "ko": "모바일결제"},
+              {"id": "return", "text": "退貨", "emoji": "↩️", "ja": "返品", "ko": "반품"},
+              {"id": "exchange", "text": "換貨", "emoji": "🔄", "ja": "交換", "ko": "교환"},
+              {"id": "try_on", "text": "試穿", "emoji": "👕", "ja": "試着", "ko": "착용"},
+              {"id": "size", "text": "尺寸", "emoji": "📏", "ja": "サイズ", "ko": "사이즈"},
+              {"id": "color", "text": "顏色", "emoji": "🎨", "ja": "色", "ko": "색상"},
+              {"id": "this_one", "text": "這個", "emoji": "☝️", "ja": "これ", "ko": "이것"},
+              {"id": "all", "text": "全部", "emoji": "📦", "ja": "全部", "ko": "전부"}
+            ]
+          },
+          {
+            "id": "shopping_place",
+            "name": "購物地點",
+            "icon": "🏪",
+            "items": [
+              {"id": "supermarket", "text": "超市", "emoji": "🏪", "ja": "スーパー", "ko": "슈퍼"},
+              {"id": "mall", "text": "購物中心", "emoji": "🏬", "ja": "ショッピングモール", "ko": "쇼핑몰"},
+              {"id": "market", "text": "市場", "emoji": "🏪", "ja": "市場", "ko": "시장"},
+              {"id": "convenience", "text": "便利商店", "emoji": "🏪", "ja": "コンビニ", "ko": "편의점"},
+              {"id": "pharmacy", "text": "藥局", "emoji": "💊", "ja": "薬局", "ko": "약국"},
+              {"id": "bookstore", "text": "書店", "emoji": "📚", "ja": "本屋", "ko": "서점"},
+              {"id": "clothing", "text": "衣店", "emoji": "👕", "ja": "衣類店", "ko": "의류점"},
+              {"id": "bakery", "text": "麵包店", "emoji": "🍞", "ja": "パン屋", "ko": "빵집"},
+              {"id": "fruit_shop", "text": "水果店", "emoji": "🍎", "ja": "果物屋", "ko": "과일가게"},
+              {"id": "florist", "text": "花店", "emoji": "💐", "ja": "花屋", "ko": "꽃집"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "bus",
+      "name": "搭車用語",
+      "icon": "🚌",
+      "description": "公車、計程車、火車等交通工具",
+      "category": {
+        "id": "bus",
+        "name": "搭車",
+        "icon": "🚌",
+        "color": "#42A5F5",
+        "bgColor": "#F0F8FF",
+        "subcategories": [
+          {
+            "id": "bus_action",
+            "name": "搭乘動作",
+            "icon": "🎫",
+            "items": [
+              {"id": "get_on", "text": "上車", "emoji": "🚌", "ja": "乗ります", "ko": "탑승해요"},
+              {"id": "get_off", "text": "下車", "emoji": "🚪", "ja": "降ります", "ko": "내려요"},
+              {"id": "ticket", "text": "票", "emoji": "🎫", "ja": "切符", "ko": "표"},
+              {"id": "one_way", "text": "單程", "emoji": "➡️", "ja": "片道", "ko": "편도"},
+              {"id": "round_trip", "text": "來回", "emoji": "🔄", "ja": "往復", "ko": "왕복"},
+              {"id": "next_stop", "text": "下一站", "emoji": "📍", "ja": "次の駅", "ko": "다음 정류장"},
+              {"id": "which_way", "text": "哪一輛", "emoji": "🤔", "ja": "どの方面", "ko": "어느 방향"},
+              {"id": "how_long", "text": "多久", "emoji": "⏰", "ja": "どのくらい", "ko": "얼마나"},
+              {"id": "transfer", "text": "轉車", "emoji": "🔄", "ja": "乗り換え", "ko": "환승"},
+              {"id": "full", "text": "滿了", "emoji": "😰", "ja": "満員", "ko": "만원"},
+              {"id": "empty_seat", "text": "有空位", "emoji": "💺", "ja": "空席", "ko": "빈자리"},
+              {"id": "card_pay", "text": "插卡", "emoji": "💳", "ja": "カード", "ko": "카드"},
+              {"id": "cash_pay", "text": "投幣", "emoji": "🪙", "ja": "現金", "ko": "현금"},
+              {"id": "stop_here", "text": "到站", "emoji": "📢", "ja": "到着", "ko": "도착"},
+              {"id": "hurry", "text": "快一點", "emoji": "⏰", "ja": "急いで", "ko": "빠르게"}
+            ]
+          },
+          {
+            "id": "vehicle_type",
+            "name": "交通工具",
+            "icon": "🚗",
+            "items": [
+              {"id": "bus", "text": "公車", "emoji": "🚌", "ja": "バス", "ko": "버스"},
+              {"id": "taxi", "text": "計程車", "emoji": "🚕", "ja": "タクシー", "ko": "택시"},
+              {"id": "train", "text": "火車", "emoji": "🚂", "ja": "電車", "ko": "기차"},
+              {"id": "metro", "text": "地鐵", "emoji": "🚇", "ja": "地下鉄", "ko": "지하철"},
+              {"id": "highspeed", "text": "高鐵", "emoji": "🚄", "ja": "新幹線", "ko": "고속철도"},
+              {"id": "motorcycle", "text": "機車", "emoji": "🏍️", "ja": "バイク", "ko": "오토바이"},
+              {"id": "bicycle", "text": "腳踏車", "emoji": "🚲", "ja": "自転車", "ko": "자전거"},
+              {"id": "car", "text": "汽車", "emoji": "🚗", "ja": "車", "ko": "자동차"},
+              {"id": "scooter", "text": "共享機車", "emoji": "🛵", "ja": "シェアバイク", "ko": "공유스쿠터"},
+              {"id": "bike_share", "text": "共享腳踏車", "emoji": "🚲", "ja": "シェアサイクル", "ko": "공유자전거"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "plane",
+      "name": "搭飛機用語",
+      "icon": "✈️",
+      "description": "機場、登機、海關等相關用語",
+      "category": {
+        "id": "plane",
+        "name": "搭飛機",
+        "icon": "✈️",
+        "color": "#7E57C2",
+        "bgColor": "#F3F0FF",
+        "subcategories": [
+          {
+            "id": "airport",
+            "name": "機場",
+            "icon": "🏢",
+            "items": [
+              {"id": "check_in", "text": "報到", "emoji": "📋", "ja": "チェックイン", "ko": "체크인"},
+              {"id": "boarding", "text": "登機", "emoji": "🛫", "ja": "搭乗", "ko": "탑승"},
+              {"id": "gate", "text": "登機口", "emoji": "🚪", "ja": "搭乗口", "ko": "게이트"},
+              {"id": "passport", "text": "護照", "emoji": "📘", "ja": "パスポート", "ko": "여권"},
+              {"id": "visa", "text": "簽證", "emoji": "📝", "ja": "ビザ", "ko": "비자"},
+              {"id": "customs", "text": "海關", "emoji": "🛃", "ja": "税関", "ko": "세관"},
+              {"id": "immigration", "text": "出入境", "emoji": "🛂", "ja": "入国審査", "ko": "출입국"},
+              {"id": "baggage", "text": "行李", "emoji": "🧳", "ja": "荷物", "ko": "짐"},
+              {"id": "carry_on", "text": "手提行李", "emoji": "👜", "ja": "機内持ち込み", "ko": "기내반입"},
+              {"id": "checked", "text": "托運", "emoji": "📦", "ja": "預け入れ", "ko": "Checked"},
+              {"id": "luggage_claim", "text": "行李轉盤", "emoji": "🔄", "ja": "荷物受取", "ko": "짐 찾는 곳"},
+              {"id": "security", "text": "安檢", "emoji": "🔍", "ja": "保安検査", "ko": "보안검색"},
+              {"id": "departure", "text": "出發", "emoji": "🛫", "ja": "出発", "ko": "출발"},
+              {"id": "arrival", "text": "抵達", "emoji": "🛬", "ja": "到着", "ko": "도착"},
+              {"id": "delay", "text": "延誤", "emoji": "⏰", "ja": "遅延", "ko": "지연"},
+              {"id": "cancel", "text": "取消", "emoji": "❌", "ja": "キャンセル", "ko": "취소"},
+              {"id": "flight_no", "text": "班機號", "emoji": "🔢", "ja": "便名", "ko": "편명"},
+              {"id": "seat", "text": "座位", "emoji": "💺", "ja": "座席", "ko": "좌석"},
+              {"id": "window", "text": "靠窗", "emoji": "🪟", "ja": "窓側", "ko": "창가"},
+              {"id": "aisle", "text": "走道", "emoji": "🚶", "ja": "通路側", "ko": "복도"}
+            ]
+          },
+          {
+            "id": "on_board",
+            "name": "機上",
+            "icon": "🍽️",
+            "items": [
+              {"id": "blanket", "text": "毯子", "emoji": "🛏️", "ja": "毛布", "ko": "담요"},
+              {"id": "pillow", "text": "枕頭", "emoji": "🛌", "ja": "枕", "ko": "베개"},
+              {"id": "meal", "text": "餐點", "emoji": "🍱", "ja": "食事", "ko": "식사"},
+              {"id": "drink", "text": "飲料", "emoji": "🥤", "ja": "飲み物", "ko": "음료"},
+              {"id": "water", "text": "水", "emoji": "💧", "ja": "水", "ko": "물"},
+              {"id": "movie", "text": "電影", "emoji": "🎬", "ja": "映画", "ko": "영화"},
+              {"id": "music", "text": "音樂", "emoji": "🎵", "ja": "音楽", "ko": "음악"},
+              {"id": "sleep", "text": "睡覺", "emoji": "😴", "ja": "寝る", "ko": "자다"},
+              {"id": "bathroom", "text": "洗手間", "emoji": "🚻", "ja": "トイレ", "ko": "화장실"},
+              {"id": "call_attendant", "text": "叫空服員", "emoji": "🔔", "ja": "呼び鈴", "ko": "호출"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "boat",
+      "name": "搭船用語",
+      "icon": "⛴️",
+      "description": "渡輪、遊艇等水上交通工具",
+      "category": {
+        "id": "boat",
+        "name": "搭船",
+        "icon": "⛴️",
+        "color": "#26A69A",
+        "bgColor": "#E0F7F5",
+        "subcategories": [
+          {
+            "id": "ferry",
+            "name": "渡輪",
+            "icon": "⛴️",
+            "items": [
+              {"id": "ferry", "text": "渡輪", "emoji": "⛴️", "ja": "フェリー", "ko": "페리"},
+              {"id": "pier", "text": "碼頭", "emoji": "🏗️", "ja": "埠頭", "ko": "부두"},
+              {"id": "dock", "text": "停船", "emoji": "⚓", "ja": "着岸", "ko": "정박"},
+              {"id": "sail", "text": "開船", "emoji": "🌊", "ja": "発航", "ko": "출항"},
+              {"id": "seasick", "text": "暈船", "emoji": "🤢", "ja": "乗り物酔い", "ko": "멀미"},
+              {"id": "life_jacket", "text": "救生衣", "emoji": "🦺", "ja": "救命胴衣", "ko": "구명조끼"},
+              {"id": "deck", "text": "甲板", "emoji": "🌅", "ja": "デッキ", "ko": "갑판"},
+              {"id": "cabin", "text": "船艙", "emoji": "🚪", "ja": "客室", "ko": "객실"},
+              {"id": "harbor", "text": "港口", "emoji": "🏘️", "ja": "港", "ko": "항구"},
+              {"id": "wave", "text": "海浪", "emoji": "🌊", "ja": "波", "ko": "파도"},
+              {"id": "anchor", "text": "錨", "emoji": "⚓", "ja": "錨", "ko": "닻"},
+              {"id": "compass", "text": "羅盤", "emoji": "🧭", "ja": "コンパス", "ko": "나침반"}
+            ]
+          },
+          {
+            "id": "boat_fun",
+            "name": "船上活動",
+            "icon": "🎉",
+            "items": [
+              {"id": "swim", "text": "游泳", "emoji": "🏊", "ja": "水泳", "ko": "수영"},
+              {"id": "fish", "text": "釣魚", "emoji": "🎣", "ja": "釣り", "ko": "낚시"},
+              {"id": "sunset", "text": "夕陽", "emoji": "🌅", "ja": "夕日", "ko": "일몰"},
+              {"id": "photo", "text": "拍照", "emoji": "📸", "ja": "写真", "ko": "사진"},
+              {"id": "sea_view", "text": "看海", "emoji": "🌊", "ja": "海景", "ko": "바다보기"},
+              {"id": "sunset_dinner", "text": "晚餐", "emoji": "🍽️", "ja": "夕食", "ko": "저녁"},
+              {"id": "snack", "text": "點心", "emoji": "🍪", "ja": "お菓子", "ko": "간식"},
+              {"id": "rest", "text": "休息", "emoji": "😌", "ja": "休憩", "ko": "휴식"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "japan_cities",
+      "name": "日本主要城市地名包",
+      "icon": "🗾",
+      "description": "日本主要城市、景點、交通地名",
+      "category": {
+        "id": "japan_cities",
+        "name": "日本城市",
+        "icon": "🗾",
+        "color": "#E91E63",
+        "bgColor": "#FFF0F5",
+        "subcategories": [
+          {
+            "id": "japan_major",
+            "name": "主要城市",
+            "icon": "🏙️",
+            "items": [
+              {"id": "tokyo", "text": "東京", "emoji": "🗼", "ja": "東京", "ko": "도쿄"},
+              {"id": "osaka", "text": "大阪", "emoji": "🏯", "ja": "大阪", "ko": "오사카"},
+              {"id": "kyoto", "text": "京都", "emoji": "⛩️", "ja": "京都", "ko": "교토"},
+              {"id": "nara", "text": "奈良", "emoji": "🦌", "ja": "奈良", "ko": "나라"},
+              {"id": "hiroshima", "text": "廣島", "emoji": "🌸", "ja": "広島", "ko": "히로시마"},
+              {"id": "fukuoka", "text": "福岡", "emoji": "🍜", "ja": "福岡", "ko": "후쿠오카"},
+              {"id": "sapporo", "text": "札幌", "emoji": "❄️", "ja": "札幌", "ko": "사っぽ로"},
+              {"id": "nagoya", "text": "名古屋", "emoji": "🏯", "ja": "名古屋", "ko": "나고야"},
+              {"id": "sendai", "text": "仙台", "emoji": "🍎", "ja": "仙台", "ko": "센다이"},
+              {"id": "okayama", "text": "岡山", "emoji": "🍑", "ja": "岡山", "ko": "오카야마"},
+              {"id": "kobe", "text": "神戶", "emoji": "🐄", "ja": "神戸", "ko": "코베"},
+              {"id": "hokkaido", "text": "北海道", "emoji": "🌸", "ja": "北海道", "ko": "호카이도"},
+              {"id": "okinawa", "text": "沖繩", "emoji": "🏖️", "ja": "沖縄", "ko": "오키나와"},
+              {"id": "niigata", "text": "新潟", "emoji": "🍚", "ja": "新潟", "ko": "니이가타"},
+              {"id": "kanazawa", "text": "金澤", "emoji": "🎨", "ja": "金沢", "ko": "가나자와"}
+            ]
+          },
+          {
+            "id": "japan_spots",
+            "name": "著名景點",
+            "icon": "🏯",
+            "items": [
+              {"id": "shinjuku", "text": "新宿", "emoji": "🌃", "ja": "新宿", "ko": "신주쿠"},
+              {"id": "shibuya", "text": "澀谷", "emoji": "🚶", "ja": "渋谷", "ko": "시부야"},
+              {"id": "ginza", "text": "銀座", "emoji": "🛍️", "ja": "銀座", "ko": "긴자"},
+              {"id": "asakusa", "text": "淺草", "emoji": "⛩️", "ja": "浅草", "ko": "아사쿠사"},
+              {"id": "disney", "text": "迪士尼", "emoji": "🏰", "ja": "ディズニー", "ko": "디즈니"},
+              {"id": "ushijima", "text": "秋葉原", "emoji": "🎮", "ja": "秋葉原", "ko": "아키하바라"},
+              {"id": "harajuku", "text": "原宿", "emoji": "👗", "ja": "原宿", "ko": "하라주쿠"},
+              {"id": "meiji", "text": "明治神宮", "emoji": "⛩️", "ja": "明治神宮", "ko": "메이지 신궁"},
+              {"id": "sensoji", "text": "淺草寺", "emoji": "🏯", "ja": "浅草寺", "ko": "센소지"},
+              {"id": "fushimi", "text": "伏見稻荷", "emoji": "⛩️", "ja": "伏見稲荷", "ko": "후시미 이나리"},
+              {"id": "arashiyama", "text": "嵐山", "emoji": "🎋", "ja": "嵐山", "ko": "아라시야마"},
+              {"id": "dotonbori", "text": "道頓堀", "emoji": "🍜", "ja": "道頓堀", "ko": "도톤보리"},
+              {"id": "osaka_castle", "text": "大阪城", "emoji": "🏯", "ja": "大阪城", "ko": "오사카 성"},
+              {"id": "nara_park", "text": "奈良公園", "emoji": "🦌", "ja": "奈良公園", "ko": "나라공원"},
+              {"id": "mt_fuji", "text": "富士山", "emoji": "🗻", "ja": "富士山", "ko": "후지산"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "taiwan_places",
+      "name": "台灣主要地名包",
+      "icon": "🇹🇼",
+      "description": "台灣主要城市、景點、交通地名",
+      "category": {
+        "id": "taiwan_places",
+        "name": "台灣地名",
+        "icon": "🇹🇼",
+        "color": "#4CAF50",
+        "bgColor": "#F0FFF0",
+        "subcategories": [
+          {
+            "id": "tw_major",
+            "name": "主要城市",
+            "icon": "🏙️",
+            "items": [
+              {"id": "taipei", "text": "台北", "emoji": "🏙️", "ja": "台北", "ko": "타이베이"},
+              {"id": "taichung", "text": "台中", "emoji": "🌳", "ja": "台中", "ko": "타이중"},
+              {"id": "tainan", "text": "台南", "emoji": "🏛️", "ja": "台南", "ko": "타이나ん"},
+              {"id": "kaohsiung", "text": "高雄", "emoji": "🏖️", "ja": "高雄", "ko": "가오슝"},
+              {"id": "hsinchu", "text": "新竹", "emoji": "💻", "ja": "新竹", "ko": "신주"},
+              {"id": "taoyuan", "text": "桃園", "emoji": "✈️", "ja": "桃園", "ko": "타오위안"},
+              {"id": "hualien", "text": "花蓮", "emoji": "🏔️", "ja": "花蓮", "ko": "화롄"},
+              {"id": "yilan", "text": "宜蘭", "emoji": "🌾", "ja": "宜蘭", "ko": "이난"},
+              {"id": "chiayi", "text": "嘉義", "emoji": "🍑", "ja": "嘉義", "ko": "자이"},
+              {"id": "pingtung", "text": "屏東", "emoji": "🏖️", "ja": "屏東", "ko": "핑둥"},
+              {"id": "keelung", "text": "基隆", "emoji": "🚢", "ja": "基隆", "ko": "기룽"},
+              {"id": "hualien", "text": "台東", "emoji": "🌅", "ja": "台東", "ko": "타이동"},
+              {"id": "taiping", "text": "太平", "emoji": "🏔️", "ja": "太平", "ko": "타이핑"},
+              {"id": "yanchao", "text": "鹽水", "emoji": "🎆", "ja": "塩水", "ko": "염수"},
+              {"id": "beipu", "text": "北埔", "emoji": "🍵", "ja": "北埔", "ko": "เป이푸"}
+            ]
+          },
+          {
+            "id": "tw_spots",
+            "name": "著名景點",
+            "icon": "🏯",
+            "items": [
+              {"id": "ntu", "text": "國立故宮", "emoji": "🏛️", "ja": "国立故宮", "ko": "국립고궁"},
+              {"id": "xinyi", "text": "信義區", "emoji": "🌃", "ja": "信義区", "ko": "신의구"},
+              {"id": "dadaocheng", "text": "大稻埕", "emoji": "🏘️", "ja": "大稻埕", "ko": "다다오청"},
+              {"id": "sun_moon", "text": "日月潭", "emoji": "🏞️", "ja": "日月潭", "ko": "일월담"},
+              {"id": "ali", "text": "阿里山", "emoji": "🌲", "ja": "阿里山", "ko": "아리산"},
+              {"id": "yoshoku", "text": "野柳", "emoji": "🗿", "ja": "野柳", "ko": "야류"},
+              {"id": "jinguashi", "text": "九份", "emoji": "🍵", "ja": "九份", "ko": "구분"},
+              {"id": "beinan", "text": "北門", "emoji": "🏖️", "ja": "北門", "ko": "베이먼"},
+              {"id": "gaoxiong85", "text": "85大樓", "emoji": "🏢", "ja": "85ビル", "ko": "85빌딩"},
+              {"id": "chiayi_tower", "text": "嘉義公園", "emoji": "🌳", "ja": "嘉義公園", "ko": "자이공원"},
+              {"id": "night_market", "text": "夜市", "emoji": "🏮", "ja": "夜市", "ko": "야시장"},
+              {"id": "hot_spring", "text": "溫泉", "emoji": "♨️", "ja": "温泉", "ko": "온천"},
+              {"id": "beach", "text": "海灘", "emoji": "🏖️", "ja": "ビーチ", "ko": "해변"},
+              {"id": "museum", "text": "博物館", "emoji": "🏛️", "ja": "博物館", "ko": "박물관"},
+              {"id": "park", "text": "公園", "emoji": "🌳", "ja": "公園", "ko": "공원"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "korea_places",
+      "name": "韓國主要地名包",
+      "icon": "🇰🇷",
+      "description": "韓國主要城市、景點、交通地名",
+      "category": {
+        "id": "korea_places",
+        "name": "韓國地名",
+        "icon": "🇰🇷",
+        "color": "#1976D2",
+        "bgColor": "#E3F2FD",
+        "subcategories": [
+          {
+            "id": "kr_major",
+            "name": "主要城市",
+            "icon": "🏙️",
+            "items": [
+              {"id": "seoul", "text": "首爾", "emoji": "🏙️", "ja": "ソウル", "ko": "서울"},
+              {"id": "busan", "text": "釜山", "emoji": "🏖️", "ja": "釜山", "ko": "부산"},
+              {"id": "incheon", "text": "仁川", "emoji": "✈️", "ja": "仁川", "ko": "인천"},
+              {"id": "daegu", "text": "大邱", "emoji": "🌸", "ja": "大邱", "ko": "대구"},
+              {"id": "daejeon", "text": "大田", "emoji": "💻", "ja": "大田", "ko": "대전"},
+              {"id": "gwangju", "text": "光州", "emoji": "🌺", "ja": "光州", "ko": "광주"},
+              {"id": "ulsan", "text": "蔚山", "emoji": "🏭", "ja": "蔚山", "ko": "울산"},
+              {"id": "suwon", "text": "水原", "emoji": "🏯", "ja": "水原", "ko": "수원"},
+              {"id": "jeju", "text": "濟州島", "emoji": "🏝️", "ja": "済州島", "ko": "제주도"},
+              {"id": "gangneung", "text": "江陵", "emoji": "🏖️", "ja": "江陵", "ko": "강릉"},
+              {"id": "jeonju", "text": "全州", "emoji": "🍚", "ja": "全州", "ko": "전주"},
+              {"id": "andong", "text": "安东", "emoji": "🏛️", "ja": "安東", "ko": "안동"},
+              {"id": "yeongju", "text": "慶州", "emoji": "🏛️", "ja": "慶州", "ko": "경주"},
+              {"id": "pyeongchang", "text": "平昌", "emoji": "⛷️", "ja": "平昌", "ko": "평창"},
+              {"id": "changwon", "text": "昌原", "emoji": "🌊", "ja": "昌原", "ko": "창원"}
+            ]
+          },
+          {
+            "id": "kr_spots",
+            "name": "著名景點",
+            "icon": "🏯",
+            "items": [
+              {"id": "gyeongbokgung", "text": "景福宮", "emoji": "🏯", "ja": "景福宮", "ko": "경복궁"},
+              {"id": "namdaemun", "text": "南大門", "emoji": "🚪", "ja": "南大門", "ko": "남대문"},
+              {"id": "myeongdong", "text": "明洞", "emoji": "🛍️", "ja": "明洞", "ko": "명동"},
+              {"id": "hongdae", "text": "弘大", "emoji": "🎭", "ja": "弘大", "ko": "홍대"},
+              {"id": "insadong", "text": "仁寺洞", "emoji": "🎨", "ja": "仁寺洞", "ko": "인사동"},
+              {"id": "bukchon", "text": "北村", "emoji": "🏘️", "ja": "北村", "ko": "북촌"},
+              {"id": "namsan", "text": "南山塔", "emoji": "🗼", "ja": "南山塔", "ko": "남산타워"},
+              {"id": "lotte_world", "text": "樂天世界", "emoji": "🎢", "ja": "ロッテワールド", "ko": "롯데월드"},
+              {"id": "dmz", "text": "非軍事區", "emoji": "🕊️", "ja": "非武装地帯", "ko": "비무장지대"},
+              {"id": "jeju_hallasan", "text": "漢拿山", "emoji": "🗻", "ja": "漢拏山", "ko": "한라산"},
+              {"id": "jeju_beach", "text": "濟州海灘", "emoji": "🏖️", "ja": "済州ビーチ", "ko": "제주해변"},
+              {"id": "jeju_village", "text": "濟州村", "emoji": "🏘️", "ja": "済州村", "ko": "제주마을"},
+              {"id": "busan_beach", "text": "釜山海灘", "emoji": "🏖️", "ja": "釜山ビーチ", "ko": "부산해변"},
+              {"id": "jeonju_town", "text": "全州韓屋村", "emoji": "🏘️", "ja": "全州韓屋村", "ko": "전주한옥마을"},
+              {"id": "suwon_palace", "text": "水原華城", "emoji": "🏯", "ja": "水原華城", "ko": "수원화성"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "hsinchu_places",
+      "name": "新竹縣市主要鄉鎮地名包",
+      "icon": "🏘️",
+      "description": "新竹縣市鄉鎮、景點、生活地名",
+      "category": {
+        "id": "hsinchu_places",
+        "name": "新竹地名",
+        "icon": "🏘️",
+        "color": "#FF9800",
+        "bgColor": "#FFF8E1",
+        "subcategories": [
+          {
+            "id": "hc_city",
+            "name": "新竹市",
+            "icon": "🏙️",
+            "items": [
+              {"id": "hc_downtown", "text": "新竹市區", "emoji": "🏙️", "ja": "新竹市区", "ko": "신주시구"},
+              {"id": "hc_station", "text": "新竹火車站", "emoji": "🚂", "ja": "新竹駅", "ko": "신주역"},
+              {"id": "hc_night", "text": "新竹夜市", "emoji": "🏮", "ja": "新竹夜市", "ko": "신주야시장"},
+              {"id": "hc_cityhall", "text": "市政府", "emoji": "🏛️", "ja": "市政府", "ko": "시정부"},
+              {"id": "hc_museum", "text": "科學園區", "emoji": "💻", "ja": "科学园区", "ko": "과학단지"},
+              {"id": "hc_library", "text": "圖書館", "emoji": "📚", "ja": "図書館", "ko": "도서관"},
+              {"id": "hc_hospital", "text": "醫院", "emoji": "🏥", "ja": "病院", "ko": "병원"},
+              {"id": "hc_police", "text": "警察局", "emoji": "👮", "ja": "警察署", "ko": "경찰서"},
+              {"id": "hc_post", "text": "郵局", "emoji": "📮", "ja": "郵便局", "ko": "우체국"},
+              {"id": "hc_bank", "text": "銀行", "emoji": "🏦", "ja": "銀行", "ko": "은행"},
+              {"id": "hc_school", "text": "學校", "emoji": "🏫", "ja": "学校", "ko": "학교"},
+              {"id": "hc_park", "text": "公園", "emoji": "🌳", "ja": "公園", "ko": "공원"},
+              {"id": "hc_gym", "text": "健身房", "emoji": "💪", "ja": "ジム", "ko": "헬스장"},
+              {"id": "hc_market", "text": "市場", "emoji": "🏪", "ja": "市場", "ko": "시장"},
+              {"id": "hc_pharmacy", "text": "藥局", "emoji": "💊", "ja": "薬局", "ko": "약국"}
+            ]
+          },
+          {
+            "id": "hc_town",
+            "name": "鄉鎮地區",
+            "icon": "🏘️",
+            "items": [
+              {"id": "hc_bei", "text": "北區", "emoji": "🏘️", "ja": "北区", "ko": "북구"},
+              {"id": "hc_dong", "text": "東區", "emoji": "🏘️", "ja": "東区", "ko": "동구"},
+              {"id": "hc_nan", "text": "南區", "emoji": "🏘️", "ja": "南区", "ko": "남구"},
+              {"id": "hc_zhongli", "text": "中區", "emoji": "🏘️", "ja": "中区", "ko": "중구"},
+              {"id": "hc_xinzhuang", "text": "新竹莊", "emoji": "🏘️", "ja": "新竹荘", "ko": "신주장"},
+              {"id": "hc_baxi", "text": "新竹縣", "emoji": "🏛️", "ja": "新竹県", "ko": "신주현"},
+              {"id": "hc_zhudong", "text": "竹東", "emoji": "🏘️", "ja": "竹東", "ko": "죽동"},
+              {"id": "hc_zhubei", "text": "竹北", "emoji": "🏘️", "ja": "竹北", "ko": "죽북"},
+              {"id": "hc_guantian", "text": "關西", "emoji": "🏘️", "ja": "関西", "ko": "관서"},
+              {"id": "hc_zhongli_hc", "text": "中壢", "emoji": "🏘️", "ja": "中壢", "ko": "중력"},
+              {"id": "hc_bao'an", "text": "寶山", "emoji": "🏔️", "ja": "宝山", "ko": "보산"},
+              {"id": "hc_longtan", "text": "龍潭", "emoji": "🏞️", "ja": "龍潭", "ko": "용담"},
+              {"id": "hc_shangkuo", "text": "新豐", "emoji": "🏘️", "ja": "新豊", "ko": "신풍"},
+              {"id": "hc_hengshan", "text": "橫山", "emoji": "🏔️", "ja": "横山", "ko": "횡산"},
+              {"id": "hc_fengping", "text": "湖口", "emoji": "🏘️", "ja": "湖口", "ko": "호구"}
+            ]
+          },
+          {
+            "id": "hc_spots",
+            "name": "景點美食",
+            "icon": "🎯",
+            "items": [
+              {"id": "hc_bamboo", "text": "竹北公園", "emoji": "🌳", "ja": "竹北公園", "ko": "죽북공원"},
+              {"id": "hc_sci", "text": "科學館", "emoji": "🔬", "ja": "科学館", "ko": "과학관"},
+              {"id": "hc_museum_hc", "text": "博物館", "emoji": "🏛️", "ja": "博物館", "ko": "박물관"},
+              {"id": "hc_river", "text": "青草湖", "emoji": "🏞️", "ja": "青草湖", "ko": "청초호"},
+              {"id": "hc_temple", "text": "城隍廟", "emoji": "⛩️", "ja": "城隍廟", "ko": "성황묘"},
+              {"id": "hc_food", "text": "米粉", "emoji": "🍜", "ja": "米粉", "ko": "분"},
+              {"id": "hc_snack", "text": "貢丸", "emoji": "🥟", "ja": "貢丸", "ko": "공완"},
+              {"id": "hc_dessert", "text": "草仔粿", "emoji": "🍡", "ja": "草仔粿", "ko": "초자과"},
+              {"id": "hc_drink", "text": "青草茶", "emoji": "🍵", "ja": "青草茶", "ko": "청초차"},
+              {"id": "hc_park_hc", "text": "運動公園", "emoji": "🏃", "ja": "運動公園", "ko": "운동공원"}
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
