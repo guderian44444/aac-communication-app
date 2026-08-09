@@ -37,18 +37,18 @@ let availableVoices = [];
 
 // ===== 快速詞 =====
 const quickWords = [
-  { text: "可以", emoji: "✅" },
-  { text: "不要", emoji: "❌" },
-  { text: "謝謝", emoji: "🙏" },
-  { text: "幫我", emoji: "🆘" },
-  { text: "還要", emoji: "➕" },
-  { text: "夠了", emoji: "👌" },
-  { text: "好", emoji: "👍" },
-  { text: "不好", emoji: "👎" },
-  { text: "喜歡", emoji: "❤️" },
-  { text: "不喜歡", emoji: "💔" },
-  { text: "等一下", emoji: "⏳" },
-  { text: "對不起", emoji: "😔" }
+  { text: "可以", emoji: "✅", ja: "できます", ko: "될까요" },
+  { text: "不要", emoji: "❌", ja: "だめです", ko: "안돼" },
+  { text: "謝謝", emoji: "🙏", ja: "ありがとう", ko: "감사합니다" },
+  { text: "幫我", emoji: "🆘", ja: "助けて", ko: "도와줘" },
+  { text: "還要", emoji: "➕", ja: "もっと", ko: "더" },
+  { text: "夠了", emoji: "👌", ja: "十分", ko: "됐어요" },
+  { text: "好", emoji: "👍", ja: "いいね", ko: "좋아요" },
+  { text: "不好", emoji: "👎", ja: "だめ", ko: "안좋아요" },
+  { text: "喜歡", emoji: "❤️", ja: "好き", ko: "좋아해요" },
+  { text: "不喜歡", emoji: "💔", ja: "好きじゃない", ko: "안좋아해요" },
+  { text: "等一下", emoji: "⏳", ja: "ちょっと待って", ko: "잠깐만" },
+  { text: "對不起", emoji: "😔", ja: "ごめん", ko: "미안해요" }
 ];
 
 // ===== 初始化 =====
@@ -310,8 +310,6 @@ function removeFromSentence(idx) {
 // ===== 載入系統語音 =====
 function loadVoices() {
   availableVoices = speechSynthesis.getVoices();
-  const voiceSelect = document.getElementById('voiceSelect');
-  if (!voiceSelect) return;
 
   // 如果語音還沒載入，延遲再試
   if (availableVoices.length === 0) {
@@ -319,71 +317,40 @@ function loadVoices() {
     return;
   }
 
-  voiceSelect.innerHTML = '<option value="">🌐 自動偵測</option>';
+  console.log(`[TTS] 共載入 ${availableVoices.length} 個語音`);
+}
 
-  // 語音性別關鍵字映射（桌面 + 手機）
+// ===== 根據語言自動挑選最佳語音 =====
+function getBestVoice(lang) {
+  const voices = availableVoices;
+  if (voices.length === 0) return null;
+
+  const langMap = { zh: 'zh', ja: 'ja', ko: 'ko' };
+  const prefix = langMap[lang] || 'zh';
+
+  // 先找完全匹配的語系
+  const matched = voices.filter(v => v.lang.toLowerCase().startsWith(prefix));
+  if (matched.length === 0) return null;
+
+  // 優先選女聲（關鍵字匹配）
+  const femaleKeywords = ['hanhan', 'yating', 'xiaoxiao', 'huihui', 'hui-mei', 'tingting', 'female', '女', 'mei-jia', 'ting-ting', 'miku', 'haruka'];
   const maleKeywords = ['zhiwei', 'yunxi', 'yunjian', 'yan', 'male', '男', 'wei', 'chen', 'kunming', 'hanwei'];
-  const femaleKeywords = ['hanhan', 'yating', 'xiaoxiao', 'huihui', 'hui-mei', 'tingting', 'female', '女', 'mei-jia', 'ting-ting'];
 
-  // 只顯示當前選定語言的語音
-  const lang = settings.lang || 'zh';
-  const zhVoices = [];
-  const jaVoices = [];
-  const koVoices = [];
-
-  availableVoices.forEach(voice => {
-    const name = voice.name.toLowerCase();
-    const langCode = voice.lang.toLowerCase();
-
-    const isZh = langCode.startsWith('zh');
-    const isJa = langCode.startsWith('ja');
-    const isKo = langCode.startsWith('ko');
-
-    if (!isZh && !isJa && !isKo) return;
-
-    // 判斷性別
-    let gender = 'other';
-    for (const kw of maleKeywords) {
-      if (name.includes(kw)) { gender = 'male'; break; }
-    }
+  for (const v of matched) {
+    const name = v.name.toLowerCase();
     for (const kw of femaleKeywords) {
-      if (name.includes(kw)) { gender = 'female'; break; }
+      if (name.includes(kw)) return v;
     }
-
-    const emoji = gender === 'female' ? '👩' : gender === 'male' ? '👨' : '🗣️';
-    const opt = document.createElement('option');
-    opt.value = voice.voiceURI;
-    opt.textContent = `${emoji} ${voice.name} [${voice.lang}]`;
-
-    if (isZh) zhVoices.push({ opt, voice, gender });
-    else if (isJa) jaVoices.push({ opt, voice, gender });
-    else if (isKo) koVoices.push({ opt, voice, gender });
-  });
-
-  // 分組顯示 — 只顯示當前語言
-  const addGroup = (voices, groupLabel) => {
-    if (voices.length === 0) return;
-    const optGroup = document.createElement('optgroup');
-    optGroup.label = groupLabel;
-    voices.forEach(v => optGroup.appendChild(v.opt));
-    voiceSelect.appendChild(optGroup);
-  };
-
-  if (lang === 'zh') {
-    addGroup(zhVoices.filter(v => v.gender === 'male'), '👨 男聲');
-    addGroup(zhVoices.filter(v => v.gender === 'female'), '👩 女聲');
-    addGroup(zhVoices.filter(v => v.gender === 'other'), '🗣️ 其他');
-  } else if (lang === 'ja') {
-    addGroup(jaVoices.filter(v => v.gender === 'male'), '👨 男聲');
-    addGroup(jaVoices.filter(v => v.gender === 'female'), '👩 女聲');
-    addGroup(jaVoices.filter(v => v.gender === 'other'), '🗣️ 其他');
-  } else if (lang === 'ko') {
-    addGroup(koVoices.filter(v => v.gender === 'male'), '👨 男聲');
-    addGroup(koVoices.filter(v => v.gender === 'female'), '👩 女聲');
-    addGroup(koVoices.filter(v => v.gender === 'other'), '🗣️ 其他');
+  }
+  for (const v of matched) {
+    const name = v.name.toLowerCase();
+    for (const kw of maleKeywords) {
+      if (name.includes(kw)) return v;
+    }
   }
 
-  console.log(`[TTS] 語言: ${lang}, 中文: ${zhVoices.length}, 日文: ${jaVoices.length}, 韓文: ${koVoices.length}`);
+  // 沒有匹配的，回傳第一個
+  return matched[0];
 }
 
 // ===== 語音輸出 =====
@@ -458,22 +425,16 @@ function speakSentence() {
 function previewVoice() {
   if (!('speechSynthesis' in window)) return;
 
-  // 根據選定語音決定預覽文字
-  const voiceSelect = document.getElementById('voiceSelect');
+  const lang = settings.lang || 'zh';
   let previewText = '你好呀，我是阿霖的溝通板';
   let previewLang = 'zh-TW';
 
-  if (voiceSelect && voiceSelect.value) {
-    const selected = availableVoices.find(v => v.voiceURI === voiceSelect.value);
-    if (selected) {
-      previewLang = selected.lang;
-      const lang = selected.lang.toLowerCase();
-      if (lang.startsWith('ja')) {
-        previewText = 'こんにちは、アリンのコミュニケーションボードです';
-      } else if (lang.startsWith('ko')) {
-        previewText = '안녕하세요, 알린 의사소통 보드입니다';
-      }
-    }
+  if (lang === 'ja') {
+    previewText = 'こんにちは、アリンのコミュニケーションボードです';
+    previewLang = 'ja-JP';
+  } else if (lang === 'ko') {
+    previewText = '안녕하세요, 알린 의사소통 보드입니다';
+    previewLang = 'ko-KR';
   }
 
   const utter = new SpeechSynthesisUtterance(previewText);
@@ -493,13 +454,10 @@ function previewVoice() {
 
 // ===== 套用選定語音 =====
 function applySelectedVoice(utter) {
-  const voiceSelect = document.getElementById('voiceSelect');
-  if (!voiceSelect || !voiceSelect.value) return;
-  const selected = availableVoices.find(v => v.voiceURI === voiceSelect.value);
-  if (selected) {
-    utter.voice = selected;
-    // 根據語音的語言自動設定 utter.lang
-    utter.lang = selected.lang;
+  const lang = settings.lang || 'zh';
+  const voice = getBestVoice(lang);
+  if (voice) {
+    utter.voice = voice;
   }
 }
 
@@ -693,14 +651,6 @@ function setupEventListeners() {
     settings.specialVoice = e.target.value;
     const voice = specialVoices[e.target.value] || specialVoices.normal;
     showToast(`已切換：${voice.label}`);
-    previewVoice();
-    saveSettings();
-  };
-
-  // Voice select (男女聲)
-  document.getElementById('voiceSelect').onchange = (e) => {
-    settings.selectedVoiceURI = e.target.value;
-    showToast('語音已切換');
     previewVoice();
     saveSettings();
   };
