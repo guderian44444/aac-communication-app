@@ -1249,3 +1249,555 @@ body.theme-purple {
     display: none !important;
   }
 }
+
+/* ===== 練習模式 ===== */
+.practice-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+}
+
+.practice-overlay.open {
+  display: flex;
+}
+
+.practice-panel {
+  background: var(--bg);
+  border-radius: var(--radius);
+  width: 95%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  animation: practiceIn 0.3s ease;
+}
+
+@keyframes practiceIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.practice-header {
+  background: linear-gradient(135deg, #FF8A65, #FF7043);
+  color: white;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.practice-header h2 {
+  font-size: var(--font-size-lg);
+  margin: 0;
+}
+
+.practice-stars {
+  font-size: var(--font-size-base);
+  background: rgba(255,255,255,0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.practice-close {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* 等級選擇 */
+.practice-levels {
+  padding: 20px;
+}
+
+.practice-levels h3 {
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.level-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.level-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: left;
+  width: 100%;
+}
+
+.level-card:hover {
+  border-color: var(--primary);
+  transform: translateX(4px);
+}
+
+.level-card:active {
+  transform: scale(0.98);
+}
+
+.level-icon {
+  font-size: 24px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.level-name {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  display: block;
+}
+
+.level-desc {
+  font-size: 12px;
+  color: var(--text-light);
+  display: block;
+  margin-top: 2px;
+}
+
+/* 練習題目 */
+.practice-quiz {
+  padding: 20px;
+}
+
+.quiz-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FFB74D, #FF8A65);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+  min-width: 40px;
+  text-align: right;
+}
+
+.quiz-content {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* L1 單詞題目 */
+.l1-prompt {
+  font-size: 80px;
+  margin-bottom: 20px;
+  animation: emojiPop 0.5s ease;
+}
+
+@keyframes emojiPop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.l1-instruction {
+  font-size: var(--font-size-base);
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+.l1-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.l1-option {
+  padding: 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+
+.l1-option:hover {
+  border-color: var(--primary);
+  background: #FFF3E0;
+}
+
+.l1-option.correct {
+  border-color: #4CAF50;
+  background: #E8F5E9;
+  animation: correctPulse 0.5s ease;
+}
+
+.l1-option.wrong {
+  border-color: #EF5350;
+  background: #FFEBEE;
+  animation: shake 0.5s ease;
+}
+
+@keyframes correctPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+/* L2-L4 題目 */
+.quiz-sentence {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.quiz-blank {
+  display: inline-block;
+  min-width: 60px;
+  border-bottom: 3px dashed var(--primary);
+  padding: 0 8px;
+  color: var(--primary);
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.quiz-option {
+  padding: 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+
+.quiz-option:hover {
+  border-color: var(--primary);
+  background: #FFF3E0;
+}
+
+.quiz-option.correct {
+  border-color: #4CAF50;
+  background: #E8F5E9;
+}
+
+.quiz-option.wrong {
+  border-color: #EF5350;
+  background: #FFEBEE;
+}
+
+/* 回饋區 */
+.quiz-feedback {
+  text-align: center;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  margin-top: 16px;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  animation: feedbackIn 0.3s ease;
+}
+
+@keyframes feedbackIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.quiz-feedback.correct {
+  background: #E8F5E9;
+  color: #2E7D32;
+  border: 2px solid #A5D6A7;
+}
+
+.quiz-feedback.wrong {
+  background: #FFF3E0;
+  color: #E65100;
+  border: 2px solid #FFCC80;
+}
+
+.next-btn {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: white;
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.next-btn:hover {
+  background: var(--primary-dark);
+}
+
+/* L5 情境對話 */
+.practice-scenario {
+  padding: 20px;
+}
+
+.scenario-select h3 {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.scenario-card {
+  padding: 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+
+.scenario-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.scenario-card .scenario-icon {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.scenario-card .scenario-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.dialogue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.dialogue-location {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.dialogue-back {
+  background: none;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.dialogue-messages {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 12px;
+  background: white;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+}
+
+.dialogue-msg {
+  display: flex;
+  margin-bottom: 12px;
+  animation: msgIn 0.3s ease;
+}
+
+@keyframes msgIn {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.dialogue-msg.other {
+  justify-content: flex-start;
+}
+
+.dialogue-msg.self {
+  justify-content: flex-end;
+}
+
+.msg-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+}
+
+.dialogue-msg.other .msg-bubble {
+  background: #F5F5F5;
+  border-bottom-left-radius: 4px;
+}
+
+.dialogue-msg.self .msg-bubble {
+  background: var(--primary-light);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.msg-speaker {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.dialogue-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dialogue-choice {
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: left;
+}
+
+.dialogue-choice:hover {
+  border-color: var(--primary);
+  background: #FFF3E0;
+}
+
+/* 完成畫面 */
+.practice-complete {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.complete-emoji {
+  font-size: 72px;
+  margin-bottom: 16px;
+  animation: emojiPop 0.5s ease;
+}
+
+.practice-complete h3 {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.complete-score {
+  font-size: var(--font-size-base);
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+.complete-stars {
+  font-size: 36px;
+  margin-bottom: 24px;
+  letter-spacing: 8px;
+}
+
+.complete-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: white;
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 10px;
+}
+
+.complete-btn:hover {
+  background: var(--primary-dark);
+}
+
+.complete-btn.secondary {
+  background: #eee;
+  color: var(--text);
+}
+
+.complete-btn.secondary:hover {
+  background: #ddd;
+}
+
+/* 響應式 */
+@media (max-width: 767px) {
+  .practice-panel {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .l1-prompt {
+    font-size: 60px;
+  }
+
+  .quiz-sentence {
+    font-size: 22px;
+  }
+
+  .scenario-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

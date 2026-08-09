@@ -23,6 +23,7 @@
       <span>阿霖的溝通板</span>
     </div>
     <div class="header-actions">
+      <button class="header-btn" id="practiceBtn" title="語句練習">🎯</button>
       <button class="header-btn" id="favToggleBtn" title="我的收藏">⭐</button>
       <button class="header-btn" id="settingsBtn" title="設定">⚙️</button>
     </div>
@@ -146,6 +147,100 @@
       </div>
     </div>
   </aside>
+
+  <!-- 練習模式面板 -->
+  <div class="practice-overlay" id="practiceOverlay">
+    <div class="practice-panel">
+      <!-- 練習模式頭部 -->
+      <div class="practice-header">
+        <h2>🎯 語句練習</h2>
+        <div class="practice-stars">⭐ <span id="starCount">0</span></div>
+        <button class="practice-close" id="practiceCloseBtn">✕</button>
+      </div>
+
+      <!-- 等級選擇畫面 -->
+      <div class="practice-levels" id="practiceLevels">
+        <h3>選擇難度</h3>
+        <div class="level-grid">
+          <button class="level-card" data-level="L1">
+            <span class="level-icon">⭐</span>
+            <span class="level-name">單詞表達</span>
+            <span class="level-desc">指認圖卡 + 跟讀</span>
+          </button>
+          <button class="level-card" data-level="L2">
+            <span class="level-icon">⭐⭐</span>
+            <span class="level-name">短語組合</span>
+            <span class="level-desc">2-3字短語</span>
+          </button>
+          <button class="level-card" data-level="L3">
+            <span class="level-icon">⭐⭐⭐</span>
+            <span class="level-name">完整短句</span>
+            <span class="level-desc">5-7字短句</span>
+          </button>
+          <button class="level-card" data-level="L4">
+            <span class="level-icon">⭐⭐⭐⭐</span>
+            <span class="level-name">問句與連接</span>
+            <span class="level-desc">完整句子</span>
+          </button>
+          <button class="level-card" data-level="L5">
+            <span class="level-icon">⭐⭐⭐⭐⭐</span>
+            <span class="level-name">情境對話</span>
+            <span class="level-desc">多輪互動</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 練習題目畫面 -->
+      <div class="practice-quiz" id="practiceQuiz" style="display:none;">
+        <!-- 進度條 -->
+        <div class="quiz-progress">
+          <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <span class="progress-text" id="progressText">1/10</span>
+        </div>
+
+        <!-- L1-L4 題目區 -->
+        <div class="quiz-content" id="quizContent">
+          <!-- 動態內容 -->
+        </div>
+
+        <!-- 回饋區 -->
+        <div class="quiz-feedback" id="quizFeedback" style="display:none;"></div>
+
+        <!-- 下一題按鈕 -->
+        <button class="next-btn" id="nextBtn" style="display:none;">下一題 ➡️</button>
+      </div>
+
+      <!-- L5 情境對話畫面 -->
+      <div class="practice-scenario" id="practiceScenario" style="display:none;">
+        <!-- 情境選擇 -->
+        <div class="scenario-select" id="scenarioSelect">
+          <h3>選擇情境</h3>
+          <div class="scenario-grid" id="scenarioGrid"></div>
+        </div>
+        <!-- 對話區 -->
+        <div class="scenario-dialogue" id="scenarioDialogue" style="display:none;">
+          <div class="dialogue-header">
+            <span class="dialogue-location" id="dialogueLocation"></span>
+            <button class="dialogue-back" id="dialogueBackBtn">← 返回</button>
+          </div>
+          <div class="dialogue-messages" id="dialogueMessages"></div>
+          <div class="dialogue-choices" id="dialogueChoices"></div>
+        </div>
+      </div>
+
+      <!-- 完成畫面 -->
+      <div class="practice-complete" id="practiceComplete" style="display:none;">
+        <div class="complete-emoji">🎉</div>
+        <h3>練習完成！</h3>
+        <p class="complete-score" id="completeScore"></p>
+        <div class="complete-stars" id="completeStars"></div>
+        <button class="complete-btn" id="completeRestartBtn">再練一次 🔄</button>
+        <button class="complete-btn secondary" id="completeBackBtn">回到選擇</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast 通知 -->
   <div class="toast" id="toast"></div>

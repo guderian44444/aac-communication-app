@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
   applySettings();
   renderQuickBar();
   setupEventListeners();
+  setupPracticeEvents();
 
   // 載入系統語音
   if ('speechSynthesis' in window) {
@@ -903,4 +904,521 @@ if ('serviceWorker' in navigator) {
         console.log('⚠️ PWA 註冊失敗:', err);
       });
   });
+}
+
+// ===== 練習模式 =====
+let practiceData = null;
+let practiceStars = parseInt(localStorage.getItem('practice_stars') || '0');
+let currentLevel = null;
+let currentQuiz = [];
+let quizIndex = 0;
+let quizCorrect = 0;
+let quizTotal = 10;
+let scenarioIndex = null;
+let dialogueStep = 0;
+
+// ===== Emoji 對照表 =====
+const emojiMap = {
+  // 食物飲料
+  '水': '💧', '牛奶': '🥛', '蘋果': '🍎', '香蕉': '🍌', '餅乾': '🍪',
+  '麵包': '🍞', '飯': '🍚', '麵': '🍜', '肉': '🥩', '菜': '🥬',
+  '果汁': '🧃', '漢堡': '🍔', '飲料': '🥤', '藥': '💊',
+  // 家人
+  '媽媽': '👩', '爸爸': '👨', '哥哥': '👦', '姐姐': '👧',
+  '老師': '👩‍🏫', '同學': '🧑‍🎓', '醫生': '👨‍⚕️', '我': '🙋',
+  // 用品
+  '玩具': '🧸', '書': '📖', '筆': '✏️', '衣服': '👕', '鞋子': '👟',
+  '襪子': '🧦', '帽子': '🧢', '包包': '👜',
+  // 身體
+  '頭': '🗣️', '手': '✋', '腳': '🦶', '眼睛': '👀', '耳朵': '👂',
+  '嘴巴': '👄', '鼻子': '👃', '肚子': '🤰',
+  // 顏色
+  '紅色': '🔴', '藍色': '🔵', '黃色': '🟡', '綠色': '🟢', '白色': '⚪', '黑色': '⚫',
+  // 動詞
+  '吃': '🍽️', '喝': '🥤', '玩': '🎮', '看': '👀', '聽': '👂',
+  '拿': '✋', '放': '📦', '走': '🚶', '跑': '🏃', '坐': '🪑',
+  '站': '🧍', '睡': '😴', '洗': '🚿', '穿': '👔',
+  // 其他
+  '星星': '⭐', '電視': '📺', '滑梯': '🛝', '鞦韆': '🎠',
+  '故事': '📚', '公園': '🏞️', '學校': '🏫',
+};
+
+function getEmoji(text) {
+  return emojiMap[text] || '📝';
+}
+
+// ===== 載入練習資料 =====
+async function loadPracticeData() {
+  try {
+    const resp = await fetch('data/practice.json');
+    practiceData = await resp.json();
+    updateStarCount();
+  } catch (e) {
+    console.error('Failed to load practice data:', e);
+  }
+}
+
+function updateStarCount() {
+  const el = document.getElementById('starCount');
+  if (el) el.textContent = practiceStars;
+}
+
+// ===== 開啟/關閉練習 =====
+async function openPractice() {
+  document.getElementById('practiceOverlay').classList.add('open');
+  showPracticeLevels();
+  if (!practiceData) {
+    await loadPracticeData();
+  }
+}
+
+function closePractice() {
+  document.getElementById('practiceOverlay').classList.remove('open');
+}
+
+function showPracticeLevels() {
+  document.getElementById('practiceLevels').style.display = 'block';
+  document.getElementById('practiceQuiz').style.display = 'none';
+  document.getElementById('practiceScenario').style.display = 'none';
+  document.getElementById('practiceComplete').style.display = 'none';
+}
+
+// ===== 開始 L1-L4 練習 =====
+async function startQuiz(level) {
+  if (!practiceData) {
+    await loadPracticeData();
+  }
+  if (!practiceData) return;
+
+  currentLevel = level;
+  quizIndex = 0;
+  quizCorrect = 0;
+
+  // 根據等級生成題目
+  const levels = practiceData.levels;
+  if (level === 'L5') {
+    startScenario();
+    return;
+  }
+
+  currentQuiz = generateQuiz(level, levels);
+
+  document.getElementById('practiceLevels').style.display = 'none';
+  document.getElementById('practiceQuiz').style.display = 'block';
+  document.getElementById('practiceScenario').style.display = 'none';
+  document.getElementById('practiceComplete').style.display = 'none';
+
+  showQuestion();
+}
+
+// ===== 生成題目 =====
+function generateQuiz(level, levels) {
+  const quizzes = [];
+  // 映射 level key
+  const levelKeys = {
+    'L1': 'L1_單詞表達',
+    'L2': 'L2_短語組合',
+    'L3': 'L3_完整短句',
+    'L4': 'L4_問句與連接'
+  };
+  const data = levels[levelKeys[level]];
+
+  if (level === 'L1') {
+    // L1: 看 emoji 選單詞
+    const allWords = [];
+    const nouns = data.nouns;
+    for (const cat in nouns) {
+      nouns[cat].forEach(w => allWords.push(w));
+    }
+    data.verbs.forEach(w => allWords.push(w));
+    data.adjectives.forEach(w => allWords.push(w));
+
+    // 隨機選 10 題
+    const shuffled = allWords.sort(() => Math.random() - 0.5).slice(0, quizTotal);
+    shuffled.forEach(word => {
+      // 生成干擾選項
+      const wrongOptions = allWords.filter(w => w !== word).sort(() => Math.random() - 0.5).slice(0, 3);
+      const options = [...wrongOptions, word].sort(() => Math.random() - 0.5);
+      quizzes.push({
+        type: 'l1',
+        emoji: getEmoji(word),
+        word: word,
+        options: options,
+        answer: word
+      });
+    });
+  } else if (level === 'L2') {
+    // L2: 短語填空
+    const allPhrases = [];
+    for (const cat in data.phrases) {
+      data.phrases[cat].forEach(p => allPhrases.push(p));
+    }
+    const shuffled = allPhrases.sort(() => Math.random() - 0.5).slice(0, quizTotal);
+    shuffled.forEach(phrase => {
+      // 把最後 1-2 字挖空
+      const blankLen = phrase.length >= 4 ? 2 : 1;
+      const blank = phrase.slice(-blankLen);
+      const visible = phrase.slice(0, -blankLen);
+      // 從所有短語中取干擾選項
+      const wrongOptions = allPhrases.filter(p => p !== phrase).sort(() => Math.random() - 0.5).slice(0, 3);
+      // 取對應字數的結尾作為干擾
+      const distractors = wrongOptions.map(p => p.slice(-blankLen)).filter(d => d !== blank);
+      const options = [...distractors.slice(0, 3), blank].sort(() => Math.random() - 0.5);
+      quizzes.push({
+        type: 'fill',
+        visible: visible,
+        blank: blank,
+        full: phrase,
+        options: options,
+        answer: blank
+      });
+    });
+  } else if (level === 'L3' || level === 'L4') {
+    // L3/L4: 句型選擇
+    const allSentences = [];
+    for (const cat in data.sentence_patterns) {
+      data.sentence_patterns[cat].forEach(s => allSentences.push({ text: s, category: cat }));
+    }
+    const shuffled = allSentences.sort(() => Math.random() - 0.5).slice(0, quizTotal);
+    shuffled.forEach(item => {
+      // 挖空關鍵詞（最後 2-4 字）
+      const text = item.text;
+      const blankLen = Math.min(text.length - 2, Math.max(2, Math.floor(Math.random() * 3) + 2));
+      const blank = text.slice(-blankLen);
+      const visible = text.slice(0, -blankLen);
+      // 干擾選項
+      const wrongOptions = allSentences.filter(s => s.text !== text).sort(() => Math.random() - 0.5).slice(0, 3);
+      const distractors = wrongOptions.map(s => s.text.slice(-blankLen)).filter(d => d !== blank);
+      const options = [...distractors.slice(0, 3), blank].sort(() => Math.random() - 0.5);
+      quizzes.push({
+        type: 'fill',
+        visible: visible,
+        blank: blank,
+        full: text,
+        options: options,
+        answer: blank,
+        category: item.category
+      });
+    });
+  }
+
+  return quizzes;
+}
+
+// ===== 顯示題目 =====
+function showQuestion() {
+  if (quizIndex >= currentQuiz.length) {
+    showComplete();
+    return;
+  }
+
+  const q = currentQuiz[quizIndex];
+  const content = document.getElementById('quizContent');
+  const feedback = document.getElementById('quizFeedback');
+  const nextBtn = document.getElementById('nextBtn');
+
+  // 更新進度
+  const progress = ((quizIndex) / currentQuiz.length) * 100;
+  document.getElementById('progressFill').style.width = progress + '%';
+  document.getElementById('progressText').textContent = `${quizIndex + 1}/${currentQuiz.length}`;
+
+  feedback.style.display = 'none';
+  nextBtn.style.display = 'none';
+
+  if (q.type === 'l1') {
+    // L1: 看 emoji 選詞
+    content.innerHTML = `
+      <div class="l1-prompt">${q.emoji}</div>
+      <div class="l1-instruction">這個是什麼？</div>
+      <div class="l1-options">
+        ${q.options.map((opt, i) => `<button class="l1-option" data-value="${opt}">${opt}</button>`).join('')}
+      </div>
+    `;
+    // 語音提示
+    practiceSpeak(q.word);
+
+    content.querySelectorAll('.l1-option').forEach(btn => {
+      btn.onclick = () => checkAnswer(btn, btn.dataset.value, q.answer, q.word);
+    });
+  } else {
+    // L2-L4: 填空
+    content.innerHTML = `
+      <div class="quiz-sentence">${q.visible}<span class="quiz-blank">____</span></div>
+      <div class="quiz-options">
+        ${q.options.map((opt, i) => `<button class="quiz-option" data-value="${opt}">${opt}</button>`).join('')}
+      </div>
+    `;
+
+    content.querySelectorAll('.quiz-option').forEach(btn => {
+      btn.onclick = () => checkAnswer(btn, btn.dataset.value, q.answer, q.full);
+    });
+  }
+}
+
+// ===== 檢查答案 =====
+function checkAnswer(btn, selected, answer, fullText) {
+  const feedback = document.getElementById('quizFeedback');
+  const nextBtn = document.getElementById('nextBtn');
+  const allBtns = btn.parentElement.querySelectorAll('button');
+
+  // 禁用所有按鈕
+  allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+  if (selected === answer) {
+    // 正確
+    btn.classList.add('correct');
+    quizCorrect++;
+    practiceStars++;
+    updateStarCount();
+    localStorage.setItem('practice_stars', practiceStars.toString());
+
+    const encouragements = practiceData.reward_phrases.encouragement;
+    const msg = encouragements[Math.floor(Math.random() * encouragements.length)];
+    feedback.className = 'quiz-feedback correct';
+    feedback.innerHTML = `✅ ${msg}<br>🔊 ${fullText}`;
+    feedback.style.display = 'block';
+
+    practiceSpeak(fullText);
+  } else {
+    // 錯誤 - 標記正確答案
+    allBtns.forEach(b => {
+      if (b.dataset.value === answer) b.classList.add('correct');
+    });
+    btn.classList.add('wrong');
+
+    const retries = practiceData.reward_phrases.retry;
+    const msg = retries[Math.floor(Math.random() * retries.length)];
+    feedback.className = 'quiz-feedback wrong';
+    feedback.innerHTML = `💪 ${msg}<br>答案是：${answer}`;
+    feedback.style.display = 'block';
+
+    practiceSpeak(answer);
+  }
+
+  nextBtn.style.display = 'block';
+}
+
+// ===== 下一題 =====
+function nextQuestion() {
+  quizIndex++;
+  showQuestion();
+}
+
+// ===== 完成畫面 =====
+function showComplete() {
+  document.getElementById('practiceQuiz').style.display = 'none';
+  document.getElementById('practiceComplete').style.display = 'block';
+
+  const score = document.getElementById('completeScore');
+  const stars = document.getElementById('completeStars');
+
+  score.textContent = `答對 ${quizCorrect}/${currentQuiz.length} 題`;
+
+  // 星星評級
+  const ratio = quizCorrect / currentQuiz.length;
+  let starCount = 0;
+  if (ratio >= 0.9) starCount = 3;
+  else if (ratio >= 0.7) starCount = 2;
+  else if (ratio >= 0.4) starCount = 1;
+
+  stars.textContent = '⭐'.repeat(starCount) + '☆'.repeat(3 - starCount);
+
+  // 語音回饋
+  if (ratio >= 0.7) {
+    practiceSpeak('太棒了，你做得很好！');
+  } else {
+    practiceSpeak('繼續加油，你可以的！');
+  }
+}
+
+// ===== L5 情境對話 =====
+async function startScenario() {
+  if (!practiceData) {
+    await loadPracticeData();
+  }
+  if (!practiceData) return;
+
+  document.getElementById('practiceLevels').style.display = 'none';
+  document.getElementById('practiceQuiz').style.display = 'none';
+  document.getElementById('practiceScenario').style.display = 'block';
+  document.getElementById('practiceComplete').style.display = 'none';
+
+  const scenarios = practiceData.levels['L5_情境對話'].scenarios;
+  const grid = document.getElementById('scenarioGrid');
+  grid.innerHTML = '';
+
+  const scenarioIcons = {
+    '餐廳點餐': '🍔',
+    '學校上課': '🏫',
+    '商店買東西': '🛒',
+    '身體不舒服': '🏥',
+    '公園玩耍': '🎠',
+    '洗澡睡覺': '🛁'
+  };
+
+  Object.keys(scenarios).forEach(name => {
+    const card = document.createElement('button');
+    card.className = 'scenario-card';
+    card.innerHTML = `
+      <span class="scenario-icon">${scenarioIcons[name] || '💬'}</span>
+      <span class="scenario-name">${name}</span>
+    `;
+    card.onclick = () => startDialogue(name, scenarios[name]);
+    grid.appendChild(card);
+  });
+
+  document.getElementById('scenarioSelect').style.display = 'block';
+  document.getElementById('scenarioDialogue').style.display = 'none';
+}
+
+function startDialogue(name, scenario) {
+  scenarioIndex = name;
+  dialogueStep = 0;
+
+  document.getElementById('scenarioSelect').style.display = 'none';
+  document.getElementById('scenarioDialogue').style.display = 'block';
+
+  document.getElementById('dialogueLocation').textContent = `📍 ${scenario.location}`;
+  document.getElementById('dialogueMessages').innerHTML = '';
+
+  showDialogueStep(scenario);
+}
+
+function showDialogueStep(scenario) {
+  const messages = document.getElementById('dialogueMessages');
+  const choices = document.getElementById('dialogueChoices');
+  choices.innerHTML = '';
+
+  // 顯示對話
+  const dialogue = scenario.dialogue;
+  for (let i = 0; i <= dialogueStep && i < dialogue.length; i++) {
+    const msg = dialogue[i];
+    const isSelf = msg.speaker === '阿霖';
+
+    if (!msg.options) {
+      // NPC 的台詞
+      const div = document.createElement('div');
+      div.className = `dialogue-msg ${isSelf ? 'self' : 'other'}`;
+      div.innerHTML = `
+        <div class="msg-bubble">
+          ${!isSelf ? `<div class="msg-speaker">${msg.speaker}</div>` : ''}
+          ${msg.text}
+        </div>
+      `;
+      messages.appendChild(div);
+
+      // NPC 語音
+      if (!isSelf) {
+        practiceSpeak(msg.text);
+      }
+    } else {
+      // 阿霖的選擇 - 顯示選項
+      msg.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'dialogue-choice';
+        btn.textContent = opt;
+        btn.onclick = () => {
+          // 加入選擇到對話
+          const div = document.createElement('div');
+          div.className = 'dialogue-msg self';
+          div.innerHTML = `<div class="msg-bubble">${opt}</div>`;
+          messages.appendChild(div);
+
+          // 語音
+          practiceSpeak(opt);
+
+          // 加分
+          practiceStars++;
+          updateStarCount();
+          localStorage.setItem('practice_stars', practiceStars.toString());
+
+          // 隱藏選項，進到下一步
+          choices.innerHTML = '';
+          dialogueStep++;
+
+          if (dialogueStep < dialogue.length) {
+            setTimeout(() => showDialogueStep(scenario), 500);
+          } else {
+            // 對話完成
+            setTimeout(() => {
+              showScenarioComplete();
+            }, 800);
+          }
+        };
+        choices.appendChild(btn);
+      });
+      break;
+    }
+  }
+
+  // 滾動到底部
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function showScenarioComplete() {
+  document.getElementById('scenarioDialogue').style.display = 'none';
+  document.getElementById('practiceComplete').style.display = 'block';
+
+  const score = document.getElementById('completeScore');
+  const stars = document.getElementById('completeStars');
+
+  score.textContent = `${scenarioIndex} 對話完成！`;
+  stars.textContent = '⭐⭐⭐';
+
+  practiceSpeak('對話完成，你做得很好！');
+}
+
+function backToScenarios() {
+  document.getElementById('scenarioDialogue').style.display = 'none';
+  document.getElementById('scenarioSelect').style.display = 'block';
+}
+
+// ===== 練習語音 =====
+function practiceSpeak(text) {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'zh-TW';
+  const voice = specialVoices[settings.specialVoice] || specialVoices.normal;
+  utter.rate = clamp(settings.speechRate * voice.rateMul, 0.1, 10);
+  utter.pitch = clamp(settings.speechPitch + voice.pitchAdd, 0, 2);
+  applySelectedVoice(utter);
+  speechSynthesis.speak(utter);
+}
+
+// ===== 練習模式事件監聽 =====
+function setupPracticeEvents() {
+  // 開啟練習
+  document.getElementById('practiceBtn').onclick = openPractice;
+
+  // 關閉
+  document.getElementById('practiceCloseBtn').onclick = closePractice;
+
+  // 等級選擇
+  document.querySelectorAll('.level-card').forEach(card => {
+    card.onclick = () => startQuiz(card.dataset.level);
+  });
+
+  // 下一題
+  document.getElementById('nextBtn').onclick = nextQuestion;
+
+  // 完成畫面按鈕
+  document.getElementById('completeRestartBtn').onclick = () => {
+    if (currentLevel === 'L5') {
+      startScenario();
+    } else {
+      startQuiz(currentLevel);
+    }
+  };
+
+  document.getElementById('completeBackBtn').onclick = () => {
+    if (currentLevel === 'L5') {
+      startScenario();
+    } else {
+      showPracticeLevels();
+    }
+  };
+
+  // 對話返回
+  document.getElementById('dialogueBackBtn').onclick = backToScenarios;
 }
