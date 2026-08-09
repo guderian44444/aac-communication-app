@@ -1,6 +1,6 @@
 /* ===== 阿霖的溝通板 - Service Worker (PWA 離線支援) ===== */
 
-const CACHE_NAME = 'alin-aac-v1';
+const CACHE_NAME = 'alin-aac-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -12,12 +12,12 @@ const ASSETS_TO_CACHE = [
   './icon-512.png'
 ];
 
-// 安裝 Service Worker - 快取所有資源
+// 安裝 Service Worker - 快取核心資源
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('PWA: 快取資源中...');
+        console.log('PWA v2: 快取資源中...');
         return cache.addAll(ASSETS_TO_CACHE);
       })
       .then(() => self.skipWaiting())
@@ -40,30 +40,24 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// 攔截請求 - 優先從快取讀取，失敗才走網路
+// 攔截請求 - Network First（先網路後快取）
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        if (response) {
-          return response; // 從快取回傳
+    // 先嘗試從網路取得最新資源
+    fetch(event.request)
+      .then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseClone = networkResponse.clone();
+          // 同時更新快取
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
         }
-        // 快取沒有才走網路
-        return fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseClone);
-            });
-          }
-          return networkResponse;
-        });
+        return networkResponse;
       })
       .catch(() => {
-        // 完全離線時回傳空白頁面
-        if (event.request.destination === 'document') {
-          return caches.match('./index.html');
-        }
+        // 網路失敗才回傳快取（離線模式）
+        return caches.match(event.request);
       })
   );
 });

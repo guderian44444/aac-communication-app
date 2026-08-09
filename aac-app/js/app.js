@@ -542,6 +542,26 @@ function setupEventListeners() {
 
   // Preview button
   document.getElementById('previewBtn').onclick = previewVoice;
+
+  // Clear cache button
+  document.getElementById('clearCacheBtn').onclick = () => {
+    if (confirm('確定要清除快取並重新載入嗎？')) {
+      // 清除 Service Worker 快取
+      if ('caches' in window) {
+        caches.keys().then(names => {
+          Promise.all(names.map(name => caches.delete(name)))
+            .then(() => {
+              showToast('快取已清除，重新載入中...');
+              setTimeout(() => {
+                location.reload(true);
+              }, 1000);
+            });
+        });
+      } else {
+        location.reload(true);
+      }
+    }
+  };
 }
 
 // ===== 儲存設定 =====
