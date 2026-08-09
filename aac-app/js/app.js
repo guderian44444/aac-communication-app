@@ -58,9 +58,10 @@ async function loadVocabulary() {
 function renderCategories() {
   const nav = document.getElementById('categoryNav');
   nav.innerHTML = '';
-  vocabulary.categories.forEach(cat => {
+  vocabulary.categories.forEach((cat, i) => {
     const btn = document.createElement('button');
-    btn.className = 'cat-btn';
+    btn.className = 'cat-btn slide-in';
+    btn.style.animationDelay = (i * 0.05) + 's';
     btn.dataset.id = cat.id;
     btn.innerHTML = `<span class="cat-icon">${cat.icon}</span><span>${cat.name}</span>`;
     btn.onclick = () => selectCategory(cat);
@@ -96,10 +97,13 @@ function renderSubcategories(cat) {
   const nav = document.getElementById('subcategoryNav');
   nav.innerHTML = '';
   nav.style.display = 'flex';
+  nav.classList.add('expand');
+  setTimeout(() => nav.classList.remove('expand'), 300);
 
-  cat.subcategories.forEach(sub => {
+  cat.subcategories.forEach((sub, i) => {
     const btn = document.createElement('button');
-    btn.className = 'sub-btn';
+    btn.className = 'sub-btn slide-in';
+    btn.style.animationDelay = (i * 0.05) + 's';
     btn.dataset.id = sub.id;
     btn.innerHTML = `<span class="sub-icon">${sub.icon}</span><span>${sub.name}</span>`;
     btn.onclick = () => selectSubcategory(sub);
@@ -124,14 +128,22 @@ function renderItems(items) {
   const grid = document.getElementById('iconGrid');
   grid.innerHTML = '';
 
-  items.forEach(item => {
+  items.forEach((item, i) => {
     const card = document.createElement('div');
-    card.className = 'icon-card';
+    card.className = 'icon-card fade-in';
+    card.style.animationDelay = (i * 0.03) + 's';
     card.innerHTML = `
       <span class="card-emoji">${item.emoji}</span>
       <span class="card-text">${item.text}</span>
     `;
-    card.onclick = () => addToSentence(item);
+    card.onclick = () => {
+      // 水波動畫
+      createRipple(card, event);
+      // 彈跳動畫
+      card.classList.add('bounce');
+      setTimeout(() => card.classList.remove('bounce'), 400);
+      addToSentence(item);
+    };
     grid.appendChild(card);
   });
 }
@@ -198,8 +210,18 @@ function renderSentence() {
 
 // ===== 從句子移除 =====
 function removeFromSentence(idx) {
-  sentenceItems.splice(idx, 1);
-  renderSentence();
+  // 移除動畫
+  const chips = document.querySelectorAll('.sentence-chip');
+  if (chips[idx]) {
+    chips[idx].classList.add('removing');
+    setTimeout(() => {
+      sentenceItems.splice(idx, 1);
+      renderSentence();
+    }, 250);
+  } else {
+    sentenceItems.splice(idx, 1);
+    renderSentence();
+  }
 }
 
 // ===== 語音輸出 =====
@@ -225,14 +247,41 @@ function speakSentence() {
   utter.lang = 'zh-TW';
   utter.rate = settings.speechRate;
   utter.pitch = settings.speechPitch;
+  
+  // 語音播放動畫
+  const speakBtn = document.getElementById('speakBtn');
+  speakBtn.classList.add('speaking');
+  utter.onend = () => speakBtn.classList.remove('speaking');
+  
   speechSynthesis.cancel();
   speechSynthesis.speak(utter);
 }
 
 // ===== 清除句子 =====
 function clearSentence() {
-  sentenceItems = [];
-  renderSentence();
+  if (sentenceItems.length === 0) return;
+  // 全部 chip 移除動畫
+  const chips = document.querySelectorAll('.sentence-chip');
+  chips.forEach((chip, i) => {
+    setTimeout(() => chip.classList.add('removing'), i * 50);
+  });
+  setTimeout(() => {
+    sentenceItems = [];
+    renderSentence();
+  }, chips.length * 50 + 250);
+}
+
+// ===== 水波動畫 =====
+function createRipple(element, e) {
+  const ripple = document.createElement('span');
+  ripple.className = 'ripple-circle';
+  const rect = element.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  ripple.style.width = ripple.style.height = size + 'px';
+  ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+  ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+  element.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 600);
 }
 
 // ===== 加入收藏 =====
