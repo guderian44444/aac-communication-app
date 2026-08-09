@@ -316,18 +316,21 @@ function loadVoices() {
   const maleKeywords = ['zhiwei', 'yunxi', 'yunjian', 'yan', 'male', '男', 'wei', 'chen', 'kunming', 'hanwei'];
   const femaleKeywords = ['hanhan', 'yating', 'xiaoxiao', 'huihui', 'hui-mei', 'tingting', 'female', '女', 'mei-jia', 'ting-ting'];
 
-  // 收集所有語音（不只中文，因為手機可能用不同 lang code）
+  // 收集語音
   const zhVoices = [];
-  const otherVoices = [];
+  const jaVoices = [];
+  const koVoices = [];
 
   availableVoices.forEach(voice => {
     const name = voice.name.toLowerCase();
     const lang = voice.lang.toLowerCase();
 
-    // 判斷是否為中文語音（更寬鬆的比對）
-    const isZh = lang.startsWith('zh') || lang.includes('cmn') || lang.includes('mandarin') ||
-                 lang.includes('tw') || lang.includes('hk') || lang.includes('cn') ||
-                 name.includes('chinese') || name.includes('mandarin');
+    // 判斷語系
+    const isZh = lang.startsWith('zh');
+    const isJa = lang.startsWith('ja');
+    const isKo = lang.startsWith('ko');
+
+    if (!isZh && !isJa && !isKo) return;
 
     // 判斷性別
     let gender = 'other';
@@ -343,14 +346,12 @@ function loadVoices() {
     opt.value = voice.voiceURI;
     opt.textContent = `${emoji} ${voice.name} [${voice.lang}]`;
 
-    if (isZh) {
-      zhVoices.push({ opt, voice, gender });
-    } else {
-      otherVoices.push({ opt, voice, gender });
-    }
+    if (isZh) zhVoices.push({ opt, voice, gender });
+    else if (isJa) jaVoices.push({ opt, voice, gender });
+    else if (isKo) koVoices.push({ opt, voice, gender });
   });
 
-  // 先放中文語音，按性別分組
+  // 分組顯示
   const addGroup = (voices, groupLabel) => {
     if (voices.length === 0) return;
     const optGroup = document.createElement('optgroup');
@@ -359,12 +360,18 @@ function loadVoices() {
     voiceSelect.appendChild(optGroup);
   };
 
-  addGroup(zhVoices.filter(v => v.gender === 'male'), '👨 男聲');
-  addGroup(zhVoices.filter(v => v.gender === 'female'), '👩 女聲');
-  addGroup(zhVoices.filter(v => v.gender === 'other'), '🗣️ 其他');
+  addGroup(zhVoices.filter(v => v.gender === 'male'), '🇹🇼 中文男聲');
+  addGroup(zhVoices.filter(v => v.gender === 'female'), '🇹🇼 中文女聲');
+  addGroup(zhVoices.filter(v => v.gender === 'other'), '🇹🇼 中文其他');
+  addGroup(jaVoices.filter(v => v.gender === 'male'), '🇯🇵 日文男聲');
+  addGroup(jaVoices.filter(v => v.gender === 'female'), '🇯🇵 日文女聲');
+  addGroup(jaVoices.filter(v => v.gender === 'other'), '🇯🇵 日文其他');
+  addGroup(koVoices.filter(v => v.gender === 'male'), '🇰🇷 韓文男聲');
+  addGroup(koVoices.filter(v => v.gender === 'female'), '🇰🇷 韓文女聲');
+  addGroup(koVoices.filter(v => v.gender === 'other'), '🇰🇷 韓文其他');
 
   // 偵測目前裝置語音數量
-  console.log(`[TTS] 共載入 ${availableVoices.length} 個語音，中文: ${zhVoices.length}`);
+  console.log(`[TTS] 共載入 ${availableVoices.length} 個語音，中文: ${zhVoices.length}, 日文: ${jaVoices.length}, 韓文: ${koVoices.length}`);
 }
 
 // ===== 語音輸出 =====
@@ -416,8 +423,27 @@ function speakSentence() {
 // ===== 預覽語音 =====
 function previewVoice() {
   if (!('speechSynthesis' in window)) return;
-  const utter = new SpeechSynthesisUtterance('你好呀，我是阿霖的溝通板');
-  utter.lang = 'zh-TW';
+
+  // 根據選定語音決定預覽文字
+  const voiceSelect = document.getElementById('voiceSelect');
+  let previewText = '你好呀，我是阿霖的溝通板';
+  let previewLang = 'zh-TW';
+
+  if (voiceSelect && voiceSelect.value) {
+    const selected = availableVoices.find(v => v.voiceURI === voiceSelect.value);
+    if (selected) {
+      previewLang = selected.lang;
+      const lang = selected.lang.toLowerCase();
+      if (lang.startsWith('ja')) {
+        previewText = 'こんにちは、アリンのコミュニケーションボードです';
+      } else if (lang.startsWith('ko')) {
+        previewText = '안녕하세요, 알린 의사소통 보드입니다';
+      }
+    }
+  }
+
+  const utter = new SpeechSynthesisUtterance(previewText);
+  utter.lang = previewLang;
   
   // 套用特殊語調
   const voice = specialVoices[settings.specialVoice] || specialVoices.normal;
@@ -438,6 +464,8 @@ function applySelectedVoice(utter) {
   const selected = availableVoices.find(v => v.voiceURI === voiceSelect.value);
   if (selected) {
     utter.voice = selected;
+    // 根據語音的語言自動設定 utter.lang
+    utter.lang = selected.lang;
   }
 }
 
