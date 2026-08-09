@@ -1,857 +1,6 @@
 {
   "extensions": [
     {
-      "id": "shopping",
-      "name": "買東西用語",
-      "icon": "🛒",
-      "description": "商店、市場購物相關用語",
-      "category": {
-        "id": "shopping",
-        "name": "買東西",
-        "icon": "🛒",
-        "color": "#FF8A65",
-        "bgColor": "#FFF8F0",
-        "subcategories": [
-          {
-            "id": "shopping_action",
-            "name": "購買動作",
-            "icon": "💰",
-            "items": [
-              {
-                "id": "buy",
-                "text": "我要買",
-                "emoji": "🛒",
-                "ja": "買います",
-                "ko": "사겠습니다"
-              },
-              {
-                "id": "how_much",
-                "text": "多少錢",
-                "emoji": "💰",
-                "ja": "いくら",
-                "ko": "얼마예요"
-              },
-              {
-                "id": "too_expensive",
-                "text": "太貴了",
-                "emoji": "😰",
-                "ja": "高い",
-                "ko": "비싸요"
-              },
-              {
-                "id": "cheap",
-                "text": "便宜",
-                "emoji": "😊",
-                "ja": "安い",
-                "ko": "싸요"
-              },
-              {
-                "id": "discount",
-                "text": "打折",
-                "emoji": "🏷️",
-                "ja": "割引",
-                "ko": "할인"
-              },
-              {
-                "id": "change",
-                "text": "找錢",
-                "emoji": "💵",
-                "ja": "お釣り",
-                "ko": "거스름돈"
-              },
-              {
-                "id": "receipt",
-                "text": "收據",
-                "emoji": "🧾",
-                "ja": "レシート",
-                "ko": "영수증"
-              },
-              {
-                "id": "bag",
-                "text": "袋子",
-                "emoji": "🛍️",
-                "ja": "袋",
-                "ko": "봉투"
-              },
-              {
-                "id": "scan",
-                "text": "掃碼",
-                "emoji": "📱",
-                "ja": "スキャン",
-                "ko": "스캔"
-              },
-              {
-                "id": "pay",
-                "text": "付款",
-                "emoji": "💳",
-                "ja": "支払い",
-                "ko": "결제"
-              },
-              {
-                "id": "cash",
-                "text": "現金",
-                "emoji": "💵",
-                "ja": "現金",
-                "ko": "현금"
-              },
-              {
-                "id": "card",
-                "text": "刷卡",
-                "emoji": "💳",
-                "ja": "カード",
-                "ko": "카드"
-              },
-              {
-                "id": "linepay",
-                "text": "行動支付",
-                "emoji": "📲",
-                "ja": "スマホ決済",
-                "ko": "모바일결제"
-              },
-              {
-                "id": "return",
-                "text": "退貨",
-                "emoji": "↩️",
-                "ja": "返品",
-                "ko": "반품"
-              },
-              {
-                "id": "exchange",
-                "text": "換貨",
-                "emoji": "🔄",
-                "ja": "交換",
-                "ko": "교환"
-              },
-              {
-                "id": "try_on",
-                "text": "試穿",
-                "emoji": "👕",
-                "ja": "試着",
-                "ko": "착용"
-              },
-              {
-                "id": "size",
-                "text": "尺寸",
-                "emoji": "📏",
-                "ja": "サイズ",
-                "ko": "사이즈"
-              },
-              {
-                "id": "color",
-                "text": "顏色",
-                "emoji": "🎨",
-                "ja": "色",
-                "ko": "색상"
-              },
-              {
-                "id": "this_one",
-                "text": "這個",
-                "emoji": "☝️",
-                "ja": "これ",
-                "ko": "이것"
-              },
-              {
-                "id": "all",
-                "text": "全部",
-                "emoji": "📦",
-                "ja": "全部",
-                "ko": "전부"
-              }
-            ]
-          },
-          {
-            "id": "shopping_place",
-            "name": "購物地點",
-            "icon": "🏪",
-            "items": [
-              {
-                "id": "supermarket",
-                "text": "超市",
-                "emoji": "🏪",
-                "ja": "スーパー",
-                "ko": "슈퍼"
-              },
-              {
-                "id": "mall",
-                "text": "購物中心",
-                "emoji": "🏬",
-                "ja": "ショッピングモール",
-                "ko": "쇼핑몰"
-              },
-              {
-                "id": "market",
-                "text": "市場",
-                "emoji": "🏪",
-                "ja": "市場",
-                "ko": "시장"
-              },
-              {
-                "id": "convenience",
-                "text": "便利商店",
-                "emoji": "🏪",
-                "ja": "コンビニ",
-                "ko": "편의점"
-              },
-              {
-                "id": "pharmacy",
-                "text": "藥局",
-                "emoji": "💊",
-                "ja": "薬局",
-                "ko": "약국"
-              },
-              {
-                "id": "bookstore",
-                "text": "書店",
-                "emoji": "📚",
-                "ja": "本屋",
-                "ko": "서점"
-              },
-              {
-                "id": "clothing",
-                "text": "衣店",
-                "emoji": "👕",
-                "ja": "衣類店",
-                "ko": "의류점"
-              },
-              {
-                "id": "bakery",
-                "text": "麵包店",
-                "emoji": "🍞",
-                "ja": "パン屋",
-                "ko": "빵집"
-              },
-              {
-                "id": "fruit_shop",
-                "text": "水果店",
-                "emoji": "🍎",
-                "ja": "果物屋",
-                "ko": "과일가게"
-              },
-              {
-                "id": "florist",
-                "text": "花店",
-                "emoji": "💐",
-                "ja": "花屋",
-                "ko": "꽃집"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "id": "bus",
-      "name": "搭車用語",
-      "icon": "🚌",
-      "description": "公車、計程車、火車等交通工具",
-      "category": {
-        "id": "bus",
-        "name": "搭車",
-        "icon": "🚌",
-        "color": "#42A5F5",
-        "bgColor": "#F0F8FF",
-        "subcategories": [
-          {
-            "id": "bus_action",
-            "name": "搭乘動作",
-            "icon": "🎫",
-            "items": [
-              {
-                "id": "get_on",
-                "text": "上車",
-                "emoji": "🚌",
-                "ja": "乗ります",
-                "ko": "탑승해요"
-              },
-              {
-                "id": "get_off",
-                "text": "下車",
-                "emoji": "🚪",
-                "ja": "降ります",
-                "ko": "내려요"
-              },
-              {
-                "id": "ticket",
-                "text": "票",
-                "emoji": "🎫",
-                "ja": "切符",
-                "ko": "표"
-              },
-              {
-                "id": "one_way",
-                "text": "單程",
-                "emoji": "➡️",
-                "ja": "片道",
-                "ko": "편도"
-              },
-              {
-                "id": "round_trip",
-                "text": "來回",
-                "emoji": "🔄",
-                "ja": "往復",
-                "ko": "왕복"
-              },
-              {
-                "id": "next_stop",
-                "text": "下一站",
-                "emoji": "📍",
-                "ja": "次の駅",
-                "ko": "다음 정류장"
-              },
-              {
-                "id": "which_way",
-                "text": "哪一輛",
-                "emoji": "🤔",
-                "ja": "どの方面",
-                "ko": "어느 방향"
-              },
-              {
-                "id": "how_long",
-                "text": "多久",
-                "emoji": "⏰",
-                "ja": "どのくらい",
-                "ko": "얼마나"
-              },
-              {
-                "id": "transfer",
-                "text": "轉車",
-                "emoji": "🔄",
-                "ja": "乗り換え",
-                "ko": "환승"
-              },
-              {
-                "id": "full",
-                "text": "滿了",
-                "emoji": "😰",
-                "ja": "満員",
-                "ko": "만원"
-              },
-              {
-                "id": "empty_seat",
-                "text": "有空位",
-                "emoji": "💺",
-                "ja": "空席",
-                "ko": "빈자리"
-              },
-              {
-                "id": "card_pay",
-                "text": "插卡",
-                "emoji": "💳",
-                "ja": "カード",
-                "ko": "카드"
-              },
-              {
-                "id": "cash_pay",
-                "text": "投幣",
-                "emoji": "🪙",
-                "ja": "現金",
-                "ko": "현금"
-              },
-              {
-                "id": "stop_here",
-                "text": "到站",
-                "emoji": "📢",
-                "ja": "到着",
-                "ko": "도착"
-              },
-              {
-                "id": "hurry",
-                "text": "快一點",
-                "emoji": "⏰",
-                "ja": "急いで",
-                "ko": "빠르게"
-              }
-            ]
-          },
-          {
-            "id": "vehicle_type",
-            "name": "交通工具",
-            "icon": "🚗",
-            "items": [
-              {
-                "id": "bus",
-                "text": "公車",
-                "emoji": "🚌",
-                "ja": "バス",
-                "ko": "버스"
-              },
-              {
-                "id": "taxi",
-                "text": "計程車",
-                "emoji": "🚕",
-                "ja": "タクシー",
-                "ko": "택시"
-              },
-              {
-                "id": "train",
-                "text": "火車",
-                "emoji": "🚂",
-                "ja": "電車",
-                "ko": "기차"
-              },
-              {
-                "id": "metro",
-                "text": "地鐵",
-                "emoji": "🚇",
-                "ja": "地下鉄",
-                "ko": "지하철"
-              },
-              {
-                "id": "highspeed",
-                "text": "高鐵",
-                "emoji": "🚄",
-                "ja": "新幹線",
-                "ko": "고속철도"
-              },
-              {
-                "id": "motorcycle",
-                "text": "機車",
-                "emoji": "🏍️",
-                "ja": "バイク",
-                "ko": "오토바이"
-              },
-              {
-                "id": "bicycle",
-                "text": "腳踏車",
-                "emoji": "🚲",
-                "ja": "自転車",
-                "ko": "자전거"
-              },
-              {
-                "id": "car",
-                "text": "汽車",
-                "emoji": "🚗",
-                "ja": "車",
-                "ko": "자동차"
-              },
-              {
-                "id": "scooter",
-                "text": "共享機車",
-                "emoji": "🛵",
-                "ja": "シェアバイク",
-                "ko": "공유스쿠터"
-              },
-              {
-                "id": "bike_share",
-                "text": "共享腳踏車",
-                "emoji": "🚲",
-                "ja": "シェアサイクル",
-                "ko": "공유자전거"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "id": "plane",
-      "name": "搭飛機用語",
-      "icon": "✈️",
-      "description": "機場、登機、海關等相關用語",
-      "category": {
-        "id": "plane",
-        "name": "搭飛機",
-        "icon": "✈️",
-        "color": "#7E57C2",
-        "bgColor": "#F3F0FF",
-        "subcategories": [
-          {
-            "id": "airport",
-            "name": "機場",
-            "icon": "🏢",
-            "items": [
-              {
-                "id": "check_in",
-                "text": "報到",
-                "emoji": "📋",
-                "ja": "チェックイン",
-                "ko": "체크인"
-              },
-              {
-                "id": "boarding",
-                "text": "登機",
-                "emoji": "🛫",
-                "ja": "搭乗",
-                "ko": "탑승"
-              },
-              {
-                "id": "gate",
-                "text": "登機口",
-                "emoji": "🚪",
-                "ja": "搭乗口",
-                "ko": "게이트"
-              },
-              {
-                "id": "passport",
-                "text": "護照",
-                "emoji": "📘",
-                "ja": "パスポート",
-                "ko": "여권"
-              },
-              {
-                "id": "visa",
-                "text": "簽證",
-                "emoji": "📝",
-                "ja": "ビザ",
-                "ko": "비자"
-              },
-              {
-                "id": "customs",
-                "text": "海關",
-                "emoji": "🛃",
-                "ja": "税関",
-                "ko": "세관"
-              },
-              {
-                "id": "immigration",
-                "text": "出入境",
-                "emoji": "🛂",
-                "ja": "入国審査",
-                "ko": "출입국"
-              },
-              {
-                "id": "baggage",
-                "text": "行李",
-                "emoji": "🧳",
-                "ja": "荷物",
-                "ko": "짐"
-              },
-              {
-                "id": "carry_on",
-                "text": "手提行李",
-                "emoji": "👜",
-                "ja": "機内持ち込み",
-                "ko": "기내반입"
-              },
-              {
-                "id": "checked",
-                "text": "托運",
-                "emoji": "📦",
-                "ja": "預け入れ",
-                "ko": "Checked"
-              },
-              {
-                "id": "luggage_claim",
-                "text": "行李轉盤",
-                "emoji": "🔄",
-                "ja": "荷物受取",
-                "ko": "짐 찾는 곳"
-              },
-              {
-                "id": "security",
-                "text": "安檢",
-                "emoji": "🔍",
-                "ja": "保安検査",
-                "ko": "보안검색"
-              },
-              {
-                "id": "departure",
-                "text": "出發",
-                "emoji": "🛫",
-                "ja": "出発",
-                "ko": "출발"
-              },
-              {
-                "id": "arrival",
-                "text": "抵達",
-                "emoji": "🛬",
-                "ja": "到着",
-                "ko": "도착"
-              },
-              {
-                "id": "delay",
-                "text": "延誤",
-                "emoji": "⏰",
-                "ja": "遅延",
-                "ko": "지연"
-              },
-              {
-                "id": "cancel",
-                "text": "取消",
-                "emoji": "❌",
-                "ja": "キャンセル",
-                "ko": "취소"
-              },
-              {
-                "id": "flight_no",
-                "text": "班機號",
-                "emoji": "🔢",
-                "ja": "便名",
-                "ko": "편명"
-              },
-              {
-                "id": "seat",
-                "text": "座位",
-                "emoji": "💺",
-                "ja": "座席",
-                "ko": "좌석"
-              },
-              {
-                "id": "window",
-                "text": "靠窗",
-                "emoji": "🪟",
-                "ja": "窓側",
-                "ko": "창가"
-              },
-              {
-                "id": "aisle",
-                "text": "走道",
-                "emoji": "🚶",
-                "ja": "通路側",
-                "ko": "복도"
-              }
-            ]
-          },
-          {
-            "id": "on_board",
-            "name": "機上",
-            "icon": "🍽️",
-            "items": [
-              {
-                "id": "blanket",
-                "text": "毯子",
-                "emoji": "🛏️",
-                "ja": "毛布",
-                "ko": "담요"
-              },
-              {
-                "id": "pillow",
-                "text": "枕頭",
-                "emoji": "🛌",
-                "ja": "枕",
-                "ko": "베개"
-              },
-              {
-                "id": "meal",
-                "text": "餐點",
-                "emoji": "🍱",
-                "ja": "食事",
-                "ko": "식사"
-              },
-              {
-                "id": "drink",
-                "text": "飲料",
-                "emoji": "🥤",
-                "ja": "飲み物",
-                "ko": "음료"
-              },
-              {
-                "id": "water",
-                "text": "水",
-                "emoji": "💧",
-                "ja": "水",
-                "ko": "물"
-              },
-              {
-                "id": "movie",
-                "text": "電影",
-                "emoji": "🎬",
-                "ja": "映画",
-                "ko": "영화"
-              },
-              {
-                "id": "music",
-                "text": "音樂",
-                "emoji": "🎵",
-                "ja": "音楽",
-                "ko": "음악"
-              },
-              {
-                "id": "sleep",
-                "text": "睡覺",
-                "emoji": "😴",
-                "ja": "寝る",
-                "ko": "자다"
-              },
-              {
-                "id": "bathroom",
-                "text": "洗手間",
-                "emoji": "🚻",
-                "ja": "トイレ",
-                "ko": "화장실"
-              },
-              {
-                "id": "call_attendant",
-                "text": "叫空服員",
-                "emoji": "🔔",
-                "ja": "呼び鈴",
-                "ko": "호출"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "id": "boat",
-      "name": "搭船用語",
-      "icon": "⛴️",
-      "description": "渡輪、遊艇等水上交通工具",
-      "category": {
-        "id": "boat",
-        "name": "搭船",
-        "icon": "⛴️",
-        "color": "#26A69A",
-        "bgColor": "#E0F7F5",
-        "subcategories": [
-          {
-            "id": "ferry",
-            "name": "渡輪",
-            "icon": "⛴️",
-            "items": [
-              {
-                "id": "ferry",
-                "text": "渡輪",
-                "emoji": "⛴️",
-                "ja": "フェリー",
-                "ko": "페리"
-              },
-              {
-                "id": "pier",
-                "text": "碼頭",
-                "emoji": "🏗️",
-                "ja": "埠頭",
-                "ko": "부두"
-              },
-              {
-                "id": "dock",
-                "text": "停船",
-                "emoji": "⚓",
-                "ja": "着岸",
-                "ko": "정박"
-              },
-              {
-                "id": "sail",
-                "text": "開船",
-                "emoji": "🌊",
-                "ja": "発航",
-                "ko": "출항"
-              },
-              {
-                "id": "seasick",
-                "text": "暈船",
-                "emoji": "🤢",
-                "ja": "乗り物酔い",
-                "ko": "멀미"
-              },
-              {
-                "id": "life_jacket",
-                "text": "救生衣",
-                "emoji": "🦺",
-                "ja": "救命胴衣",
-                "ko": "구명조끼"
-              },
-              {
-                "id": "deck",
-                "text": "甲板",
-                "emoji": "🌅",
-                "ja": "デッキ",
-                "ko": "갑판"
-              },
-              {
-                "id": "cabin",
-                "text": "船艙",
-                "emoji": "🚪",
-                "ja": "客室",
-                "ko": "객실"
-              },
-              {
-                "id": "harbor",
-                "text": "港口",
-                "emoji": "🏘️",
-                "ja": "港",
-                "ko": "항구"
-              },
-              {
-                "id": "wave",
-                "text": "海浪",
-                "emoji": "🌊",
-                "ja": "波",
-                "ko": "파도"
-              },
-              {
-                "id": "anchor",
-                "text": "錨",
-                "emoji": "⚓",
-                "ja": "錨",
-                "ko": "닻"
-              },
-              {
-                "id": "compass",
-                "text": "羅盤",
-                "emoji": "🧭",
-                "ja": "コンパス",
-                "ko": "나침반"
-              }
-            ]
-          },
-          {
-            "id": "boat_fun",
-            "name": "船上活動",
-            "icon": "🎉",
-            "items": [
-              {
-                "id": "swim",
-                "text": "游泳",
-                "emoji": "🏊",
-                "ja": "水泳",
-                "ko": "수영"
-              },
-              {
-                "id": "fish",
-                "text": "釣魚",
-                "emoji": "🎣",
-                "ja": "釣り",
-                "ko": "낚시"
-              },
-              {
-                "id": "sunset",
-                "text": "夕陽",
-                "emoji": "🌅",
-                "ja": "夕日",
-                "ko": "일몰"
-              },
-              {
-                "id": "photo",
-                "text": "拍照",
-                "emoji": "📸",
-                "ja": "写真",
-                "ko": "사진"
-              },
-              {
-                "id": "sea_view",
-                "text": "看海",
-                "emoji": "🌊",
-                "ja": "海景",
-                "ko": "바다보기"
-              },
-              {
-                "id": "sunset_dinner",
-                "text": "晚餐",
-                "emoji": "🍽️",
-                "ja": "夕食",
-                "ko": "저녁"
-              },
-              {
-                "id": "snack",
-                "text": "點心",
-                "emoji": "🍪",
-                "ja": "お菓子",
-                "ko": "간식"
-              },
-              {
-                "id": "rest",
-                "text": "休息",
-                "emoji": "😌",
-                "ja": "休憩",
-                "ko": "휴식"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
       "id": "taiwan_places",
       "name": "台灣主要地名包",
       "icon": "🇹🇼",
@@ -1157,25 +306,25 @@
             "icon": "🏙️",
             "items": [
               {
-                "id": "hc_dong",
-                "text": "東區",
-                "emoji": "🏙️",
-                "ja": "東区",
-                "ko": "동구"
+                "id": "新竹東區",
+                "text": "新竹市東區",
+                "emoji": "🏘️",
+                "ja": "新竹市東区",
+                "ko": "신주시 동구"
               },
               {
-                "id": "hc_be",
-                "text": "北區",
+                "id": "新竹北區",
+                "text": "新竹市北區",
                 "emoji": "🏛️",
-                "ja": "北区",
-                "ko": "북구"
+                "ja": "新竹市北区",
+                "ko": "신주시 북구"
               },
               {
-                "id": "hc_xiangshan",
-                "text": "香山區",
+                "id": "新竹香山區",
+                "text": "新竹市香山區",
                 "emoji": "🌊",
-                "ja": "香山区",
-                "ko": "상산구"
+                "ja": "新竹市香山区",
+                "ko": "신주시 상산구"
               }
             ]
           },
@@ -1185,91 +334,91 @@
             "icon": "🏘️",
             "items": [
               {
-                "id": "hc_zhubei",
+                "id": "竹北",
                 "text": "竹北市",
                 "emoji": "🏘️",
                 "ja": "竹北市",
                 "ko": "죽북시"
               },
               {
-                "id": "hc_zhudong",
+                "id": "竹東鎮",
                 "text": "竹東鎮",
                 "emoji": "🏘️",
                 "ja": "竹東町",
                 "ko": "죽동진"
               },
               {
-                "id": "hc_xinpu",
+                "id": "新埔鎮",
                 "text": "新埔鎮",
                 "emoji": "🏘️",
                 "ja": "新埔町",
                 "ko": "신푸진"
               },
               {
-                "id": "hc_guansi",
+                "id": "關西鎮",
                 "text": "關西鎮",
                 "emoji": "🏘️",
                 "ja": "関西町",
                 "ko": "관서진"
               },
               {
-                "id": "hc_hukou",
+                "id": "湖口鄉",
                 "text": "湖口鄉",
                 "emoji": "🏘️",
                 "ja": "湖口郷",
                 "ko": "호구향"
               },
               {
-                "id": "hc_xinfeng",
+                "id": "新豐鄉",
                 "text": "新豐鄉",
                 "emoji": "🌾",
                 "ja": "新豊郷",
                 "ko": "신풍향"
               },
               {
-                "id": "hc_xiongl",
+                "id": "芎林鄉",
                 "text": "芎林鄉",
                 "emoji": "🏘️",
                 "ja": "芎林郷",
                 "ko": "훙린향"
               },
               {
-                "id": "hc_baoshan",
+                "id": "寶山鄉",
                 "text": "寶山鄉",
                 "emoji": "🏔️",
                 "ja": "宝山郷",
                 "ko": "보산향"
               },
               {
-                "id": "hc_hengshan",
+                "id": "橫山鄉",
                 "text": "橫山鄉",
                 "emoji": "🏔️",
                 "ja": "横山郷",
                 "ko": "횡산향"
               },
               {
-                "id": "hc_beipu",
+                "id": "北埔鄉",
                 "text": "北埔鄉",
                 "emoji": "🍵",
                 "ja": "北埔郷",
                 "ko": "북푸향"
               },
               {
-                "id": "hc_emei",
+                "id": "峨眉鄉",
                 "text": "峨眉鄉",
                 "emoji": "🌿",
                 "ja": "峨眉郷",
                 "ko": "애미향"
               },
               {
-                "id": "hc_jianshi",
+                "id": "尖石鄉",
                 "text": "尖石鄉",
                 "emoji": "⛰️",
                 "ja": "尖石郷",
                 "ko": "젠스향"
               },
               {
-                "id": "hc_wufeng",
+                "id": "五峰鄉",
                 "text": "五峰鄉",
                 "emoji": "⛰️",
                 "ja": "五峰郷",
@@ -1283,84 +432,84 @@
             "icon": "🎯",
             "items": [
               {
-                "id": "hc_station",
+                "id": "新竹火車站",
                 "text": "新竹火車站",
                 "emoji": "🚂",
                 "ja": "新竹駅",
                 "ko": "신주역"
               },
               {
-                "id": "hc_temple",
+                "id": "新竹城隍廟",
                 "text": "新竹城隍廟",
                 "emoji": "⛩️",
                 "ja": "新竹城隍廟",
                 "ko": "신주성황묘"
               },
               {
-                "id": "hc_lake",
+                "id": "青草湖",
                 "text": "青草湖",
                 "emoji": "🏞️",
                 "ja": "青草湖",
                 "ko": "청초호"
               },
               {
-                "id": "hc_science",
+                "id": "新竹科學園區",
                 "text": "新竹科學園區",
                 "emoji": "💻",
                 "ja": "新竹科学园区",
                 "ko": "신주과학단지"
               },
               {
-                "id": "hc_zoo",
+                "id": "新竹立動物園",
                 "text": "新竹市立動物園",
                 "emoji": "🦁",
                 "ja": "新竹市立動物園",
                 "ko": "신주시립동물원"
               },
               {
-                "id": "hc_mountains",
+                "id": "十八尖山",
                 "text": "十八尖山",
                 "emoji": "⛰️",
                 "ja": "十八尖山",
                 "ko": "십팔첨산"
               },
               {
-                "id": "hc_culture",
+                "id": "新竹立文化中心",
                 "text": "新竹縣立文化中心",
                 "emoji": "🏛️",
                 "ja": "新竹県立文化中心",
                 "ko": "신주현립문화센터"
               },
               {
-                "id": "hc_wind",
+                "id": "橫山風力發電站",
                 "text": "橫山風力發電站",
                 "emoji": "💨",
                 "ja": "横山風力発電所",
                 "ko": "횡산풍력발전소"
               },
               {
-                "id": "hc_oldstreet",
+                "id": "關西老街",
                 "text": "關西老街",
                 "emoji": "🏘️",
                 "ja": "関西老街",
                 "ko": "관서老街"
               },
               {
-                "id": "hc_beipu_street",
+                "id": "北埔老街",
                 "text": "北埔老街",
                 "emoji": "🏘️",
                 "ja": "北埔老街",
                 "ko": "북푸老街"
               },
               {
-                "id": "hc_jianshi_village",
+                "id": "尖石部落",
                 "text": "尖石部落",
                 "emoji": "🏘️",
                 "ja": "尖石部落",
                 "ko": "젠스부락"
               },
               {
-                "id": "hc_wufeng_village",
+                "id": "五峰部落",
                 "text": "五峰部落",
                 "emoji": "🏘️",
                 "ja": "五峰部落",
