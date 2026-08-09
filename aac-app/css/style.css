@@ -494,6 +494,30 @@ body {
   border: 2px solid var(--border);
   border-radius: 8px;
   font-size: var(--font-size-sm);
+  min-width: 140px;
+}
+
+.preview-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: white;
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.preview-btn:hover {
+  background: var(--primary-dark);
+  transform: scale(1.02);
+}
+
+.preview-btn:active {
+  transform: scale(0.97);
 }
 
 .overlay {

@@ -86,18 +86,25 @@
           <span id="speechPitchVal">1.0</span>
         </div>
         <div class="setting-row">
+          <label>語音選擇</label>
+          <select id="voiceSelect">
+            <option value="">自動偵測</option>
+          </select>
+        </div>
+        <div class="setting-row">
           <label>特殊語調</label>
           <select id="specialVoice">
             <option value="normal">🗣️ 一般</option>
-            <option value="chipmunk">🐿️ 奇奇蒂蒂（高音快嘴）</option>
-            <option value="bear">🐻 大熊（低沉緩慢）</option>
-            <option value="robot">🤖 機器人（機械感）</option>
-            <option value="baby">👶 寶寶（高音可愛）</option>
-            <option value="monster">👾 怪獸（超低沉）</option>
-            <option value="ninja">🥷 忍者（快速低語）</option>
-            <option value="cartoon">🎪 卡通（活潑跳躍）</option>
+            <option value="chipmunk">🐿️ 奇奇蒂蒂</option>
+            <option value="bear">🐻 大熊</option>
+            <option value="robot">🤖 機器人</option>
+            <option value="baby">👶 寶寶</option>
+            <option value="monster">👾 怪獸</option>
+            <option value="ninja">🥷 忍者</option>
+            <option value="cartoon">🎪 卡通</option>
           </select>
         </div>
+        <button class="preview-btn" id="previewBtn">🔊 預覽語音</button>
       </div>
       <div class="setting-group">
         <h3>🔤 字體</h3>

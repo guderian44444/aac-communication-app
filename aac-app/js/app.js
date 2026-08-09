@@ -21,15 +21,18 @@ settings = { ...defaultSettings, ...settings };
 
 // ===== 特殊語調預設 =====
 const specialVoices = {
-  normal:   { rate: 0.9, pitch: 1.0, label: '🗣️ 一般' },
-  chipmunk: { rate: 1.8, pitch: 2.5, label: '🐿️ 奇奇蒂蒂' },
-  bear:     { rate: 0.5, pitch: 0.3, label: '🐻 大熊' },
-  robot:    { rate: 1.0, pitch: 1.0, label: '🤖 機器人' },
-  baby:     { rate: 1.2, pitch: 2.2, label: '👶 寶寶' },
-  monster:  { rate: 0.4, pitch: 0.1, label: '👾 怪獸' },
-  ninja:    { rate: 2.0, pitch: 0.5, label: '🥷 忍者' },
-  cartoon:  { rate: 1.3, pitch: 1.8, label: '🎪 卡通' }
+  normal:   { rateMul: 1.0, pitchAdd: 0.0, label: '🗣️ 一般' },
+  chipmunk: { rateMul: 2.0, pitchAdd: 1.0, label: '🐿️ 奇奇蒂蒂' },
+  bear:     { rateMul: 0.6, pitchAdd: -0.5, label: '🐻 大熊' },
+  robot:    { rateMul: 1.0, pitchAdd: 0.0, label: '🤖 機器人' },
+  baby:     { rateMul: 1.3, pitchAdd: 0.8, label: '👶 寶寶' },
+  monster:  { rateMul: 0.5, pitchAdd: -0.8, label: '👾 怪獸' },
+  ninja:    { rateMul: 2.2, pitchAdd: -0.3, label: '🥷 忍者' },
+  cartoon:  { rateMul: 1.5, pitchAdd: 0.6, label: '🎪 卡通' }
 };
+
+// ===== 系統語音列表 =====
+let availableVoices = [];
 
 // ===== 快速詞 =====
 const quickWords = [
@@ -53,6 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
   applySettings();
   renderQuickBar();
   setupEventListeners();
+  
+  // 載入系統語音
+  if ('speechSynthesis' in window) {
+    speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+  }
 });
 
 // ===== 載入詞庫 =====
@@ -237,13 +246,70 @@ function removeFromSentence(idx) {
   }
 }
 
+// ===== 載入系統語音 =====
+function loadVoices() {
+  availableVoices = speechSynthesis.getVoices();
+  const voiceSelect = document.getElementById('voiceSelect');
+  if (!voiceSelect) return;
+  
+  // 清空現有選項（保留第一個）
+  voiceSelect.innerHTML = '<option value="">自動偵測</option>';
+  
+  // 分組：男聲 / 女聲 / 其他
+  const groups = { female: [], male: [], other: [] };
+  availableVoices.forEach(voice => {
+    const name = voice.name.toLowerCase();
+    const isZh = voice.lang.startsWith('zh');
+    if (!isZh) return;
+    
+    if (name.includes('female') || name.includes('女') || name.includes('xiaoxiao') || name.includes('HuiMei') || name.includes('Tingting')) {
+      groups.female.push(voice);
+    } else if (name.includes('male') || name.includes('男') || name.includes('yunjian') || name.includes('Yunxi')) {
+      groups.male.push(voice);
+    } else {
+      groups.other.push(voice);
+    }
+  });
+  
+  // 加入女聲選項
+  groups.female.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v.voiceURI;
+    opt.textContent = '👩 ' + v.name + ' (' + v.lang + ')';
+    voiceSelect.appendChild(opt);
+  });
+  
+  // 加入男聲選項
+  groups.male.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v.voiceURI;
+    opt.textContent = '👨 ' + v.name + ' (' + v.lang + ')';
+    voiceSelect.appendChild(opt);
+  });
+  
+  // 加入其他選項
+  groups.other.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v.voiceURI;
+    opt.textContent = '🗣️ ' + v.name + ' (' + v.lang + ')';
+    voiceSelect.appendChild(opt);
+  });
+}
+
 // ===== 語音輸出 =====
 function speakItem(item) {
   if (!('speechSynthesis' in window)) return;
   const utter = new SpeechSynthesisUtterance(item.text);
   utter.lang = 'zh-TW';
-  utter.rate = settings.speechRate;
-  utter.pitch = settings.speechPitch;
+  
+  // 套用特殊語調
+  const voice = specialVoices[settings.specialVoice] || specialVoices.normal;
+  utter.rate = clamp(settings.speechRate * voice.rateMul, 0.1, 10);
+  utter.pitch = clamp(settings.speechPitch + voice.pitchAdd, 0, 2);
+  
+  // 套用選定語音
+  applySelectedVoice(utter);
+  
   speechSynthesis.cancel();
   speechSynthesis.speak(utter);
 }
@@ -258,8 +324,14 @@ function speakSentence() {
   const text = sentenceItems.map(i => i.text).join(' ');
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = 'zh-TW';
-  utter.rate = settings.speechRate;
-  utter.pitch = settings.speechPitch;
+  
+  // 套用特殊語調
+  const voice = specialVoices[settings.specialVoice] || specialVoices.normal;
+  utter.rate = clamp(settings.speechRate * voice.rateMul, 0.1, 10);
+  utter.pitch = clamp(settings.speechPitch + voice.pitchAdd, 0, 2);
+  
+  // 套用選定語音
+  applySelectedVoice(utter);
   
   // 語音播放動畫
   const speakBtn = document.getElementById('speakBtn');
@@ -268,6 +340,39 @@ function speakSentence() {
   
   speechSynthesis.cancel();
   speechSynthesis.speak(utter);
+}
+
+// ===== 預覽語音 =====
+function previewVoice() {
+  if (!('speechSynthesis' in window)) return;
+  const utter = new SpeechSynthesisUtterance('你好呀，我是阿霖的溝通板');
+  utter.lang = 'zh-TW';
+  
+  // 套用特殊語調
+  const voice = specialVoices[settings.specialVoice] || specialVoices.normal;
+  utter.rate = clamp(settings.speechRate * voice.rateMul, 0.1, 10);
+  utter.pitch = clamp(settings.speechPitch + voice.pitchAdd, 0, 2);
+  
+  // 套用選定語音
+  applySelectedVoice(utter);
+  
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utter);
+}
+
+// ===== 套用選定語音 =====
+function applySelectedVoice(utter) {
+  const voiceSelect = document.getElementById('voiceSelect');
+  if (!voiceSelect || !voiceSelect.value) return;
+  const selected = availableVoices.find(v => v.voiceURI === voiceSelect.value);
+  if (selected) {
+    utter.voice = selected;
+  }
+}
+
+// ===== Clamp helper =====
+function clamp(val, min, max) {
+  return Math.max(min, Math.min(max, val));
 }
 
 // ===== 清除句子 =====
@@ -430,23 +535,23 @@ function setupEventListeners() {
 
   // Special voice selector
   document.getElementById('specialVoice').onchange = (e) => {
-    const voiceKey = e.target.value;
-    settings.specialVoice = voiceKey;
-    const voice = specialVoices[voiceKey];
-    if (voice) {
-      settings.speechRate = voice.rate;
-      settings.speechPitch = voice.pitch;
-      // Update sliders to match
-      document.getElementById('speechRate').value = voice.rate;
-      document.getElementById('speechRateVal').textContent = voice.rate;
-      document.getElementById('speechPitch').value = voice.pitch;
-      document.getElementById('speechPitchVal').textContent = voice.pitch.toFixed(1);
-      // Preview voice
-      showToast(`已切換：${voice.label}`);
-      speakItem({ text: '你好呀', emoji: '👋' });
-    }
+    settings.specialVoice = e.target.value;
+    const voice = specialVoices[e.target.value] || specialVoices.normal;
+    showToast(`已切換：${voice.label}`);
+    previewVoice();
     saveSettings();
   };
+
+  // Voice select (男女聲)
+  document.getElementById('voiceSelect').onchange = (e) => {
+    settings.selectedVoiceURI = e.target.value;
+    showToast('語音已切換');
+    previewVoice();
+    saveSettings();
+  };
+
+  // Preview button
+  document.getElementById('previewBtn').onclick = previewVoice;
 }
 
 // ===== 儲存設定 =====
