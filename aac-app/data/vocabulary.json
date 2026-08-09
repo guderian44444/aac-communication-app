@@ -917,7 +917,7 @@
             },
             {
               "id": "pear",
-              "text": "梨",
+              "text": "水梨",
               "emoji": "🍐",
               "ja": "梨",
               "ko": "배"
@@ -946,35 +946,35 @@
             {
               "id": "papaya",
               "text": "木瓜",
-              "emoji": "🥭",
+              "emoji": "🍈",
               "ja": "パパイヤ",
               "ko": "파인애플"
             },
             {
               "id": "lychee",
               "text": "荔枝",
-              "emoji": "🍒",
+              "emoji": "🔴",
               "ja": "ライチ",
               "ko": "리치"
             },
             {
               "id": "longan",
               "text": "龍眼",
-              "emoji": "🍒",
+              "emoji": "🟤",
               "ja": "ロンガン",
               "ko": "롱간"
             },
             {
               "id": "dragonfruit",
               "text": "火龍果",
-              "emoji": "🐉",
+              "emoji": "🐲",
               "ja": "ドラゴンフルーツ",
               "ko": "드래곤프룻"
             },
             {
               "id": "durian",
               "text": "榴槤",
-              "emoji": "🍈",
+              "emoji": "🟡",
               "ja": "ドリアン",
               "ko": "두리안"
             }
