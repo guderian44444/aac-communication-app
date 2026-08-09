@@ -41,11 +41,11 @@ let availableVoices = [];
 
 // ===== 快速詞 =====
 const quickWords = [
-  { text: "可以", emoji: "✅", ja: "できます", ko: "될까요" },
+  { text: "要", emoji: "🫡", ja: "欲しい", ko: "하고 싶어" },
   { text: "不要", emoji: "❌", ja: "だめです", ko: "안돼" },
+  { text: "可以", emoji: "✅", ja: "できます", ko: "될까요" },
   { text: "謝謝", emoji: "🙏", ja: "ありがとう", ko: "감사합니다" },
   { text: "幫我", emoji: "🆘", ja: "助けて", ko: "도와줘" },
-  { text: "要", emoji: "🫡", ja: "欲しい", ko: "하고 싶어" },
   { text: "還要", emoji: "➕", ja: "もっと", ko: "더" },
   { text: "夠了", emoji: "👌", ja: "十分", ko: "됐어요" },
   { text: "好", emoji: "👍", ja: "いいね", ko: "좋아요" },
@@ -355,16 +355,17 @@ function addToSentence(item) {
 // ===== 渲染句子 =====
 function renderSentence() {
   const bar = document.getElementById('sentenceBar');
-  // Remove existing chips
   bar.querySelectorAll('.sentence-chip').forEach(c => c.remove());
 
   const lang = settings.lang || 'zh';
 
-  // Add chips before actions
   const actions = bar.querySelector('.sentence-actions');
   sentenceItems.forEach((item, idx) => {
     const chip = document.createElement('div');
-    chip.className = 'sentence-chip';
+    chip.className = 'sentence-chip draggable-chip';
+    chip.draggable = true;
+    chip.dataset.index = idx;
+
     let displayText = item.text;
     if (lang === 'ja' && item.ja) {
       displayText = `${item.text}（${item.ja}）`;
@@ -372,12 +373,129 @@ function renderSentence() {
       displayText = `${item.text}（${item.ko}）`;
     }
     chip.innerHTML = `
+      <span class="chip-grip">⠿</span>
       <span class="chip-emoji">${item.emoji}</span>
       <span>${displayText}</span>
       <span class="chip-remove" onclick="removeFromSentence(${idx})">✕</span>
     `;
+
+    // Mouse drag events
+    chip.addEventListener('dragstart', handleDragStart);
+    chip.addEventListener('dragover', handleDragOver);
+    chip.addEventListener('drop', handleDrop);
+    chip.addEventListener('dragend', handleDragEnd);
+    chip.addEventListener('dragenter', (e) => e.preventDefault());
+    chip.addEventListener('dragleave', () => chip.classList.remove('drag-over'));
+
+    // Touch events for mobile
+    chip.addEventListener('touchstart', handleTouchStart, { passive: false });
+    chip.addEventListener('touchmove', handleTouchMove, { passive: false });
+    chip.addEventListener('touchend', handleTouchEnd);
+
     bar.insertBefore(chip, actions);
   });
+}
+
+// ===== 拖曳排序 (Mouse) =====
+let dragIndex = null;
+
+function handleDragStart(e) {
+  dragIndex = +this.dataset.index;
+  this.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  this.classList.add('drag-over');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  this.classList.remove('drag-over');
+  const dropIndex = +this.dataset.index;
+  if (dragIndex !== null && dragIndex !== dropIndex) {
+    const moved = sentenceItems.splice(dragIndex, 1)[0];
+    sentenceItems.splice(dropIndex, 0, moved);
+    renderSentence();
+  }
+}
+
+function handleDragEnd() {
+  this.classList.remove('dragging');
+  document.querySelectorAll('.sentence-chip').forEach(c => c.classList.remove('drag-over'));
+  dragIndex = null;
+}
+
+// ===== 觸控拖曳排序 (Mobile) =====
+let touchStartX = 0;
+let touchStartY = 0;
+let touchChip = null;
+let touchClone = null;
+let touchMoved = false;
+
+function handleTouchStart(e) {
+  const t = e.touches[0];
+  touchStartX = t.clientX;
+  touchStartY = t.clientY;
+  touchChip = this;
+  touchMoved = false;
+}
+
+function handleTouchMove(e) {
+  if (!touchChip) return;
+  const t = e.touches[0];
+  const dx = Math.abs(t.clientX - touchStartX);
+  const dy = Math.abs(t.clientY - touchStartY);
+  if (dx > 10 || dy > 10) {
+    touchMoved = true;
+    e.preventDefault();
+
+    // Create floating clone if not already
+    if (!touchClone) {
+      touchClone = touchChip.cloneNode(true);
+      touchClone.classList.add('touch-clone');
+      document.body.appendChild(touchClone);
+      touchChip.classList.add('touch-dragging');
+    }
+    touchClone.style.left = (t.clientX - 50) + 'px';
+    touchClone.style.top = (t.clientY - 20) + 'px';
+
+    // Highlight target
+    const target = document.elementFromPoint(t.clientX, t.clientY);
+    document.querySelectorAll('.sentence-chip').forEach(c => c.classList.remove('drag-over'));
+    if (target && target.closest('.sentence-chip') && target.closest('.sentence-chip') !== touchChip) {
+      target.closest('.sentence-chip').classList.add('drag-over');
+    }
+  }
+}
+
+function handleTouchEnd(e) {
+  if (touchClone && touchMoved) {
+    const t = e.changedTouches[0];
+    const target = document.elementFromPoint(t.clientX, t.clientY);
+    if (target && target.closest('.sentence-chip') && target.closest('.sentence-chip') !== touchChip) {
+      const dropIndex = +target.closest('.sentence-chip').dataset.index;
+      const fromIndex = +touchChip.dataset.index;
+      if (fromIndex !== dropIndex) {
+        const moved = sentenceItems.splice(fromIndex, 1)[0];
+        sentenceItems.splice(dropIndex, 0, moved);
+        renderSentence();
+      }
+    }
+  }
+  // Cleanup
+  if (touchClone) {
+    touchClone.remove();
+    touchClone = null;
+  }
+  if (touchChip) {
+    touchChip.classList.remove('touch-dragging');
+    touchChip = null;
+  }
+  document.querySelectorAll('.sentence-chip').forEach(c => c.classList.remove('drag-over'));
 }
 
 // ===== 從句子移除 =====

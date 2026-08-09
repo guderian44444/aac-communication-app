@@ -121,13 +121,55 @@ body {
   gap: 4px;
   white-space: nowrap;
   animation: chipIn 0.2s ease;
-  cursor: pointer;
+  cursor: grab;
   transition: var(--transition);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
 }
 
 .sentence-chip:hover {
   background: var(--primary-dark);
   transform: scale(1.05);
+}
+
+.sentence-chip .chip-grip {
+  font-size: 14px;
+  opacity: 0.5;
+  margin-right: 2px;
+  cursor: grab;
+}
+
+.sentence-chip.dragging {
+  opacity: 0.4;
+  transform: scale(0.95);
+}
+
+.sentence-chip.drag-over {
+  background: var(--accent);
+  transform: scale(1.08);
+  box-shadow: 0 0 0 2px white;
+}
+
+.sentence-chip.touch-dragging {
+  opacity: 0.3;
+}
+
+.touch-clone {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  background: var(--primary-light);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transform: scale(1.1);
+  white-space: nowrap;
 }
 
 .sentence-chip .chip-emoji {
