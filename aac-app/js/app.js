@@ -81,20 +81,20 @@ async function loadVersionInfo() {
 
   try {
     // 從 GitHub API 取得最新 commit 時間
-    const resp = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/commits/main?per_page=1`);
+    const resp = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/commits/master?per_page=1`);
     if (resp.ok) {
       const data = await resp.json();
       const date = new Date(data.commit.committer.date);
       const formatted = date.toLocaleDateString('zh-TW', {
-        year: 'numeric', month: '2', day: '2',
+        year: 'numeric', month: '2-digit', day: '2-digit',
         hour: '2-digit', minute: '2-digit'
       });
-      updateDate.textContent = `📅 更新時間：${formatted}`;
+      updateDate.textContent = `📅 最後更新：${formatted}`;
     } else {
-      updateDate.textContent = '📅 更新時間：v1.2.0';
+      updateDate.textContent = '📅 最後更新：v1.2.0';
     }
   } catch {
-    updateDate.textContent = '📅 更新時間：v1.2.0';
+    updateDate.textContent = '📅 最後更新：v1.2.0';
   }
 }
 
@@ -200,6 +200,24 @@ function renderItems(items) {
       setTimeout(() => card.classList.remove('bounce'), 400);
       addToSentence(item);
     };
+
+    // 長按加入收藏
+    let pressTimer;
+    card.addEventListener('touchstart', (e) => {
+      pressTimer = setTimeout(() => {
+        toggleFavorite(item);
+        // 震動回饋 (如果支援)
+        if (navigator.vibrate) navigator.vibrate(50);
+      }, 500);
+    });
+    card.addEventListener('touchend', () => clearTimeout(pressTimer));
+    card.addEventListener('touchmove', () => clearTimeout(pressTimer));
+    // 桌面版右鍵收藏
+    card.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      toggleFavorite(item);
+    });
+
     grid.appendChild(card);
   });
 }
@@ -341,10 +359,9 @@ function loadVoices() {
     voiceSelect.appendChild(optGroup);
   };
 
-  addGroup(zhVoices.filter(v => v.gender === 'male'), '👨 男聲 (中文)');
-  addGroup(zhVoices.filter(v => v.gender === 'female'), '👩 女聲 (中文)');
-  addGroup(zhVoices.filter(v => v.gender === 'other'), '🗣️ 其他 (中文)');
-  addGroup(otherVoices, '🌍 其他語系');
+  addGroup(zhVoices.filter(v => v.gender === 'male'), '👨 男聲');
+  addGroup(zhVoices.filter(v => v.gender === 'female'), '👩 女聲');
+  addGroup(zhVoices.filter(v => v.gender === 'other'), '🗣️ 其他');
 
   // 偵測目前裝置語音數量
   console.log(`[TTS] 共載入 ${availableVoices.length} 個語音，中文: ${zhVoices.length}`);
@@ -550,11 +567,17 @@ function setupEventListeners() {
   // Favorites toggle
   document.getElementById('favToggleBtn').onclick = () => {
     showFavorites = !showFavorites;
+    const favBtn = document.getElementById('favToggleBtn');
     if (showFavorites) {
       renderFavorites();
       document.getElementById('favoritesBar').classList.add('has-favorites');
+      favBtn.classList.add('active');
+      favBtn.title = `收藏 (${favorites.length}項)`;
+      showToast(`⭐ 收藏列開啟 (${favorites.length}項)`);
     } else {
       document.getElementById('favoritesBar').classList.remove('has-favorites');
+      favBtn.classList.remove('active');
+      favBtn.title = '我的收藏';
     }
   };
 
