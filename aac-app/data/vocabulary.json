@@ -1701,13 +1701,6 @@
               "ko": "집에 가요"
             },
             {
-              "id": "bedroom",
-              "text": "臥室",
-              "emoji": "🛏️",
-              "ja": "寝室",
-              "ko": "침실"
-            },
-            {
               "id": "livingroom",
               "text": "客廳",
               "emoji": "🛋️",
@@ -1736,25 +1729,53 @@
               "ko": "화장실"
             },
             {
-              "id": "balcony",
-              "text": "陽台",
-              "emoji": "🌅",
-              "ja": "バルコニー",
-              "ko": "발코니"
+              "id": "frontyard",
+              "text": "前院",
+              "emoji": "🌿",
+              "ja": "前庭",
+              "ko": "전원"
             },
             {
-              "id": "study",
-              "text": "書房",
-              "emoji": "📚",
-              "ja": "書斎",
-              "ko": "서재"
+              "id": "storage",
+              "text": "儲藏室",
+              "emoji": "📦",
+              "ja": "納戸",
+              "ko": "창고"
             },
             {
-              "id": "garage",
-              "text": "車庫",
-              "emoji": "🚗",
-              "ja": "ガレージ",
-              "ko": "차고"
+              "id": "floor1_back",
+              "text": "一樓後面",
+              "emoji": "🚪",
+              "ja": "1階奥",
+              "ko": "1층 뒤"
+            },
+            {
+              "id": "floor2_room",
+              "text": "二樓房間",
+              "emoji": "🚪",
+              "ja": "2階部屋",
+              "ko": "2층 방"
+            },
+            {
+              "id": "floor2_back",
+              "text": "二樓後面",
+              "emoji": "🚪",
+              "ja": "2階奥",
+              "ko": "2층 뒤"
+            },
+            {
+              "id": "floor3_front",
+              "text": "三樓前面房間",
+              "emoji": "🚪",
+              "ja": "3階前部屋",
+              "ko": "3층 앞 방"
+            },
+            {
+              "id": "floor3_back",
+              "text": "三樓後面房間",
+              "emoji": "🚪",
+              "ja": "3階奥部屋",
+              "ko": "3층 뒤 방"
             }
           ]
         },
