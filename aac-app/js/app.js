@@ -15,7 +15,8 @@ const defaultSettings = {
   speechPitch: 1.0,
   specialVoice: 'normal',
   fontSize: 14,
-  theme: 'warm'
+  theme: 'warm',
+  lang: 'zh'
 };
 settings = { ...defaultSettings, ...settings };
 
@@ -268,14 +269,22 @@ function renderSentence() {
   // Remove existing chips
   bar.querySelectorAll('.sentence-chip').forEach(c => c.remove());
 
+  const lang = settings.lang || 'zh';
+
   // Add chips before actions
   const actions = bar.querySelector('.sentence-actions');
   sentenceItems.forEach((item, idx) => {
     const chip = document.createElement('div');
     chip.className = 'sentence-chip';
+    let displayText = item.text;
+    if (lang === 'ja' && item.ja) {
+      displayText = `${item.text}（${item.ja}）`;
+    } else if (lang === 'ko' && item.ko) {
+      displayText = `${item.text}（${item.ko}）`;
+    }
     chip.innerHTML = `
       <span class="chip-emoji">${item.emoji}</span>
-      <span>${item.text}</span>
+      <span>${displayText}</span>
       <span class="chip-remove" onclick="removeFromSentence(${idx})">✕</span>
     `;
     bar.insertBefore(chip, actions);
@@ -316,19 +325,19 @@ function loadVoices() {
   const maleKeywords = ['zhiwei', 'yunxi', 'yunjian', 'yan', 'male', '男', 'wei', 'chen', 'kunming', 'hanwei'];
   const femaleKeywords = ['hanhan', 'yating', 'xiaoxiao', 'huihui', 'hui-mei', 'tingting', 'female', '女', 'mei-jia', 'ting-ting'];
 
-  // 收集語音
+  // 只顯示當前選定語言的語音
+  const lang = settings.lang || 'zh';
   const zhVoices = [];
   const jaVoices = [];
   const koVoices = [];
 
   availableVoices.forEach(voice => {
     const name = voice.name.toLowerCase();
-    const lang = voice.lang.toLowerCase();
+    const langCode = voice.lang.toLowerCase();
 
-    // 判斷語系
-    const isZh = lang.startsWith('zh');
-    const isJa = lang.startsWith('ja');
-    const isKo = lang.startsWith('ko');
+    const isZh = langCode.startsWith('zh');
+    const isJa = langCode.startsWith('ja');
+    const isKo = langCode.startsWith('ko');
 
     if (!isZh && !isJa && !isKo) return;
 
@@ -351,7 +360,7 @@ function loadVoices() {
     else if (isKo) koVoices.push({ opt, voice, gender });
   });
 
-  // 分組顯示
+  // 分組顯示 — 只顯示當前語言
   const addGroup = (voices, groupLabel) => {
     if (voices.length === 0) return;
     const optGroup = document.createElement('optgroup');
@@ -360,25 +369,40 @@ function loadVoices() {
     voiceSelect.appendChild(optGroup);
   };
 
-  addGroup(zhVoices.filter(v => v.gender === 'male'), '🇹🇼 中文男聲');
-  addGroup(zhVoices.filter(v => v.gender === 'female'), '🇹🇼 中文女聲');
-  addGroup(zhVoices.filter(v => v.gender === 'other'), '🇹🇼 中文其他');
-  addGroup(jaVoices.filter(v => v.gender === 'male'), '🇯🇵 日文男聲');
-  addGroup(jaVoices.filter(v => v.gender === 'female'), '🇯🇵 日文女聲');
-  addGroup(jaVoices.filter(v => v.gender === 'other'), '🇯🇵 日文其他');
-  addGroup(koVoices.filter(v => v.gender === 'male'), '🇰🇷 韓文男聲');
-  addGroup(koVoices.filter(v => v.gender === 'female'), '🇰🇷 韓文女聲');
-  addGroup(koVoices.filter(v => v.gender === 'other'), '🇰🇷 韓文其他');
+  if (lang === 'zh') {
+    addGroup(zhVoices.filter(v => v.gender === 'male'), '👨 男聲');
+    addGroup(zhVoices.filter(v => v.gender === 'female'), '👩 女聲');
+    addGroup(zhVoices.filter(v => v.gender === 'other'), '🗣️ 其他');
+  } else if (lang === 'ja') {
+    addGroup(jaVoices.filter(v => v.gender === 'male'), '👨 男聲');
+    addGroup(jaVoices.filter(v => v.gender === 'female'), '👩 女聲');
+    addGroup(jaVoices.filter(v => v.gender === 'other'), '🗣️ 其他');
+  } else if (lang === 'ko') {
+    addGroup(koVoices.filter(v => v.gender === 'male'), '👨 男聲');
+    addGroup(koVoices.filter(v => v.gender === 'female'), '👩 女聲');
+    addGroup(koVoices.filter(v => v.gender === 'other'), '🗣️ 其他');
+  }
 
-  // 偵測目前裝置語音數量
-  console.log(`[TTS] 共載入 ${availableVoices.length} 個語音，中文: ${zhVoices.length}, 日文: ${jaVoices.length}, 韓文: ${koVoices.length}`);
+  console.log(`[TTS] 語言: ${lang}, 中文: ${zhVoices.length}, 日文: ${jaVoices.length}, 韓文: ${koVoices.length}`);
 }
 
 // ===== 語音輸出 =====
 function speakItem(item) {
   if (!('speechSynthesis' in window)) return;
-  const utter = new SpeechSynthesisUtterance(item.text);
-  utter.lang = 'zh-TW';
+  const lang = settings.lang || 'zh';
+  let text = item.text;
+  let langCode = 'zh-TW';
+
+  if (lang === 'ja' && item.ja) {
+    text = item.ja;
+    langCode = 'ja-JP';
+  } else if (lang === 'ko' && item.ko) {
+    text = item.ko;
+    langCode = 'ko-KR';
+  }
+
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = langCode;
   
   // 套用特殊語調
   const voice = specialVoices[settings.specialVoice] || specialVoices.normal;
@@ -399,9 +423,19 @@ function speakSentence() {
     showToast('瀏覽器不支援語音');
     return;
   }
-  const text = sentenceItems.map(i => i.text).join(' ');
+  const lang = settings.lang || 'zh';
+  const texts = sentenceItems.map(i => {
+    if (lang === 'ja' && i.ja) return i.ja;
+    if (lang === 'ko' && i.ko) return i.ko;
+    return i.text;
+  });
+  const text = texts.join(' ');
+  let langCode = 'zh-TW';
+  if (lang === 'ja') langCode = 'ja-JP';
+  if (lang === 'ko') langCode = 'ko-KR';
+
   const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'zh-TW';
+  utter.lang = langCode;
   
   // 套用特殊語調
   const voice = specialVoices[settings.specialVoice] || specialVoices.normal;
@@ -552,12 +586,18 @@ function applySettings() {
   document.getElementById('fontSize').value = settings.fontSize;
   document.getElementById('fontSizeVal').textContent = settings.fontSize + 'px';
   document.getElementById('themeSelect').value = settings.theme;
+  document.getElementById('langSelect').value = settings.lang || 'zh';
 
   // Apply font size
   document.documentElement.style.setProperty('--font-size-sm', settings.fontSize + 'px');
 
   // Apply theme
   applyTheme(settings.theme);
+
+  // Reload voices for selected language
+  if (availableVoices.length > 0) {
+    loadVoices();
+  }
 }
 
 // ===== 主題切換 =====
@@ -636,6 +676,16 @@ function setupEventListeners() {
     settings.theme = e.target.value;
     applyTheme(settings.theme);
     saveSettings();
+  };
+
+  // Language select (🌐 語言)
+  document.getElementById('langSelect').onchange = (e) => {
+    settings.lang = e.target.value;
+    localStorage.setItem('aac_settings', JSON.stringify(settings));
+    loadVoices();
+    renderSentence();
+    const langNames = { zh: '中文', ja: '日文', ko: '韓文' };
+    showToast(`🌐 已切換為${langNames[settings.lang]}`);
   };
 
   // Special voice selector
