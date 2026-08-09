@@ -327,10 +327,18 @@ function renderFavorites() {
 function renderQuickBar() {
   const bar = document.getElementById('quickBar');
   bar.innerHTML = '';
+  const lang = settings.lang || 'zh';
   quickWords.forEach(word => {
     const btn = document.createElement('button');
     btn.className = 'quick-btn';
-    btn.innerHTML = `<span class="quick-emoji">${word.emoji}</span><span>${word.text}</span>`;
+    // 根據語言顯示翻譯
+    let label = word.text;
+    if (lang === 'ja' && word.ja) {
+      label = `${word.text}（${word.ja}）`;
+    } else if (lang === 'ko' && word.ko) {
+      label = `${word.text}（${word.ko}）`;
+    }
+    btn.innerHTML = `<span class="quick-emoji">${word.emoji}</span><span>${label}</span>`;
     btn.onclick = () => addToSentence(word);
     bar.appendChild(btn);
   });
@@ -721,6 +729,7 @@ function setupEventListeners() {
     settings.lang = e.target.value;
     localStorage.setItem('aac_settings', JSON.stringify(settings));
     loadVoices();
+    renderQuickBar();
     renderSentence();
     const langNames = { zh: '中文', ja: '日文', ko: '韓文' };
     showToast(`🌐 已切換為${langNames[settings.lang]}`);
