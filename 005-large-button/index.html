@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圖圖說話 - 大字體簡潔版</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background: #f5f5f5;
+    min-height: 100vh;
+    color: #222;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* 頂部標題 */
+  .topbar {
+    background: #fff;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #e0e0e0;
+  }
+  .topbar h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #333;
+  }
+  .topbar-btn {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    border: 2px solid #ddd;
+    background: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .topbar-btn:hover { background: #f0f0f0; }
+  .topbar-btn:active { transform: scale(0.95); }
+
+  /* 句子顯示區 */
+  .sentence-area {
+    background: #fff;
+    margin: 16px;
+    border-radius: 20px;
+    padding: 20px 24px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    border: 3px solid #e0e0e0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .sentence-area .placeholder {
+    color: #ccc;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .word-tag {
+    background: #333;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 16px;
+    font-size: 24px;
+    font-weight: 800;
+    animation: tagIn 0.25s ease;
+  }
+  @keyframes tagIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+  }
+  .sentence-btns {
+    display: flex;
+    gap: 12px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .s-btn {
+    padding: 14px 28px;
+    border-radius: 16px;
+    border: none;
+    font-size: 22px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .s-btn:active { transform: scale(0.93); }
+  .btn-speak {
+    background: #2e7d32;
+    color: #fff;
+  }
+  .btn-speak:hover { background: #1b5e20; }
+  .btn-speak.speaking {
+    animation: speakPulse 0.5s ease infinite alternate;
+  }
+  @keyframes speakPulse {
+    from { box-shadow: 0 0 0 0 rgba(46,125,50,0.4); }
+    to { box-shadow: 0 0 0 12px rgba(46,125,50,0); }
+  }
+  .btn-clear {
+    background: #eee;
+    color: #666;
+  }
+  .btn-clear:hover { background: #ddd; }
+
+  /* 分類按鈕列 */
+  .cat-row {
+    display: flex;
+    gap: 12px;
+    padding: 0 16px 16px;
+    overflow-x: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cat-pill {
+    flex-shrink: 0;
+    padding: 14px 28px;
+    border-radius: 30px;
+    border: 3px solid #ddd;
+    background: #fff;
+    font-size: 20px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: #555;
+  }
+  .cat-pill:hover { border-color: #333; color: #333; }
+  .cat-pill.active {
+    background: #333;
+    color: #fff;
+    border-color: #333;
+  }
+
+  /* 大按鈕網格 */
+  .big-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    padding: 0 16px 120px;
+  }
+  .big-card {
+    background: #fff;
+    border: 3px solid #e0e0e0;
+    border-radius: 24px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .big-card:hover {
+    border-color: #333;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  .big-card:active {
+    transform: scale(0.95);
+    border-color: #2e7d32;
+    background: #f1f8e9;
+  }
+  .big-emoji {
+    font-size: 64px;
+    line-height: 1;
+  }
+  .big-label {
+    font-size: 20px;
+    font-weight: 800;
+    color: #333;
+    text-align: center;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: #333;
+    color: #fff;
+    padding: 20px 40px;
+    border-radius: 20px;
+    font-size: 22px;
+    font-weight: 800;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 300;
+    pointer-events: none;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  /* 響應式 */
+  @media (max-width: 600px) {
+    .big-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .big-emoji { font-size: 52px; }
+    .big-label { font-size: 18px; }
+    .big-card { padding: 16px 12px; }
+    .word-tag { font-size: 20px; padding: 10px 18px; }
+    .s-btn { font-size: 18px; padding: 12px 20px; }
+    .cat-pill { font-size: 16px; padding: 10px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>🗣️ 圖圖說話</h1>
+  <div style="display:flex;gap:10px;">
+    <button class="topbar-btn" onclick="showToast('🔊 語音已開')">🔊</button>
+    <button class="topbar-btn" onclick="showToast('⚙️ 設定')">⚙️</button>
+  </div>
+</div>
+
+<!-- 句子區 -->
+<div class="sentence-area" id="sentenceArea">
+  <span class="placeholder">👇 點擊大按鈕</span>
+  <div class="sentence-btns">
+    <button class="s-btn btn-clear" onclick="clearSentence()">清除</button>
+    <button class="s-btn btn-speak" id="speakBtn" onclick="speakSentence()">🔊 讀出</button>
+  </div>
+</div>
+
+<!-- 分類 -->
+<div class="cat-row" id="catRow">
+  <button class="cat-pill active" data-cat="all" onclick="filterCat('all',this)">🌟 全部</button>
+  <button class="cat-pill" data-cat="needs" onclick="filterCat('needs',this)">🍽 需求</button>
+  <button class="cat-pill" data-cat="emotions" onclick="filterCat('emotions',this)">😊 情緒</button>
+  <button class="cat-pill" data-cat="people" onclick="filterCat('people',this)">👥 人物</button>
+  <button class="cat-pill" data-cat="places" onclick="filterCat('places',this)">📍 地點</button>
+  <button class="cat-pill" data-cat="actions" onclick="filterCat('actions',this)">⚡ 動作</button>
+</div>
+
+<!-- 大按鈕網格 -->
+<div class="big-grid" id="bigGrid"></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const vocabulary = [
+  { id: 'eat', text: '我要吃飯', emoji: '🍚', cat: 'needs' },
+  { id: 'drink', text: '我要喝水', emoji: '💧', cat: 'needs' },
+  { id: 'toilet', text: '我要上廁所', emoji: '🚻', cat: 'needs' },
+  { id: 'sleep', text: '我要睡覺', emoji: '😴', cat: 'needs' },
+  { id: 'medicine', text: '我要吃藥', emoji: '💊', cat: 'needs' },
+  { id: 'hurt', text: '我哪裡痛', emoji: '🤕', cat: 'needs' },
+  { id: 'happy', text: '我很開心', emoji: '😊', cat: 'emotions' },
+  { id: 'sad', text: '我很難過', emoji: '😢', cat: 'emotions' },
+  { id: 'angry', text: '我很生氣', emoji: '😠', cat: 'emotions' },
+  { id: 'scared', text: '我很害怕', emoji: '😨', cat: 'emotions' },
+  { id: 'tired', text: '我很累', emoji: '😫', cat: 'emotions' },
+  { id: 'love', text: '我愛你', emoji: '❤️', cat: 'emotions' },
+  { id: 'mom', text: '媽媽', emoji: '👩', cat: 'people' },
+  { id: 'dad', text: '爸爸', emoji: '👨', cat: 'people' },
+  { id: 'teacher', text: '老師', emoji: '👩‍🏫', cat: 'people' },
+  { id: 'friend', text: '朋友', emoji: '👫', cat: 'people' },
+  { id: 'doctor', text: '醫生', emoji: '👨‍⚕️', cat: 'people' },
+  { id: 'me', text: '我', emoji: '🙋', cat: 'people' },
+  { id: 'home', text: '回家', emoji: '🏠', cat: 'places' },
+  { id: 'school', text: '學校', emoji: '🏫', cat: 'places' },
+  { id: 'park', text: '公園', emoji: '🌳', cat: 'places' },
+  { id: 'hospital', text: '醫院', emoji: '🏥', cat: 'places' },
+  { id: 'restaurant', text: '餐廳', emoji: '🍽️', cat: 'places' },
+  { id: 'bathroom', text: '廁所', emoji: '🚽', cat: 'places' },
+  { id: 'play', text: '我要玩', emoji: '🎮', cat: 'actions' },
+  { id: 'read', text: '我要看書', emoji: '📖', cat: 'actions' },
+  { id: 'watch', text: '我要看電視', emoji: '📺', cat: 'actions' },
+  { id: 'draw', text: '我要畫畫', emoji: '🎨', cat: 'actions' },
+  { id: 'yes', text: '可以', emoji: '✅', cat: 'actions' },
+  { id: 'no', text: '不要', emoji: '❌', cat: 'actions' },
+];
+
+let sentence = [];
+let curCat = 'all';
+
+function render() {
+  const grid = document.getElementById('bigGrid');
+  const filtered = curCat === 'all' ? vocabulary : vocabulary.filter(v => v.cat === curCat);
+  grid.innerHTML = filtered.map(item => `
+    <div class="big-card" data-cat="${item.cat}" onclick="addWord('${item.text}')">
+      <span class="big-emoji">${item.emoji}</span>
+      <span class="big-label">${item.text}</span>
+    </div>
+  `).join('');
+}
+
+function filterCat(cat, btn) {
+  curCat = cat;
+  document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function addWord(text) {
+  sentence.push(text);
+  updateArea();
+}
+
+function updateArea() {
+  const area = document.getElementById('sentenceArea');
+  const btns = area.querySelector('.sentence-btns');
+  if (!sentence.length) {
+    area.innerHTML = '<span class="placeholder">👇 點擊大按鈕</span>';
+    area.appendChild(btns);
+    return;
+  }
+  area.innerHTML = '';
+  sentence.forEach(w => {
+    const span = document.createElement('span');
+    span.className = 'word-tag';
+    span.textContent = w;
+    area.appendChild(span);
+  });
+  area.appendChild(btns);
+}
+
+function speakSentence() {
+  if (!sentence.length) { showToast('請先點擊按鈕'); return; }
+  const text = sentence.join('，');
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-TW'; u.rate = 0.8; u.pitch = 1.0;
+  const btn = document.getElementById('speakBtn');
+  btn.classList.add('speaking');
+  u.onend = () => btn.classList.remove('speaking');
+  speechSynthesis.speak(u);
+  showToast(`🔊 "${text}"`);
+}
+
+function clearSentence() {
+  sentence = [];
+  updateArea();
+  showToast('已清除');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+render();
+</script>
+</body>
+</html>

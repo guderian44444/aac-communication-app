@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圖圖說話 - 結構網格版</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background: #1a1a2e;
+    min-height: 100vh;
+    color: #eee;
+  }
+
+  /* Top bar */
+  .topbar {
+    background: #16213e;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #0f3460;
+  }
+  .topbar h1 {
+    font-size: 20px;
+    color: #e94560;
+    letter-spacing: 2px;
+  }
+  .topbar-right { display: flex; gap: 10px; }
+  .topbar-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 2px solid #0f3460;
+    background: #16213e;
+    color: #ccc;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .topbar-btn:hover { border-color: #e94560; color: #e94560; }
+
+  /* Sentence bar - prominent */
+  .sentence-zone {
+    background: #16213e;
+    margin: 0;
+    padding: 20px;
+    border-bottom: 3px solid #0f3460;
+  }
+  .sentence-display {
+    background: #0f3460;
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    border: 2px solid #1a1a5e;
+  }
+  .sentence-display .placeholder {
+    color: #556;
+    font-size: 16px;
+  }
+  .word-chip {
+    background: #e94560;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    animation: chipIn 0.25s ease;
+  }
+  @keyframes chipIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .sentence-controls {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+    justify-content: flex-end;
+  }
+  .ctrl-btn {
+    padding: 14px 28px;
+    border-radius: 10px;
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 1px;
+  }
+  .ctrl-btn:active { transform: scale(0.95); }
+  .btn-speak {
+    background: #00b4d8;
+    color: white;
+    box-shadow: 0 4px 16px rgba(0,180,216,0.3);
+  }
+  .btn-speak:hover { background: #0096c7; }
+  .btn-clear {
+    background: #333;
+    color: #aaa;
+  }
+  .btn-clear:hover { background: #444; color: #ddd; }
+
+  /* Main layout: sidebar + grid */
+  .main-layout {
+    display: flex;
+    min-height: calc(100vh - 200px);
+  }
+
+  /* Sidebar categories */
+  .sidebar {
+    width: 140px;
+    background: #16213e;
+    border-right: 3px solid #0f3460;
+    padding: 16px 0;
+    flex-shrink: 0;
+  }
+  .sidebar-title {
+    padding: 0 16px 12px;
+    font-size: 12px;
+    color: #556;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .sidebar-btn {
+    width: 100%;
+    padding: 14px 16px;
+    border: none;
+    background: none;
+    color: #99a;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 4px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sidebar-btn:hover { background: #1a1a4e; color: #ddd; }
+  .sidebar-btn.active {
+    background: #1a1a4e;
+    color: #e94560;
+    border-left-color: #e94560;
+  }
+  .sidebar-btn .s-icon { font-size: 22px; }
+
+  /* Icon grid area */
+  .grid-area {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  .grid-section-title {
+    font-size: 13px;
+    color: #556;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  .icon-cell {
+    background: #16213e;
+    border: 2px solid #0f3460;
+    border-radius: 10px;
+    padding: 14px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .icon-cell:hover {
+    border-color: #e94560;
+    background: #1a1a4e;
+    transform: translateY(-2px);
+  }
+  .icon-cell:active {
+    transform: scale(0.93);
+    border-color: #00b4d8;
+  }
+  .icon-cell .cell-emoji { font-size: 36px; }
+  .icon-cell .cell-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #aab;
+    text-align: center;
+  }
+
+  /* Category color coding */
+  .icon-cell[data-cat="needs"] { border-left: 4px solid #ff6b6b; }
+  .icon-cell[data-cat="emotions"] { border-left: 4px solid #4ecdc4; }
+  .icon-cell[data-cat="people"] { border-left: 4px solid #45b7d1; }
+  .icon-cell[data-cat="places"] { border-left: 4px solid #f9ca24; }
+  .icon-cell[data-cat="actions"] { border-left: 4px solid #a55eea; }
+
+  /* Speaking state */
+  .btn-speak.speaking {
+    animation: speakPulse 0.5s ease infinite alternate;
+  }
+  @keyframes speakPulse {
+    from { box-shadow: 0 0 0 0 rgba(0,180,216,0.4); }
+    to { box-shadow: 0 0 0 12px rgba(0,180,216,0); }
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #00b4d8;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s;
+    z-index: 200;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .main-layout { flex-direction: column; }
+    .sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 3px solid #0f3460;
+      padding: 10px 0;
+    }
+    .sidebar-title { display: none; }
+    .sidebar-btn {
+      display: inline-flex;
+      width: auto;
+      padding: 10px 14px;
+      border-left: none;
+      border-bottom: 3px solid transparent;
+    }
+    .sidebar-btn.active { border-bottom-color: #e94560; }
+    .sidebar-inner { display: flex; gap: 4px; padding: 0 10px; overflow-x: auto; }
+    .icon-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>▦ 圖圖說話</h1>
+  <div class="topbar-right">
+    <button class="topbar-btn" onclick="showToast('🔊 語音開')">🔊 語音</button>
+    <button class="topbar-btn" onclick="showToast('⚙ 設定')">⚙ 設定</button>
+  </div>
+</div>
+
+<div class="sentence-zone">
+  <div class="sentence-display" id="sentenceDisplay">
+    <span class="placeholder">▸ 點擊下方圖示來組句子</span>
+  </div>
+  <div class="sentence-controls">
+    <button class="ctrl-btn btn-clear" onclick="clearSentence()">清除 ✕</button>
+    <button class="ctrl-btn btn-speak" id="speakBtn" onclick="speakSentence()">🔊 讀出</button>
+  </div>
+</div>
+
+<div class="main-layout">
+  <div class="sidebar">
+    <div class="sidebar-title">分類</div>
+    <div class="sidebar-inner" id="sidebarBtns">
+      <button class="sidebar-btn active" data-cat="all" onclick="filterCat('all', this)">
+        <span class="s-icon">◆</span>全部
+      </button>
+      <button class="sidebar-btn" data-cat="needs" onclick="filterCat('needs', this)">
+        <span class="s-icon">🍽</span>需求
+      </button>
+      <button class="sidebar-btn" data-cat="emotions" onclick="filterCat('emotions', this)">
+        <span class="s-icon">😊</span>情緒
+      </button>
+      <button class="sidebar-btn" data-cat="people" onclick="filterCat('people', this)">
+        <span class="s-icon">👥</span>人物
+      </button>
+      <button class="sidebar-btn" data-cat="places" onclick="filterCat('places', this)">
+        <span class="s-icon">📍</span>地點
+      </button>
+      <button class="sidebar-btn" data-cat="actions" onclick="filterCat('actions', this)">
+        <span class="s-icon">⚡</span>動作
+      </button>
+    </div>
+  </div>
+  <div class="grid-area">
+    <div class="grid-section-title" id="sectionTitle">所有圖示</div>
+    <div class="icon-grid" id="iconGrid"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const vocabulary = [
+  { id: 'eat', text: '我要吃飯', emoji: '🍚', cat: 'needs' },
+  { id: 'drink', text: '我要喝水', emoji: '💧', cat: 'needs' },
+  { id: 'toilet', text: '我要上廁所', emoji: '🚻', cat: 'needs' },
+  { id: 'sleep', text: '我要睡覺', emoji: '😴', cat: 'needs' },
+  { id: 'medicine', text: '我要吃藥', emoji: '💊', cat: 'needs' },
+  { id: 'hurt', text: '我哪裡痛', emoji: '🤕', cat: 'needs' },
+  { id: 'happy', text: '我很開心', emoji: '😊', cat: 'emotions' },
+  { id: 'sad', text: '我很難過', emoji: '😢', cat: 'emotions' },
+  { id: 'angry', text: '我很生氣', emoji: '😠', cat: 'emotions' },
+  { id: 'scared', text: '我很害怕', emoji: '😨', cat: 'emotions' },
+  { id: 'tired', text: '我很累', emoji: '😫', cat: 'emotions' },
+  { id: 'love', text: '我愛你', emoji: '❤️', cat: 'emotions' },
+  { id: 'mom', text: '媽媽', emoji: '👩', cat: 'people' },
+  { id: 'dad', text: '爸爸', emoji: '👨', cat: 'people' },
+  { id: 'teacher', text: '老師', emoji: '👩‍🏫', cat: 'people' },
+  { id: 'friend', text: '朋友', emoji: '👫', cat: 'people' },
+  { id: 'doctor', text: '醫生', emoji: '👨‍⚕️', cat: 'people' },
+  { id: 'me', text: '我', emoji: '🙋', cat: 'people' },
+  { id: 'home', text: '回家', emoji: '🏠', cat: 'places' },
+  { id: 'school', text: '學校', emoji: '🏫', cat: 'places' },
+  { id: 'park', text: '公園', emoji: '🌳', cat: 'places' },
+  { id: 'hospital', text: '醫院', emoji: '🏥', cat: 'places' },
+  { id: 'restaurant', text: '餐廳', emoji: '🍽️', cat: 'places' },
+  { id: 'bathroom', text: '廁所', emoji: '🚽', cat: 'places' },
+  { id: 'play', text: '我要玩', emoji: '🎮', cat: 'actions' },
+  { id: 'read', text: '我要看書', emoji: '📖', cat: 'actions' },
+  { id: 'watch', text: '我要看電視', emoji: '📺', cat: 'actions' },
+  { id: 'draw', text: '我要畫畫', emoji: '🎨', cat: 'actions' },
+  { id: 'yes', text: '可以', emoji: '✅', cat: 'actions' },
+  { id: 'no', text: '不要', emoji: '❌', cat: 'actions' },
+];
+
+let sentence = [];
+let currentCat = 'all';
+
+const catNames = {
+  all: '所有圖示', needs: '基本需求', emotions: '情緒表達',
+  people: '人物', places: '地點', actions: '動作'
+};
+
+function render() {
+  const grid = document.getElementById('iconGrid');
+  const filtered = currentCat === 'all' ? vocabulary : vocabulary.filter(v => v.cat === currentCat);
+  document.getElementById('sectionTitle').textContent = catNames[currentCat] || '所有圖示';
+
+  grid.innerHTML = filtered.map(item => `
+    <div class="icon-cell" data-cat="${item.cat}" onclick="addWord('${item.text}')">
+      <span class="cell-emoji">${item.emoji}</span>
+      <span class="cell-label">${item.text}</span>
+    </div>
+  `).join('');
+}
+
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function addWord(text) {
+  sentence.push(text);
+  updateDisplay();
+}
+
+function updateDisplay() {
+  const display = document.getElementById('sentenceDisplay');
+  if (sentence.length === 0) {
+    display.innerHTML = '<span class="placeholder">▸ 點擊下方圖示來組句子</span>';
+    return;
+  }
+  display.innerHTML = sentence.map(w => `<span class="word-chip">${w}</span>`).join('');
+}
+
+function speakSentence() {
+  if (!sentence.length) { showToast('請先點擊圖示'); return; }
+  const text = sentence.join('，');
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-TW'; u.rate = 0.85; u.pitch = 1.1;
+  const btn = document.getElementById('speakBtn');
+  btn.classList.add('speaking');
+  u.onend = () => btn.classList.remove('speaking');
+  speechSynthesis.speak(u);
+  showToast(`🔊 "${text}"`);
+}
+
+function clearSentence() {
+  sentence = [];
+  updateDisplay();
+  showToast('已清除');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+render();
+</script>
+</body>
+</html>

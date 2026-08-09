@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圖圖說話 - 趣味故事版</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background: #FFF8E1;
+    min-height: 100vh;
+    color: #444;
+    overflow-x: hidden;
+  }
+
+  /* Playful header with clouds */
+  .header {
+    background: linear-gradient(180deg, #81D4FA 0%, #B3E5FC 60%, #FFF8E1 100%);
+    padding: 20px 20px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '☁️';
+    position: absolute;
+    top: 10px; left: 20px;
+    font-size: 40px;
+    opacity: 0.5;
+  }
+  .header::after {
+    content: '☁️';
+    position: absolute;
+    top: 20px; right: 60px;
+    font-size: 30px;
+    opacity: 0.4;
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+  }
+  .header h1 {
+    font-size: 26px;
+    color: #0277BD;
+    text-shadow: 2px 2px 0 rgba(255,255,255,0.5);
+  }
+  .header-btns { display: flex; gap: 8px; }
+  .h-btn {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 3px solid white;
+    background: rgba(255,255,255,0.7);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+  }
+  .h-btn:hover { background: white; transform: scale(1.1); }
+
+  /* Story sentence area */
+  .story-zone {
+    margin: -20px 20px 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .story-book {
+    background: white;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1), 0 0 0 4px #FFCC80;
+    border: 3px dashed #FFB74D;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .story-title {
+    font-size: 13px;
+    color: #FF8A65;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+  .story-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-height: 48px;
+  }
+  .story-placeholder {
+    color: #ddd;
+    font-size: 16px;
+    font-style: italic;
+  }
+  .story-word {
+    background: linear-gradient(135deg, #FFB74D, #FF8A65);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: 0 3px 8px rgba(255,138,101,0.3);
+    animation: bounceIn 0.4s ease;
+    position: relative;
+  }
+  .story-word::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 50%;
+    transform: translateX(-50%);
+    width: 6px; height: 6px;
+    background: #FF8A65;
+    border-radius: 50%;
+  }
+  @keyframes bounceIn {
+    0% { transform: scale(0) rotate(-10deg); }
+    60% { transform: scale(1.15) rotate(3deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+  .story-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    padding-top: 8px;
+    border-top: 2px dashed #f0e0c0;
+  }
+  .story-btn {
+    padding: 10px 24px;
+    border-radius: 20px;
+    border: 3px solid;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .story-btn:active { transform: scale(0.93); }
+  .btn-read {
+    background: #C8E6C9;
+    border-color: #81C784;
+    color: #2E7D32;
+  }
+  .btn-read:hover { background: #A5D6A7; }
+  .btn-read.speaking {
+    animation: readPulse 0.6s ease infinite alternate;
+  }
+  @keyframes readPulse {
+    from { box-shadow: 0 0 0 0 rgba(129,199,132,0.4); }
+    to { box-shadow: 0 0 0 10px rgba(129,199,132,0); }
+  }
+  .btn-erase {
+    background: #FFCDD2;
+    border-color: #EF9A9A;
+    color: #C62828;
+  }
+  .btn-erase:hover { background: #EF9A9A; }
+
+  /* Category bubbles */
+  .cat-bubbles {
+    display: flex;
+    gap: 12px;
+    padding: 0 20px 20px;
+    overflow-x: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .bubble {
+    flex-shrink: 0;
+    padding: 12px 22px;
+    border-radius: 30px;
+    border: 3px solid;
+    background: white;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .bubble:hover { transform: translateY(-3px); }
+  .bubble:active { transform: scale(0.95); }
+  .bubble.active {
+    color: white !important;
+    transform: scale(1.05);
+  }
+  .bubble[data-cat="all"] { border-color: #FFD54F; color: #F57F17; }
+  .bubble[data-cat="all"].active { background: #FFD54F; border-color: #FFC107; }
+  .bubble[data-cat="needs"] { border-color: #FF8A65; color: #D84315; }
+  .bubble[data-cat="needs"].active { background: #FF8A65; border-color: #FF7043; }
+  .bubble[data-cat="emotions"] { border-color: #81D4FA; color: #0277BD; }
+  .bubble[data-cat="emotions"].active { background: #81D4FA; border-color: #4FC3F7; }
+  .bubble[data-cat="people"] { border-color: #A5D6A7; color: #2E7D32; }
+  .bubble[data-cat="people"].active { background: #A5D6A7; border-color: #81C784; }
+  .bubble[data-cat="places"] { border-color: #CE93D8; color: #6A1B9A; }
+  .bubble[data-cat="places"].active { background: #CE93D8; border-color: #BA68C8; }
+  .bubble[data-cat="actions"] { border-color: #FFAB91; color: #BF360C; }
+  .bubble[data-cat="actions"].active { background: #FFAB91; border-color: #FF8A65; }
+
+  /* Fun icon grid */
+  .fun-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+    padding: 0 20px 40px;
+  }
+  .fun-card {
+    background: white;
+    border-radius: 24px;
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.25s;
+    border: 3px solid #f0e0c0;
+    position: relative;
+    overflow: hidden;
+  }
+  .fun-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    border-radius: 24px 24px 0 0;
+  }
+  .fun-card[data-cat="needs"]::before { background: #FF8A65; }
+  .fun-card[data-cat="emotions"]::before { background: #81D4FA; }
+  .fun-card[data-cat="people"]::before { background: #A5D6A7; }
+  .fun-card[data-cat="places"]::before { background: #CE93D8; }
+  .fun-card[data-cat="actions"]::before { background: #FFAB91; }
+
+  .fun-card:hover {
+    transform: translateY(-6px) rotate(-1deg);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    border-color: #FFB74D;
+  }
+  .fun-card:active {
+    transform: scale(0.92) rotate(0);
+  }
+  .fun-card .fun-emoji {
+    font-size: 52px;
+    line-height: 1;
+    filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.1));
+  }
+  .fun-card .fun-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: #666;
+    text-align: center;
+  }
+
+  /* Fun footer */
+  .fun-footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: white;
+    border-top: 3px solid #FFCC80;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    z-index: 100;
+  }
+  .foot-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 4px 12px;
+    border-radius: 12px;
+    transition: background 0.2s;
+  }
+  .foot-item:hover { background: #FFF3E0; }
+  .foot-item.active { color: #FF8A65; }
+  .foot-icon { font-size: 26px; }
+  .foot-label { font-size: 11px; font-weight: 700; color: #bbb; }
+  .foot-item.active .foot-label { color: #FF8A65; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: #FF8A65;
+    color: white;
+    padding: 16px 32px;
+    border-radius: 24px;
+    font-size: 18px;
+    font-weight: 700;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 300;
+    pointer-events: none;
+    box-shadow: 0 8px 24px rgba(255,138,101,0.4);
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .fun-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .fun-card .fun-emoji { font-size: 40px; }
+    .cat-bubbles { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sky header -->
+<div class="header">
+  <div class="header-inner">
+    <h1>🌈 圖圖說話</h1>
+    <div class="header-btns">
+      <button class="h-btn" onclick="showToast('🔊 語音開')">🔊</button>
+      <button class="h-btn" onclick="showToast('⚙️ 設定')">⚙️</button>
+    </div>
+  </div>
+</div>
+
+<!-- Story book -->
+<div class="story-zone">
+  <div class="story-book">
+    <div class="story-title">📖 我的故事</div>
+    <div class="story-line" id="storyLine">
+      <span class="story-placeholder">✨ 點擊下面的圖圖，寫你的故事...</span>
+    </div>
+    <div class="story-actions">
+      <button class="story-btn btn-erase" onclick="clearStory()">🗑️ 擦掉</button>
+      <button class="story-btn btn-read" id="readBtn" onclick="readStory()">📖 讀給我聽</button>
+    </div>
+  </div>
+</div>
+
+<!-- Category bubbles -->
+<div class="cat-bubbles">
+  <button class="bubble active" data-cat="all" onclick="filterCat('all',this)">🌟 全部</button>
+  <button class="bubble" data-cat="needs" onclick="filterCat('needs',this)">🍽️ 我要...</button>
+  <button class="bubble" data-cat="emotions" onclick="filterCat('emotions',this)">😊 我的感覺</button>
+  <button class="bubble" data-cat="people" onclick="filterCat('people',this)">👥 人</button>
+  <button class="bubble" data-cat="places" onclick="filterCat('places',this)">📍 地方</button>
+  <button class="bubble" data-cat="actions" onclick="filterCat('actions',this)">⚡ 做什麼</button>
+</div>
+
+<!-- Fun grid -->
+<div class="fun-grid" id="funGrid"></div>
+
+<!-- Footer -->
+<div class="fun-footer">
+  <button class="foot-item active">
+    <span class="foot-icon">🏠</span>
+    <span class="foot-label">首頁</span>
+  </button>
+  <button class="foot-item">
+    <span class="foot-icon">⭐</span>
+    <span class="foot-label">常用</span>
+  </button>
+  <button class="foot-item">
+    <span class="foot-icon">🎨</span>
+    <span class="foot-label">創作</span>
+  </button>
+  <button class="foot-item">
+    <span class="foot-icon">👤</span>
+    <span class="foot-label">我的</span>
+  </button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const vocabulary = [
+  { id: 'eat', text: '我要吃飯', emoji: '🍚', cat: 'needs' },
+  { id: 'drink', text: '我要喝水', emoji: '💧', cat: 'needs' },
+  { id: 'toilet', text: '我要上廁所', emoji: '🚻', cat: 'needs' },
+  { id: 'sleep', text: '我要睡覺', emoji: '😴', cat: 'needs' },
+  { id: 'medicine', text: '我要吃藥', emoji: '💊', cat: 'needs' },
+  { id: 'hurt', text: '我哪裡痛', emoji: '🤕', cat: 'needs' },
+  { id: 'happy', text: '我很開心', emoji: '😊', cat: 'emotions' },
+  { id: 'sad', text: '我很難過', emoji: '😢', cat: 'emotions' },
+  { id: 'angry', text: '我很生氣', emoji: '😠', cat: 'emotions' },
+  { id: 'scared', text: '我很害怕', emoji: '😨', cat: 'emotions' },
+  { id: 'tired', text: '我很累', emoji: '😫', cat: 'emotions' },
+  { id: 'love', text: '我愛你', emoji: '❤️', cat: 'emotions' },
+  { id: 'mom', text: '媽媽', emoji: '👩', cat: 'people' },
+  { id: 'dad', text: '爸爸', emoji: '👨', cat: 'people' },
+  { id: 'teacher', text: '老師', emoji: '👩‍🏫', cat: 'people' },
+  { id: 'friend', text: '朋友', emoji: '👫', cat: 'people' },
+  { id: 'doctor', text: '醫生', emoji: '👨‍⚕️', cat: 'people' },
+  { id: 'me', text: '我', emoji: '🙋', cat: 'people' },
+  { id: 'home', text: '回家', emoji: '🏠', cat: 'places' },
+  { id: 'school', text: '學校', emoji: '🏫', cat: 'places' },
+  { id: 'park', text: '公園', emoji: '🌳', cat: 'places' },
+  { id: 'hospital', text: '醫院', emoji: '🏥', cat: 'places' },
+  { id: 'restaurant', text: '餐廳', emoji: '🍽️', cat: 'places' },
+  { id: 'bathroom', text: '廁所', emoji: '🚽', cat: 'places' },
+  { id: 'play', text: '我要玩', emoji: '🎮', cat: 'actions' },
+  { id: 'read', text: '我要看書', emoji: '📖', cat: 'actions' },
+  { id: 'watch', text: '我要看電視', emoji: '📺', cat: 'actions' },
+  { id: 'draw', text: '我要畫畫', emoji: '🎨', cat: 'actions' },
+  { id: 'yes', text: '可以', emoji: '✅', cat: 'actions' },
+  { id: 'no', text: '不要', emoji: '❌', cat: 'actions' },
+];
+
+let story = [];
+let curCat = 'all';
+
+const catLabels = {
+  all: '所有圖圖', needs: '我要...', emotions: '我的感覺',
+  people: '人', places: '地方', actions: '做什麼'
+};
+
+function render() {
+  const grid = document.getElementById('funGrid');
+  const filtered = curCat === 'all' ? vocabulary : vocabulary.filter(v => v.cat === curCat);
+  grid.innerHTML = filtered.map(item => `
+    <div class="fun-card" data-cat="${item.cat}" onclick="addWord('${item.text}')">
+      <span class="fun-emoji">${item.emoji}</span>
+      <span class="fun-label">${item.text}</span>
+    </div>
+  `).join('');
+}
+
+function filterCat(cat, btn) {
+  curCat = cat;
+  document.querySelectorAll('.bubble').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function addWord(text) {
+  story.push(text);
+  updateStory();
+}
+
+function updateStory() {
+  const line = document.getElementById('storyLine');
+  if (!story.length) {
+    line.innerHTML = '<span class="story-placeholder">✨ 點擊下面的圖圖，寫你的故事...</span>';
+    return;
+  }
+  line.innerHTML = story.map(w => `<span class="story-word">${w}</span>`).join('');
+}
+
+function readStory() {
+  if (!story.length) { showToast('先點擊圖圖吧！'); return; }
+  const text = story.join('，');
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-TW'; u.rate = 0.85; u.pitch = 1.2;
+  const btn = document.getElementById('readBtn');
+  btn.classList.add('speaking');
+  u.onend = () => btn.classList.remove('speaking');
+  speechSynthesis.speak(u);
+  showToast(`📖 "${text}"`);
+}
+
+function clearStory() {
+  story = [];
+  updateStory();
+  showToast('已擦掉 ✨');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+render();
+</script>
+</body>
+</html>
