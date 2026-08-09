@@ -664,50 +664,171 @@ body {
   }
 }
 
-/* ===== 響應式 - 手機 (480px - 767px) ===== */
+/* ===== 響應式 - 手機 (≤767px) ===== */
 @media (max-width: 767px) {
   :root {
     --font-size-base: 16px;
     --font-size-sm: 13px;
-    --font-size-lg: 18px;
-    --font-size-emoji: 28px;
-    --min-touch: 56px;
+    --font-size-lg: 17px;
+    --font-size-emoji: 32px;
+    --min-touch: 64px;
   }
 
+  /* 標題列 - 更緊湊 */
   .app-header {
-    padding: 8px 12px;
+    padding: 6px 10px;
   }
 
+  .app-title {
+    font-size: 16px;
+  }
+
+  .app-title .logo {
+    font-size: 22px;
+  }
+
+  .header-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 17px;
+  }
+
+  /* 句子欄 - 置頂固定 */
   .sentence-bar {
-    padding: 8px 10px;
-    min-height: 56px;
-    top: 56px;
+    padding: 6px 8px;
+    min-height: 48px;
+    top: 48px;
+    gap: 4px;
   }
 
+  .sentence-chip {
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 14px;
+  }
+
+  .sentence-chip .chip-emoji {
+    font-size: 14px;
+  }
+
+  .sentence-actions {
+    gap: 4px;
+  }
+
+  .speak-btn, .clear-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 14px;
+  }
+
+  /* 分類導航 - 橫滑，按鈕加大 */
   .category-nav {
     padding: 6px 8px;
     gap: 6px;
-    top: 112px;
+    top: 96px;
   }
 
   .cat-btn {
-    min-width: 60px;
-    padding: 6px 10px;
+    min-width: 58px;
+    padding: 6px 8px;
+    gap: 1px;
+    border-radius: 10px;
+    font-size: 12px;
   }
 
   .cat-btn .cat-icon {
     font-size: 20px;
   }
 
+  /* 子分類導航 */
+  .subcategory-nav {
+    padding: 6px 8px;
+    gap: 6px;
+  }
+
+  .sub-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 16px;
+  }
+
+  .sub-btn .sub-icon {
+    font-size: 16px;
+  }
+
+  /* 圖示網格 - 3欄，大按鈕 */
   .icon-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
   }
 
   .icon-card {
-    padding: 8px 6px;
-    min-height: 64px;
+    padding: 10px 6px;
+    min-height: 76px;
+    border-radius: 12px;
+  }
+
+  .icon-card .card-emoji {
+    font-size: 32px;
+  }
+
+  .icon-card .card-text {
+    font-size: 13px;
+  }
+
+  /* 快速詞列 - 改為 2 排網格，取代橫滑 */
+  .quick-bar {
+    padding: 8px 8px 12px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    overflow-x: visible;
+    position: sticky;
+    bottom: 0;
+  }
+
+  .quick-btn {
+    flex-shrink: 1;
+    min-width: 0;
+    padding: 8px 4px;
+    gap: 2px;
     border-radius: 10px;
+    font-size: 12px;
+    min-height: 52px;
+    justify-content: center;
+  }
+
+  .quick-btn .quick-emoji {
+    font-size: 20px;
+  }
+
+  /* 返回按鈕 */
+  .back-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  /* 主內容區 */
+  .main-content {
+    padding: 8px;
+  }
+}
+
+/* ===== 響應式 - 小手機 (≤414px) ===== */
+@media (max-width: 414px) {
+  :root {
+    --font-size-emoji: 28px;
+  }
+
+  .icon-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .icon-card {
+    padding: 8px 4px;
+    min-height: 68px;
   }
 
   .icon-card .card-emoji {
@@ -718,64 +839,9 @@ body {
     font-size: 12px;
   }
 
-  .subcategory-nav {
-    padding: 6px 8px;
-    gap: 4px;
-  }
-
-  .sub-btn {
-    padding: 4px 10px;
-    font-size: 12px;
-  }
-
-  .quick-bar {
-    padding: 6px 8px;
-    gap: 4px;
-  }
-
-  .quick-btn {
-    min-width: 50px;
-    padding: 6px 8px;
-  }
-
-  .quick-btn .quick-emoji {
-    font-size: 18px;
-  }
-
-  .speak-btn, .clear-btn {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-
-  .sentence-chip {
-    padding: 4px 10px;
-    font-size: 12px;
-  }
-}
-
-/* ===== 響應式 - 小手機 (<480px) ===== */
-@media (max-width: 479px) {
-  .icon-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-  }
-
-  .icon-card {
-    padding: 6px 4px;
-    min-height: 58px;
-  }
-
-  .icon-card .card-emoji {
-    font-size: 24px;
-  }
-
-  .icon-card .card-text {
-    font-size: 11px;
-  }
-
   .cat-btn {
     min-width: 52px;
-    padding: 4px 8px;
+    padding: 5px 6px;
     font-size: 11px;
   }
 
@@ -783,14 +849,24 @@ body {
     font-size: 18px;
   }
 
-  .sub-btn {
-    padding: 3px 8px;
-    font-size: 11px;
+  .quick-bar {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 6px 6px 10px;
   }
 
   .quick-btn {
-    min-width: 44px;
-    padding: 4px 6px;
+    padding: 6px 2px;
+    min-height: 48px;
+    font-size: 11px;
+  }
+
+  .quick-btn .quick-emoji {
+    font-size: 18px;
+  }
+
+  .sub-btn {
+    padding: 5px 10px;
     font-size: 11px;
   }
 }
