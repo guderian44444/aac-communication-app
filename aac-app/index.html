@@ -77,13 +77,26 @@
         <h3>🔊 語音</h3>
         <div class="setting-row">
           <label>語速</label>
-          <input type="range" id="speechRate" min="0.5" max="2" step="0.1" value="0.9">
+          <input type="range" id="speechRate" min="0.3" max="3" step="0.1" value="0.9">
           <span id="speechRateVal">0.9</span>
         </div>
         <div class="setting-row">
           <label>語調</label>
-          <input type="range" id="speechPitch" min="0.5" max="2" step="0.1" value="1">
+          <input type="range" id="speechPitch" min="0.1" max="3" step="0.1" value="1">
           <span id="speechPitchVal">1.0</span>
+        </div>
+        <div class="setting-row">
+          <label>特殊語調</label>
+          <select id="specialVoice">
+            <option value="normal">🗣️ 一般</option>
+            <option value="chipmunk">🐿️ 奇奇蒂蒂（高音快嘴）</option>
+            <option value="bear">🐻 大熊（低沉緩慢）</option>
+            <option value="robot">🤖 機器人（機械感）</option>
+            <option value="baby">👶 寶寶（高音可愛）</option>
+            <option value="monster">👾 怪獸（超低沉）</option>
+            <option value="ninja">🥷 忍者（快速低語）</option>
+            <option value="cartoon">🎪 卡通（活潑跳躍）</option>
+          </select>
         </div>
       </div>
       <div class="setting-group">

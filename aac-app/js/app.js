@@ -13,10 +13,23 @@ let settings = JSON.parse(localStorage.getItem('aac_settings') || '{}');
 const defaultSettings = {
   speechRate: 0.9,
   speechPitch: 1.0,
+  specialVoice: 'normal',
   fontSize: 14,
   theme: 'warm'
 };
 settings = { ...defaultSettings, ...settings };
+
+// ===== 特殊語調預設 =====
+const specialVoices = {
+  normal:   { rate: 0.9, pitch: 1.0, label: '🗣️ 一般' },
+  chipmunk: { rate: 1.8, pitch: 2.5, label: '🐿️ 奇奇蒂蒂' },
+  bear:     { rate: 0.5, pitch: 0.3, label: '🐻 大熊' },
+  robot:    { rate: 1.0, pitch: 1.0, label: '🤖 機器人' },
+  baby:     { rate: 1.2, pitch: 2.2, label: '👶 寶寶' },
+  monster:  { rate: 0.4, pitch: 0.1, label: '👾 怪獸' },
+  ninja:    { rate: 2.0, pitch: 0.5, label: '🥷 忍者' },
+  cartoon:  { rate: 1.3, pitch: 1.8, label: '🎪 卡通' }
+};
 
 // ===== 快速詞 =====
 const quickWords = [
@@ -331,6 +344,7 @@ function applySettings() {
   document.getElementById('speechRateVal').textContent = settings.speechRate;
   document.getElementById('speechPitch').value = settings.speechPitch;
   document.getElementById('speechPitchVal').textContent = settings.speechPitch.toFixed(1);
+  document.getElementById('specialVoice').value = settings.specialVoice || 'normal';
   document.getElementById('fontSize').value = settings.fontSize;
   document.getElementById('fontSizeVal').textContent = settings.fontSize + 'px';
   document.getElementById('themeSelect').value = settings.theme;
@@ -411,6 +425,26 @@ function setupEventListeners() {
   document.getElementById('themeSelect').onchange = (e) => {
     settings.theme = e.target.value;
     applyTheme(settings.theme);
+    saveSettings();
+  };
+
+  // Special voice selector
+  document.getElementById('specialVoice').onchange = (e) => {
+    const voiceKey = e.target.value;
+    settings.specialVoice = voiceKey;
+    const voice = specialVoices[voiceKey];
+    if (voice) {
+      settings.speechRate = voice.rate;
+      settings.speechPitch = voice.pitch;
+      // Update sliders to match
+      document.getElementById('speechRate').value = voice.rate;
+      document.getElementById('speechRateVal').textContent = voice.rate;
+      document.getElementById('speechPitch').value = voice.pitch;
+      document.getElementById('speechPitchVal').textContent = voice.pitch.toFixed(1);
+      // Preview voice
+      showToast(`已切換：${voice.label}`);
+      speakItem({ text: '你好呀', emoji: '👋' });
+    }
     saveSettings();
   };
 }
