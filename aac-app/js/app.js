@@ -56,13 +56,47 @@ document.addEventListener('DOMContentLoaded', () => {
   applySettings();
   renderQuickBar();
   setupEventListeners();
-  
+
   // 載入系統語音
   if ('speechSynthesis' in window) {
     speechSynthesis.onvoiceschanged = loadVoices;
     loadVoices();
   }
+
+  // 載入版本訊息
+  loadVersionInfo();
 });
+
+// ===== 版本訊息 =====
+const APP_VERSION = '1.2.0';
+const GITHUB_REPO = 'guderian44444/aac-communication-app';
+
+async function loadVersionInfo() {
+  const versionText = document.getElementById('versionText');
+  const updateDate = document.getElementById('updateDate');
+
+  if (!versionText || !updateDate) return;
+
+  versionText.textContent = `v${APP_VERSION}`;
+
+  try {
+    // 從 GitHub API 取得最新 commit 時間
+    const resp = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/commits/main?per_page=1`);
+    if (resp.ok) {
+      const data = await resp.json();
+      const date = new Date(data.commit.committer.date);
+      const formatted = date.toLocaleDateString('zh-TW', {
+        year: 'numeric', month: '2', day: '2',
+        hour: '2-digit', minute: '2-digit'
+      });
+      updateDate.textContent = `📅 更新時間：${formatted}`;
+    } else {
+      updateDate.textContent = '📅 更新時間：v1.2.0';
+    }
+  } catch {
+    updateDate.textContent = '📅 更新時間：v1.2.0';
+  }
+}
 
 // ===== 載入詞庫 =====
 async function loadVocabulary() {
@@ -251,39 +285,69 @@ function loadVoices() {
   availableVoices = speechSynthesis.getVoices();
   const voiceSelect = document.getElementById('voiceSelect');
   if (!voiceSelect) return;
-  
-  voiceSelect.innerHTML = '<option value="">自動偵測</option>';
-  
-  // Windows 內建語音性別映射
-  const voiceGender = {
-    'Hanhan': 'female', 'Yating': 'female', 'Zhiwei': 'male',
-    'Hsiao-Chen': 'female', 'Hsiao-Wen': 'female',
-    'Microsoft Xiaoxiao': 'female', 'Microsoft Yunxi': 'male',
-    'Microsoft Yunjian': 'male', 'Microsoft Yan': 'male'
-  };
-  
-  const groups = { female: [], male: [], other: [] };
+
+  // 如果語音還沒載入，延遲再試
+  if (availableVoices.length === 0) {
+    setTimeout(loadVoices, 200);
+    return;
+  }
+
+  voiceSelect.innerHTML = '<option value="">🌐 自動偵測</option>';
+
+  // 語音性別關鍵字映射（桌面 + 手機）
+  const maleKeywords = ['zhiwei', 'yunxi', 'yunjian', 'yan', 'male', '男', 'wei', 'chen', 'kunming', 'hanwei'];
+  const femaleKeywords = ['hanhan', 'yating', 'xiaoxiao', 'huihui', 'hui-mei', 'tingting', 'female', '女', 'mei-jia', 'ting-ting'];
+
+  // 收集所有語音（不只中文，因為手機可能用不同 lang code）
+  const zhVoices = [];
+  const otherVoices = [];
+
   availableVoices.forEach(voice => {
-    if (!voice.lang.startsWith('zh')) return;
-    
+    const name = voice.name.toLowerCase();
+    const lang = voice.lang.toLowerCase();
+
+    // 判斷是否為中文語音（更寬鬆的比對）
+    const isZh = lang.startsWith('zh') || lang.includes('cmn') || lang.includes('mandarin') ||
+                 lang.includes('tw') || lang.includes('hk') || lang.includes('cn') ||
+                 name.includes('chinese') || name.includes('mandarin');
+
+    // 判斷性別
     let gender = 'other';
-    for (const [name, g] of Object.entries(voiceGender)) {
-      if (voice.name.toLowerCase().includes(name.toLowerCase())) {
-        gender = g;
-        break;
-      }
+    for (const kw of maleKeywords) {
+      if (name.includes(kw)) { gender = 'male'; break; }
     }
-    
+    for (const kw of femaleKeywords) {
+      if (name.includes(kw)) { gender = 'female'; break; }
+    }
+
     const emoji = gender === 'female' ? '👩' : gender === 'male' ? '👨' : '🗣️';
     const opt = document.createElement('option');
     opt.value = voice.voiceURI;
-    opt.textContent = `${emoji} ${voice.name} (${voice.lang})`;
-    voiceSelect.appendChild(opt);
-    
-    if (gender === 'female') groups.female.push(voice);
-    else if (gender === 'male') groups.male.push(voice);
-    else groups.other.push(voice);
+    opt.textContent = `${emoji} ${voice.name} [${voice.lang}]`;
+
+    if (isZh) {
+      zhVoices.push({ opt, voice, gender });
+    } else {
+      otherVoices.push({ opt, voice, gender });
+    }
   });
+
+  // 先放中文語音，按性別分組
+  const addGroup = (voices, groupLabel) => {
+    if (voices.length === 0) return;
+    const optGroup = document.createElement('optgroup');
+    optGroup.label = groupLabel;
+    voices.forEach(v => optGroup.appendChild(v.opt));
+    voiceSelect.appendChild(optGroup);
+  };
+
+  addGroup(zhVoices.filter(v => v.gender === 'male'), '👨 男聲 (中文)');
+  addGroup(zhVoices.filter(v => v.gender === 'female'), '👩 女聲 (中文)');
+  addGroup(zhVoices.filter(v => v.gender === 'other'), '🗣️ 其他 (中文)');
+  addGroup(otherVoices, '🌍 其他語系');
+
+  // 偵測目前裝置語音數量
+  console.log(`[TTS] 共載入 ${availableVoices.length} 個語音，中文: ${zhVoices.length}`);
 }
 
 // ===== 語音輸出 =====

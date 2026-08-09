@@ -528,6 +528,25 @@ body {
   background: #C62828;
 }
 
+.version-info {
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--text-light);
+}
+
+.version-info p {
+  margin: 4px 0;
+  font-size: var(--font-size-sm);
+}
+
+.version-info p:first-child {
+  font-weight: 700;
+  color: var(--text);
+  font-size: var(--font-size-base);
+}
+
 .overlay {
   display: none;
   position: fixed;
