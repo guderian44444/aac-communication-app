@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圖圖說話 - 柔和色彩版</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans TC", -apple-system, "Microsoft JhengHei", sans-serif;
+    background: linear-gradient(135deg, #fdf6f0 0%, #f0f4ff 100%);
+    min-height: 100vh;
+    color: #333;
+  }
+
+  /* Header */
+  .header {
+    background: white;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header h1 {
+    font-size: 22px;
+    color: #5b6abf;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .header-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .header-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: #f0f0f8;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .header-btn:hover { background: #e0e0f0; transform: scale(1.05); }
+
+  /* Sentence Bar */
+  .sentence-bar {
+    background: white;
+    margin: 16px 24px;
+    border-radius: 20px;
+    padding: 16px 24px;
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 20px rgba(91,106,191,0.1);
+    border: 2px solid #e8e8f4;
+    flex-wrap: wrap;
+  }
+  .sentence-word {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    animation: popIn 0.3s ease;
+  }
+  @keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    70% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .sentence-placeholder {
+    color: #bbb;
+    font-size: 16px;
+  }
+  .sentence-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+  }
+  .speak-btn {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    border: none;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 12px rgba(67,233,123,0.3);
+  }
+  .speak-btn:hover { transform: scale(1.1); }
+  .speak-btn:active { transform: scale(0.95); }
+  .clear-btn {
+    background: #fee;
+    border: none;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .clear-btn:hover { transform: scale(1.1); }
+
+  /* Category Tabs */
+  .category-tabs {
+    display: flex;
+    gap: 10px;
+    padding: 8px 24px 16px;
+    overflow-x: auto;
+  }
+  .cat-tab {
+    flex-shrink: 0;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 2px solid #e0e0f0;
+    background: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cat-tab:hover { border-color: #667eea; background: #f8f8ff; }
+  .cat-tab.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+  }
+
+  /* Icon Grid */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 16px;
+    padding: 0 24px 100px;
+  }
+  .icon-card {
+    background: white;
+    border-radius: 20px;
+    padding: 16px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 3px solid transparent;
+  }
+  .icon-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    border-color: #667eea;
+  }
+  .icon-card:active {
+    transform: scale(0.95);
+  }
+  .icon-card .emoji {
+    font-size: 48px;
+    line-height: 1;
+  }
+  .icon-card .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    text-align: center;
+  }
+
+  /* Color themes per category */
+  .icon-card[data-cat="needs"] { background: #fff8f0; }
+  .icon-card[data-cat="needs"]:hover { border-color: #ff9a56; }
+  .icon-card[data-cat="emotions"] { background: #f0f8ff; }
+  .icon-card[data-cat="emotions"]:hover { border-color: #56b4ff; }
+  .icon-card[data-cat="people"] { background: #f8fff0; }
+  .icon-card[data-cat="people"]:hover { border-color: #7bd856; }
+  .icon-card[data-cat="places"] { background: #fff0f8; }
+  .icon-card[data-cat="places"]:hover { border-color: #ff56b4; }
+  .icon-card[data-cat="actions"] { background: #f5f0ff; }
+  .icon-card[data-cat="actions"]:hover { border-color: #b456ff; }
+
+  /* Speaking animation */
+  .speaking {
+    animation: pulse 0.6s ease infinite alternate;
+  }
+  @keyframes pulse {
+    from { box-shadow: 0 0 0 0 rgba(67,233,123,0.4); }
+    to { box-shadow: 0 0 0 16px rgba(67,233,123,0); }
+  }
+
+  /* Bottom nav */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+    z-index: 100;
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    padding: 4px 16px;
+    border-radius: 12px;
+    transition: background 0.2s;
+    border: none;
+    background: none;
+  }
+  .nav-item:hover { background: #f5f5ff; }
+  .nav-item.active { color: #667eea; }
+  .nav-item .nav-icon { font-size: 24px; }
+  .nav-item .nav-label { font-size: 11px; font-weight: 600; color: #999; }
+  .nav-item.active .nav-label { color: #667eea; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 200;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .icon-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .icon-card .emoji { font-size: 40px; }
+    .sentence-bar { margin: 12px 16px; }
+    .category-tabs { padding: 8px 16px 12px; }
+    .icon-grid { padding: 0 16px 100px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>🗣️ 圖圖說話</h1>
+  <div class="header-actions">
+    <button class="header-btn" onclick="showToast('🔊 語音已開啟')">🔊</button>
+    <button class="header-btn" onclick="showToast('⚙️ 設定')">⚙️</button>
+  </div>
+</div>
+
+<!-- Sentence Builder -->
+<div class="sentence-bar" id="sentenceBar">
+  <span class="sentence-placeholder">👆 點擊圖示來組句子...</span>
+  <div class="sentence-actions">
+    <button class="speak-btn" id="speakBtn" onclick="speakSentence()">🔊</button>
+    <button class="clear-btn" onclick="clearSentence()">🗑️</button>
+  </div>
+</div>
+
+<!-- Category Tabs -->
+<div class="category-tabs" id="categoryTabs">
+  <button class="cat-tab active" data-cat="all" onclick="filterCategory('all', this)">🌟 全部</button>
+  <button class="cat-tab" data-cat="needs" onclick="filterCategory('needs', this)">🍽️ 基本需求</button>
+  <button class="cat-tab" data-cat="emotions" onclick="filterCategory('emotions', this)">😊 情緒</button>
+  <button class="cat-tab" data-cat="people" onclick="filterCategory('people', this)">👨‍👩‍👧 人物</button>
+  <button class="cat-tab" data-cat="places" onclick="filterCategory('places', this)">🏠 地點</button>
+  <button class="cat-tab" data-cat="actions" onclick="filterCategory('actions', this)">🏃 動作</button>
+</div>
+
+<!-- Icon Grid -->
+<div class="icon-grid" id="iconGrid"></div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+  <button class="nav-item active">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">首頁</span>
+  </button>
+  <button class="nav-item">
+    <span class="nav-icon">⭐</span>
+    <span class="nav-label">常用</span>
+  </button>
+  <button class="nav-item">
+    <span class="nav-icon">📖</span>
+    <span class="nav-label">故事</span>
+  </button>
+  <button class="nav-item">
+    <span class="nav-icon">👤</span>
+    <span class="nav-label">我的</span>
+  </button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// Vocabulary data
+const vocabulary = [
+  // 基本需求
+  { id: 'eat', text: '我要吃飯', emoji: '🍚', cat: 'needs' },
+  { id: 'drink', text: '我要喝水', emoji: '💧', cat: 'needs' },
+  { id: 'toilet', text: '我要上廁所', emoji: '🚻', cat: 'needs' },
+  { id: 'sleep', text: '我要睡覺', emoji: '😴', cat: 'needs' },
+  { id: 'medicine', text: '我要吃藥', emoji: '💊', cat: 'needs' },
+  { id: 'hurt', text: '我哪裡痛', emoji: '🤕', cat: 'needs' },
+  // 情緒
+  { id: 'happy', text: '我很開心', emoji: '😊', cat: 'emotions' },
+  { id: 'sad', text: '我很難過', emoji: '😢', cat: 'emotions' },
+  { id: 'angry', text: '我很生氣', emoji: '😠', cat: 'emotions' },
+  { id: 'scared', text: '我很害怕', emoji: '😨', cat: 'emotions' },
+  { id: 'tired', text: '我很累', emoji: '😫', cat: 'emotions' },
+  { id: 'love', text: '我愛你', emoji: '❤️', cat: 'emotions' },
+  // 人物
+  { id: 'mom', text: '媽媽', emoji: '👩', cat: 'people' },
+  { id: 'dad', text: '爸爸', emoji: '👨', cat: 'people' },
+  { id: 'teacher', text: '老師', emoji: '👩‍🏫', cat: 'people' },
+  { id: 'friend', text: '朋友', emoji: '👫', cat: 'people' },
+  { id: 'doctor', text: '醫生', emoji: '👨‍⚕️', cat: 'people' },
+  { id: 'me', text: '我', emoji: '🙋', cat: 'people' },
+  // 地點
+  { id: 'home', text: '回家', emoji: '🏠', cat: 'places' },
+  { id: 'school', text: '學校', emoji: '🏫', cat: 'places' },
+  { id: 'park', text: '公園', emoji: '🌳', cat: 'places' },
+  { id: 'hospital', text: '醫院', emoji: '🏥', cat: 'places' },
+  { id: 'restaurant', text: '餐廳', emoji: '🍽️', cat: 'places' },
+  { id: 'bathroom', text: '廁所', emoji: '🚽', cat: 'places' },
+  // 動作
+  { id: 'play', text: '我要玩', emoji: '🎮', cat: 'actions' },
+  { id: 'read', text: '我要看書', emoji: '📖', cat: 'actions' },
+  { id: 'watch', text: '我要看電視', emoji: '📺', cat: 'actions' },
+  { id: 'draw', text: '我要畫畫', emoji: '🎨', cat: 'actions' },
+  { id: 'yes', text: '可以', emoji: '✅', cat: 'actions' },
+  { id: 'no', text: '不要', emoji: '❌', cat: 'actions' },
+];
+
+let sentence = [];
+let currentCategory = 'all';
+
+// Render icons
+function renderIcons() {
+  const grid = document.getElementById('iconGrid');
+  const filtered = currentCategory === 'all'
+    ? vocabulary
+    : vocabulary.filter(v => v.cat === currentCategory);
+
+  grid.innerHTML = filtered.map(item => `
+    <div class="icon-card" data-cat="${item.cat}" onclick="addToSentence('${item.text}', this)">
+      <span class="emoji">${item.emoji}</span>
+      <span class="label">${item.text}</span>
+    </div>
+  `).join('');
+}
+
+// Filter by category
+function filterCategory(cat, btn) {
+  currentCategory = cat;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderIcons();
+}
+
+// Add word to sentence
+function addToSentence(text, el) {
+  sentence.push(text);
+  updateSentenceBar();
+  // Visual feedback
+  el.style.transform = 'scale(0.9)';
+  setTimeout(() => el.style.transform = '', 150);
+}
+
+// Update sentence display
+function updateSentenceBar() {
+  const bar = document.getElementById('sentenceBar');
+  const actions = bar.querySelector('.sentence-actions');
+
+  if (sentence.length === 0) {
+    bar.innerHTML = '<span class="sentence-placeholder">👆 點擊圖示來組句子...</span>';
+    bar.appendChild(actions);
+    return;
+  }
+
+  bar.innerHTML = '';
+  sentence.forEach((word, i) => {
+    const span = document.createElement('span');
+    span.className = 'sentence-word';
+    span.textContent = word;
+    span.style.animationDelay = `${i * 0.05}s`;
+    bar.appendChild(span);
+  });
+  bar.appendChild(actions);
+}
+
+// Speak sentence
+function speakSentence() {
+  if (sentence.length === 0) {
+    showToast('請先點擊圖示組句子');
+    return;
+  }
+  const text = sentence.join('，');
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'zh-TW';
+  utterance.rate = 0.85;
+  utterance.pitch = 1.1;
+
+  const btn = document.getElementById('speakBtn');
+  btn.classList.add('speaking');
+  utterance.onend = () => btn.classList.remove('speaking');
+  speechSynthesis.speak(utterance);
+  showToast(`🔊 "${text}"`);
+}
+
+// Clear sentence
+function clearSentence() {
+  sentence = [];
+  updateSentenceBar();
+  showToast('已清除');
+}
+
+// Toast notification
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// Init
+renderIcons();
+</script>
+</body>
+</function>
+</tool_call>
